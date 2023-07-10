@@ -10,20 +10,14 @@ class InicioController extends Controller
         session_start();
         if(isset($_SESSION['usuario'])){
             if(isset($_SESSION['usuario'])){
-                $articulos = DB::select(
-                    "EXEC spPresupuestoApp :id",
-                    [
-                        "id" => $_SESSION['usuario']->UsuarioCteCorp,
 
-                    ]
-                );
             }
-        return view('inicio')->with('articulos',$articulos);
+        return view('inicio');
     }else {
         return redirect()->route('login', app()->getLocale());
     }
 
     }
 
-    
+
 }
