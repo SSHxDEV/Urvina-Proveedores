@@ -16,26 +16,28 @@ class LoginController extends Controller
         }else{
         //Validar Datos
         $msg = "";
-        $user = DB::select(
-            "EXEC spAccesoApp :user, :password",
-            [
-                "user" => $request->usuario,
-                "password" => $request->password,
-            ]
-        );
-
-        if($user[0]->Nombre == "Usuario o Contraseña Incorrecta"){
+        $user = "Usuario";
+        $pswd= "USIsis2023@";
+        // $user = DB::select(
+        //     "EXEC spAccesoApp :user, :password",
+        //     [
+        //         "user" => $request->usuario,
+        //         "password" => $request->password,
+        //     ]
+        // );
+        if($user != $request->usuario ){
             $msg = "Usuario o Contraseña Incorrecta";
             return view('login')->with('msg', $msg);
         }
-        if($user[0]->Nombre == "Acceso Incorrecto"){
+        if($pswd != $request->password){
             $msg = "Contraseña Incorrecta";
             return view('login')->with('msg', $msg);
         }
         else{
             session_start();
-            $_SESSION['usuario'] = $user[0];
-            return redirect()->route('home', app()->getLocale())->with('usuario', $user[0]);
+            // $_SESSION['usuario'] = $user[0];
+            $_SESSION['usuario'] = $user;
+            return redirect()->route('home', app()->getLocale())->with('usuario', $user);
         }
     }
 

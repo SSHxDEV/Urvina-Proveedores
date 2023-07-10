@@ -160,12 +160,12 @@
 
 
 <div id="hi" class="jumbotron jumpin">
-    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']->Nombre}}</b></small>!</h1>
+    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']}}</b></small>!</h1>
     <p class="lead">{{__("Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y realizar sus compras...")}}</p>
     <hr class="my-4">
     <p>{{__("Puede explorar nuestros productos en el apartado de Catalogo")}}</p>
     <p class="lead">
-      <a class="btn btn-primary btn-lg" href="{{route('catalogo', app()->getLocale())}}" role="button">{{__("Ir al Catalogo")}}</a>
+      <a class="btn btn-primary btn-lg"  role="button">{{__("Ir al Catalogo")}}</a>
     </p>
   </div>
   <div class="">
@@ -174,36 +174,7 @@
 
             </div>
             <div class="row">
-                @foreach ($articulos as $articulo)
-                <div class="col-md-3 col-sm-6 col-xs-6 d-flex align-items-center"  >
-                    <div class="mx-auto">
-                    <?php $ART = trim($articulo->Articulo); ?>
-                    <a href="{{route('item', [app()->getLocale(), $ART])}}">
-                        <div class="card grow text-center" style="" >
-                            <?php if (file_exists(public_path() . '/images/catalogo/' . $ART . '.jpg')) {
-                                echo '<img class="img-card-top mx-auto"  src="/images/catalogo/' . $ART . '.jpg" alt="$ART">';
-                            } else {
-                                echo '<img class="img-card-top mx-auto"  src="/img/productos/default_product.png" alt="no img">';
-                            }
-                            ?>
-                            <div class="card-body border-top">
-
-                                <div class="row ">
-                                    <button class="btn btn-xs btn-primary"><a
-                                        href=""><b>{{ trim($articulo->Codigo) }}</b></a></button>
-                                    <div ><small><b>{{ __(trim($articulo->Descripcion)) }}
-                                            </b></small><br>
-                                           <small style="color: #00a650"><b>{{ $ART }}</b></small>
-                                        <br>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                </div>
-                @endforeach
+                
             </div>
 
 
@@ -219,21 +190,7 @@
 <br><br>
 <div class="card">
 
-        <a href="">
-            <div class="card-body"><i class="fas fa-user"></i><br>
-                <b>{{$_SESSION['usuario']->AyudaNombre}}</b>
-        </a>
-        <hr><br>
-            <a href="tel:+52{{$_SESSION['usuario']->Ayudatel}}" target="_blank">
-                <i class="fas fa-phone"></i><br>
-                <b>{{$_SESSION['usuario']->Ayudatel}}</b>
-            </a>
-            <hr><br>
 
-            <a href="mailto:{{$_SESSION['usuario']->AyudaMail}}" target="_blank">
-                <i class="fas fa-envelope"></i><br>
-                <small>{{$_SESSION['usuario']->AyudaMail}}</small>
-            </a>
         </div>
     </div>
 </div>
