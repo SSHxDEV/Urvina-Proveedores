@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
 <style>
     .box {
         background-color:#0F1934;
@@ -11,6 +13,9 @@
   -o-transition: background-color 2s ease-out;
   transition: background-color 2s ease-out;
     }
+h2{
+    font-family: 'Quicksand', sans-serif;
+}
     .box:hover {
   background-color: #0E7E2D;
   cursor: pointer;
@@ -18,11 +23,21 @@
 @media (max-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */
 #logincart{
     margin-left:-20px;
-} }
+}
+.mhead{
+    margin-top:5%;
+    margin-bottom:20%;
+}
+}
 @media (max-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
     #logincart{
     margin-left:-20px;
-} }
+}
+.mhead{
+    margin-top:5%;
+    margin-bottom:20%;
+}
+ }
 
 
 </style>
@@ -30,7 +45,14 @@
 
 
     <div class="row" display="flex" height="100%" style="margin-right:-10%">
-    <div class="col-sm-6" style="align-items: center; y justify-content: center; margin-right:-10%;background-image: url('/img/1260.jpg');background-position: center;border-radius: 5% 0% 0% 5%;">
+    <div class="col-sm-6 " style="align-items: center; y justify-content: center; margin-right:-10%;background-image: url('/img/1260.jpg');background-position: center;border-radius: 5% 0% 0% 5%;">
+        <div class="container" style="align-items: center; y justify-content: center; margin-bottom:-10%; margin-right:-10%; margin-left:-6%;">
+            <div class="card mhead" >
+                <div class="card-body  ">
+                    <center><h2>{{__('PORTAL DE PROVEEDORES')}}</h2></center>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="col-sm-6 box" style="">

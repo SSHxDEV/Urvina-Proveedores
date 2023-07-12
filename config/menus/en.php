@@ -22,6 +22,13 @@ return[
             'icon_color' => 'green',
             'label_color' => 'success',
         ],
+        [
+            'text'        => 'billing',
+            'url'         => 'es/facturacion',
+            'icon'        => 'fas fa-file-invoice',
+            'icon_color' => 'green',
+            'label_color' => 'success',
+        ],
 
 
 

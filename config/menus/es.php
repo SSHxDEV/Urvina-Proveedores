@@ -4,7 +4,7 @@ return[
     'menu' => [
         // Navbar items:
 
-        
+
 
         // Sidebar items:
         [
@@ -19,6 +19,13 @@ return[
             'text'        => 'home',
             'url'         => 'es/inicio',
             'icon'        => 'fas fa-fw fa-home',
+            'icon_color' => 'green',
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'billing',
+            'url'         => 'es/facturacion',
+            'icon'        => 'fas fa-file-invoice',
             'icon_color' => 'green',
             'label_color' => 'success',
         ],
