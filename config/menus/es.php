@@ -24,10 +24,35 @@ return[
         ],
         [
             'text'        => 'billing',
-            'url'         => 'es/facturacion',
             'icon'        => 'fas fa-file-invoice',
             'icon_color' => 'green',
             'label_color' => 'success',
+            'submenu' => [
+                [
+                    'text'  => 'cfact',
+                    'url'   => 'es/facturas-list',
+                    'icon'  => 'far fa-folder',
+                    'shift' => 'ml-4',
+                ],
+                [
+                    'text'  => 'sfact',
+                    'url'   => 'es/factura-form',
+                    'icon'  => 'far fa-file',
+                    'shift' => 'ml-4',
+                ],
+                [
+                    'text'  => 'sfacts',
+                    'url'   => 'es/facturas-form',
+                    'icon'  => 'far fa-copy',
+                    'shift' => 'ml-4',
+                ],
+                [
+                    'text'  => 'szip',
+                    'url'   => 'es/zip-form',
+                    'icon'  => 'far fa-file-archive',
+                    'shift' => 'ml-4',
+                ],
+            ]
         ],
 
 

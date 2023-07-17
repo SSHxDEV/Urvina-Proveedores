@@ -60,11 +60,6 @@
                 max-width:14.5rem;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
-
-            }
             .bandera{
                 width:30px;
             }
@@ -76,10 +71,6 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 10rem;
-                height:23rem;
-            }
             .bandera{
                 width:30px;
             }
@@ -89,11 +80,6 @@
                 height:11rem;
                 margin-top:10px;
                 max-width:9.5rem;
-
-            }
-            .card{
-                width: 10rem;
-                height:23rem;
 
             }
             .bandera{
@@ -107,11 +93,6 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
-
-            }
             .bandera{
                 width:45px;
             }
@@ -122,11 +103,6 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
-
-            }
             .bandera{
                 width:45px;
             }
@@ -135,11 +111,6 @@
             .img-card-top{
                 height:11rem;
                 margin-top:10px
-
-            }
-            .card{
-                width: 15rem;
-                height:21rem;
 
             }
             .bandera{
@@ -171,77 +142,59 @@
 
 @section('content')
 
-
-<div id="hi" class="jumbotron jumpin">
-    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']}}</b></small>!</h1>
-    <p class="lead">{{__("Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y realizar sus compras...")}}</p>
-    <hr class="my-4">
-    <p>{{__("Puede explorar nuestros productos en el apartado de Catalogo")}}</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">{{__("Ir al Catalogo")}}</a>
-    </p>
-  </div>
-  <div class="">
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-6">
+            <div class="card">
+                <?php $estatus = (string)$response->document()?>
+                @if(str_contains($estatus,"active"))
 
 
+                <div class="card-body">
+                    <h2 style="relative:relative; z-index:1">
+                        ¡Su factura se ha subido con exito!
+                    </h2>
+                    <center>
+                    <img src="/img/check.gif" alt="Correcto!" style="height:300px;margin-top:-15px">
+                    <div style="margin-top:-30px">
+                       <h4>Datos de la factura</h4>
+                        <b>UUID:</b>{{$uuid}}<br>
+                        <b>Emisor:</b> {{$emisor}} <br>
+                        <b>Receptor:</b> {{$receptor}} <br>
+                        <b>Estado:</b> Vigente <br>
+                    </div>
 
+
+                    </center>
+
+                </div>
+                @else
+                <div class="card-body">
+                    <h2 style="relative:relative; z-index:1">
+                       <center>Cancelada, no puede subirse</center>
+                    </h2>
+                    <center>
+                    <img src="/img/error.gif" alt="Correcto!" style="height:300px;margin-top:-12px">
+                    <div >
+                       <h4>Datos de la factura</h4>
+                        <b>UUID:</b>{{$uuid}}<br>
+                        <b>Emisor:</b> {{$emisor}} <br>
+                        <b>Receptor:</b> {{$receptor}} <br>
+                        <b>Total:</b> ${{$total}} <br>
+                    </div>
+
+
+                    </center>
+
+                </div>
+
+                @endif
             </div>
-            <div class="row justify-content-md-center" >
-                <div class="col-3">
-                    <a href="">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Consultar Facturas')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><span id="folder-icon" class="far fa-folder fa-5x"></span></center>
-                            {{-- <i class="far fa-folder-open"></i> --}}
-                        </div>
-                    </div>
-                   </a>
-                </div>
-                <div class="col-3">
-                    <a href="{{route('factura-form', app()->getLocale())}}">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Subir Factura')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-file fa-5x"></i></center>
-                        </div>
-                    </div>
-                   </a>
-                </div>
-                <div class="col-3">
-                    <a href="">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Subir Facturas')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-copy fa-5x"></i></center>
-                        </div>
-                    </div>
-                   </a>
-                </div>
-                <div class="col-3">
-                    <a href="{{route('factura-zip', app()->getLocale())}}">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Subir .ZIP')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><i class="fas f__a-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-file-archive fa-5x"></i></center>
-                        </div>
-                    </div>
-                   </a>
-                </div>
-
-
-            </div>
-
-
-
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
 
 @stop
 
@@ -258,6 +211,7 @@
     </div>
 </div>
 </center>
+
 
 @stop
 

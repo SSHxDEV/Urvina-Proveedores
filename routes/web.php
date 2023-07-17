@@ -36,9 +36,21 @@ Route::prefix('{language}')->group(function () {
     // Inicio
     Route::get('/inicio', 'InicioController@Home')->name('home');
 
+    //Subir Factura
+    Route::get('/factura-form', 'ValidadorController@Form')->name('factura-form');
+    Route::post('/upload-bill', 'ValidadorController@Individual')->name('upload-bill');
+    Route::get('/conf-factindiv', 'ValidadorController@Form')->name('conf-findiv');
+
+    //Subir ZIP
+    Route::get('/factura-zip', 'ValidadorController@FormZip')->name('factura-zip');
+    Route::post('/upload-zip', 'ValidadorController@ZIP')->name('upload-zip');
 
 
-    
+
+
+
+
+
 
 
 });

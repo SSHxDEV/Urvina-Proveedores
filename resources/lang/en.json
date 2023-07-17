@@ -6,6 +6,16 @@
     "Contraseña": "Password",
     "Recuerdame":"Remember me",
     "Inicio":"Home",
+    "Consultar Facturas":"Check Invoices",
+    "Subir Factura":"Upload Invoice",
+    "Subir Facturas":"Upload Invoices",
+    "Subir .ZIP":"Upload .ZIP",
+    "Enviar Factura":"Send Invoice",
+    "Formulario de Subida de Factura Individual":"Individual Invoice Upload Form",
+    "Arrastra y suelta aquí la Factura":"Drag and drop the Invoice here",
+    "Arrastra y suelta aquí la Factura (sellada por almacén)":"Drag and drop here the Invoice (stamped by warehouse)",
+    "Arrastra y suelta aquí el archivo XML":"Drag and drop the XML file here",
     "Facturacion":"Billing"
+
 }
 
