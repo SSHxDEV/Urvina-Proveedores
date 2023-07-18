@@ -25,7 +25,7 @@ return[
         [
             'text'        => 'profile',
             'url'         => 'en/perfil',
-            'icon'        => 'fas fa-fw fa-home',
+            'icon'        => 'fas fa-user-circle',
             'icon_color' => 'green',
             'label_color' => 'success',
         ],
@@ -48,14 +48,8 @@ return[
                     'shift' => 'ml-4',
                 ],
                 [
-                    'text'  => 'sfacts',
-                    'url'   => 'en/facturas-form',
-                    'icon'  => 'far fa-copy',
-                    'shift' => 'ml-4',
-                ],
-                [
                     'text'  => 'szip',
-                    'url'   => 'en/zip-form',
+                    'url'   => 'en/factura-zip',
                     'icon'  => 'far fa-file-archive',
                     'shift' => 'ml-4',
                 ],

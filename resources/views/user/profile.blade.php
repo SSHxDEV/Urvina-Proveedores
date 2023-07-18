@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', __('Inicio'))
+@section('title', __('Perfil'))
 
 @section('content_header')
 <style>
@@ -172,57 +172,8 @@
 @section('content')
 
 
-<div id="hi" class="jumbotron jumpin">
-    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']}}</b></small>!</h1>
-    <p class="lead">{{__("Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y subir sus facturas...")}}</p>
 
-  </div>
-  <div class="">
-            </div>
-            <div class="container-fluid"><center>
-            <div class="row justify-content-md-center" >
-                <div class="col-md-4 col-sm-12">
-                    <a href="">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Consultar Facturas')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><span id="folder-icon" class="far fa-folder fa-5x"></span></center>
-                            {{-- <i class="far fa-folder-open"></i> --}}
-                        </div>
-                    </div>
-                   </a>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <a href="{{route('factura-form', app()->getLocale())}}">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Subir Factura')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-file fa-5x"></i></center>
-                        </div>
-                    </div>
-                   </a>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <a href="{{route('factura-zip', app()->getLocale())}}">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Subir .ZIP')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-file-archive fa-5x"></i></center>
-                        </div>
-                    </div>
-                   </a>
-                </div>
-
-
-            </div>
-        </center>
-        </div>
+  
 
 
 

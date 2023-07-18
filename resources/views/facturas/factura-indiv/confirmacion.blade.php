@@ -123,13 +123,6 @@
     <div class="row">
         <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Inicio')}}</h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            <a href="{{route(Route::currentRouteName(),'en')}}">
-                <img src="/icons/en.svg" class="bandera" alt="EN">
-              </a>
-              <a href="{{route(Route::currentRouteName(), 'es' )}}">
-                <img src="/icons/es.svg" class="bandera"  alt="ES">
-              </a>
-
           </div>
 
 
@@ -154,15 +147,15 @@
                 <div class="card-body">
                     <center>
                     <h2 style="relative:relative; z-index:1">
-                        ¡Su factura se ha subido con exito!
+                        {{__('¡Su factura se ha subido con exito!')}}
                     </h2>
                     <img src="/img/check.gif" alt="Correcto!" style="width:300px;margin-top:-15px">
                     <div style="margin-top:-30px">
-                       <h4>Datos de la factura</h4>
-                        <b>UUID:</b>{{$uuid}}<br>
-                        <b>Emisor:</b> {{$emisor}} <br>
-                        <b>Receptor:</b> {{$receptor}} <br>
-                        <b>Estado:</b> Vigente <br>
+                       <h4>{{__('Datos de la factura')}}</h4>
+                        <b>{{__('UUID:')}}</b>{{$uuid}}<br>
+                        <b>{{__('Emisor:')}}</b> {{$emisor}} <br>
+                        <b>{{__('Receptor:')}}</b> {{$receptor}} <br>
+                        <b>{{__('Estado:')}}</b> {{__('Vigente')}} <br>
                     </div>
 
 
@@ -172,16 +165,16 @@
                 @else
                 <div class="card-body">
                     <h2 style="relative:relative; z-index:1">
-                       <center>Cancelada, no puede subirse</center>
+                       <center>{{__('Cancelada, no puede subirse')}}</center>
                     </h2>
                     <center>
                     <img src="/img/error.gif" alt="Correcto!" style="height:300px;margin-top:-12px">
                     <div >
-                       <h4>Datos de la factura</h4>
-                        <b>UUID:</b>{{$uuid}}<br>
-                        <b>Emisor:</b> {{$emisor}} <br>
-                        <b>Receptor:</b> {{$receptor}} <br>
-                        <b>Total:</b> ${{$total}} <br>
+                       <h4>{{__('Datos de la factura')}}</h4>
+                        <b>{{__('UUID:')}}</b>{{$uuid}}<br>
+                        <b>{{__('Emisor:')}}</b> {{$emisor}} <br>
+                        <b>{{__('Receptor:')}}</b> {{$receptor}} <br>
+                        <b>{{__('Total:')}}</b> ${{$total}} <br>
                     </div>
 
 

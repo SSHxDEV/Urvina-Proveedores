@@ -20,6 +20,9 @@ h2{
   background-color: #0E7E2D;
   cursor: pointer;
 }
+.titlebann{
+ display:none;
+}
 @media (max-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */
 #logincart{
     margin-left:-20px;
@@ -28,15 +31,29 @@ h2{
     margin-top:5%;
     margin-bottom:20%;
 }
+.banner{
+    display:none;
+}
+.titlebann{
+ display:block;
+}
 }
 @media (max-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
     #logincart{
     margin-left:-20px;
 }
 .mhead{
+
     margin-top:5%;
     margin-bottom:20%;
 }
+.banner{
+    display:none;
+}
+.titlebann{
+ display:block;
+}
+
  }
 
 
@@ -45,10 +62,10 @@ h2{
 
 
     <div class="row" display="flex" height="100%" style="margin-right:-10%">
-    <div class="col-sm-6 " style="align-items: center; y justify-content: center; margin-right:-10%;background-image: url('/img/1260.jpg');background-position: center;border-radius: 5% 0% 0% 5%;">
+    <div class="col-sm-6 banner"  style="align-items: center; y justify-content: center; margin-right:-10%;background-image: url('/img/1260.jpg');background-position: center;border-radius: 5% 0% 0% 5%;">
         <div class="container" style="align-items: center; y justify-content: center; margin-bottom:-10%; margin-right:-10%; margin-left:-6%;">
             <div class="card mhead" >
-                <div class="card-body  ">
+                <div class="card-body bg-dark text-white">
                     <center><h2>{{__('PORTAL DE PROVEEDORES')}}</h2></center>
                 </div>
             </div>
@@ -65,7 +82,7 @@ h2{
         <div class="row justify-content-center" style="margin-top:-80px">
             <div class="col" >
                 <div class="card" id="logincart" style="margin-top:20%;margin-bottom:20%">
-                    <div class="card-header bg-dark text-white" ><center><b>{{ __('Acceso al sistema') }}</b></center></div>
+                    <div class="card-header bg-dark text-white" ><center><b>{{ __('Acceso al sistema') }}</b><b class="titlebann"> {{__("Portal de Proveedores")}}</b></center></div>
 
 
                     <div class="card-body" >

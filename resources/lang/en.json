@@ -2,12 +2,19 @@
     "Iniciar Sesion" : "Login",
     "Acceso al sistema": "Login",
     "PORTAL DE PROVEEDORES": "SUPPLIER PORTAL",
+    "Portal de Proveedores": "Supplier Portal",
     "Usuario" : "Username",
     "Contraseña": "Password",
     "Recuerdame":"Remember me",
     "Inicio":"Home",
     "¡Su":"Your",
     "Su":"Your",
+    "Formulario de Subida de ZIP":"ZIP Upload Form",
+    "Cancelada, no puede subirse":"Cancelled, cannot be uploaded",
+    "Datos de la factura":"Invoice data",
+    "Emisor:":"Emitter:",
+    "¡Su factura se ha subido con exito!":"Your bill has been successfully uploaded!",
+    "Arrastra y suelta aquí el ZIP":"Drag and drop the ZIP here",
     "no contiene facturas validas":"does not contain valid invoices",
     "Factura no encontrada":"Invoice not found",
     "Archivos Subidos":"Uploaded files",
@@ -22,11 +29,13 @@
     "Subir Facturas":"Upload Invoices",
     "Subir .ZIP":"Upload .ZIP",
     "Enviar Factura":"Send Invoice",
+    "¡Bienvenido de vuelta":"Welcome back",
     "Formulario de Subida de Factura Individual":"Individual Invoice Upload Form",
     "Arrastra y suelta aquí la Factura":"Drag and drop the Invoice here",
     "Arrastra y suelta aquí la Factura (sellada por almacén)":"Drag and drop here the Invoice (stamped by warehouse)",
     "Arrastra y suelta aquí el archivo XML":"Drag and drop the XML file here",
-    "Facturacion":"Billing"
+    "Facturacion":"Billing",
+    "Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y subir sus facturas...":"Welcome to the update of the Urvina Portal. Feel free to use the portal and upload your invoices..."
 
 }
 

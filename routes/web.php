@@ -36,6 +36,9 @@ Route::prefix('{language}')->group(function () {
     // Inicio
     Route::get('/inicio', 'InicioController@Home')->name('home');
 
+    //Perfil
+    Route::get('/perfil', 'UserController@UpdateUser')->name('updateuser');
+
     //Subir Factura
     Route::get('/factura-form', 'ValidadorController@Form')->name('factura-form');
     Route::post('/upload-bill', 'ValidadorController@Individual')->name('upload-bill');
