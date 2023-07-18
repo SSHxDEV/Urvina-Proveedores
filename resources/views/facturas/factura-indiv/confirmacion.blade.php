@@ -143,20 +143,20 @@
 @section('content')
 
 <div class="container">
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-6">
+    <div class="row justify-content-md-center">
+
+        <div class="col-sm-6 col-sm-12">
             <div class="card">
                 <?php $estatus = (string)$response->document()?>
                 @if(str_contains($estatus,"active"))
 
 
                 <div class="card-body">
+                    <center>
                     <h2 style="relative:relative; z-index:1">
                         ¡Su factura se ha subido con exito!
                     </h2>
-                    <center>
-                    <img src="/img/check.gif" alt="Correcto!" style="height:300px;margin-top:-15px">
+                    <img src="/img/check.gif" alt="Correcto!" style="width:300px;margin-top:-15px">
                     <div style="margin-top:-30px">
                        <h4>Datos de la factura</h4>
                         <b>UUID:</b>{{$uuid}}<br>
@@ -192,7 +192,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-4"></div>
+
     </div>
 </div>
 

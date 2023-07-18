@@ -44,7 +44,7 @@ class ValidadorController extends Controller
         $xml->registerXPathNamespace('t', $ns['tfd']);
         $uuid='';
         $emisor='';
-        $receptor='';
+        $receptor='USI970814616';
         $total='';
         $sello='';
 
@@ -56,10 +56,10 @@ class ValidadorController extends Controller
         $emisor= (string)$Emisor['Rfc'];
         }
 
-        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){
-        $receptor= (string)$Receptor['Rfc'];
+        // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){
+        // $receptor= (string)$Receptor['Rfc'];
 
-        }
+        // }
 
         //ESTA ULTIMA PARTE ES LA QUE GENERABA EL ERROR
         foreach ($xml->xpath('//t:TimbreFiscalDigital') as $tfd) {

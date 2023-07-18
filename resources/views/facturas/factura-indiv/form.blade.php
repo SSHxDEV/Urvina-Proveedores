@@ -200,19 +200,19 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="drop-area"  for="file-input-pdf1" id="drop-area-pdf1" onclick="triggerFileInputPdf1()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-pdf1')">
                                 {{__('Arrastra y suelta aquí la Factura')}}
                               </div>
                               <input type="file" name="factura1" id="file-input-pdf1" accept=".pdf" style="display: none;" required>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="drop-area"  for="file-input-pdf2" id="drop-area-pdf2" onclick="triggerFileInputPdf2()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-pdf2')">
                                 <p class="text">{{__('Arrastra y suelta aquí la Factura (sellada por almacén)')}}</p>
                               </div>
                               <input type="file" name="factura2" id="file-input-pdf2" accept=".pdf" style="display: none;" required>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="drop-area"  for="file-input-xml" id="drop-area-xml" onclick="triggerFileInputXml()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-xml')">
                                 {{__('Arrastra y suelta aquí el archivo XML')}}
                               </div>

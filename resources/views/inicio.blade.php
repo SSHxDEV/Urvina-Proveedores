@@ -186,8 +186,9 @@
 
 
             </div>
+            <div class="container-fluid"><center>
             <div class="row justify-content-md-center" >
-                <div class="col-3">
+                <div class="col-md-4 col-sm-12">
                     <a href="">
                     <div class="card button" style="height:200px; width:200px">
                         <div class="card-header">
@@ -200,7 +201,7 @@
                     </div>
                    </a>
                 </div>
-                <div class="col-3">
+                <div class="col-md-4 col-sm-12">
                     <a href="{{route('factura-form', app()->getLocale())}}">
                     <div class="card button" style="height:200px; width:200px">
                         <div class="card-header">
@@ -212,19 +213,7 @@
                     </div>
                    </a>
                 </div>
-                <div class="col-3">
-                    <a href="">
-                    <div class="card button" style="height:200px; width:200px">
-                        <div class="card-header">
-                            <center>{{__('Subir Facturas')}}</center>
-                        </div>
-                        <div class="card-body">
-                            <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-copy fa-5x"></i></center>
-                        </div>
-                    </div>
-                   </a>
-                </div>
-                <div class="col-3">
+                <div class="col-md-4 col-sm-12">
                     <a href="{{route('factura-zip', app()->getLocale())}}">
                     <div class="card button" style="height:200px; width:200px">
                         <div class="card-header">
@@ -239,6 +228,8 @@
 
 
             </div>
+        </center>
+        </div>
 
 
 
