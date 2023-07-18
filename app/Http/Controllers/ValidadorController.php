@@ -101,6 +101,9 @@ class ValidadorController extends Controller
 
 }
 public function ZIP(){
+    $archivos_xml = [];
+    $archivos_pdf = [];
+    $archivos_rechazados= [];
 
     if (isset($_FILES['zipFile']) && $_FILES['zipFile']['error'] === UPLOAD_ERR_OK) {
         $zipFile = $_FILES['zipFile']['tmp_name'];
@@ -116,15 +119,19 @@ public function ZIP(){
             $tempDir = 'temp/';
             $zip->extractTo($tempDir);
             $zip->close();
+            $nombreArchivo = $_FILES['zipFile']['name'];
+            $nombreSinExtension = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+
 
             // Leer los archivos extraídos
-            $files = scandir($tempDir);
+            $files = scandir($tempDir.$nombreSinExtension);
 
             foreach ($files as $file) {
                 if ($file !== '.' && $file !== '..') {
-                    $filePath = $tempDir . $file;
+                    $filePath = $tempDir .$nombreSinExtension.'/'. $file;
                     $TFilePath = $destinationFolder. $file;
                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
 
                     if ($fileExtension === 'xml') {
                         // Acciones específicas para archivos XML
@@ -137,7 +144,7 @@ public function ZIP(){
                         $xml->registerXPathNamespace('t', $ns['tfd']);
                         $uuid='';
                         $emisor='';
-                        $receptor='';
+                        $receptor='USI970814616';
                         $total='';
                         $sello='';
 
@@ -145,13 +152,14 @@ public function ZIP(){
                         foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){
                             $total= (string)$cfdiComprobante['Total'];
                         }
+
+                        // Se deja el Receptor fijo de URVINA
+                        // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){
+                        //     $receptor= (string)$Receptor['Rfc'];
+                        //     }
+
                         foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
                         $emisor= (string)$Emisor['Rfc'];
-                        }
-
-                        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){
-                        $receptor= (string)$Receptor['Rfc'];
-
                         }
 
                         //ESTA ULTIMA PARTE ES LA QUE GENERABA EL ERROR
@@ -176,51 +184,94 @@ public function ZIP(){
                         // consumimos el webservice!
                         $response = $consumer->execute('https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='.$uuid.'&re='.$emisor.'&rr='.$receptor.'&tt='.$total.'&fe='.$udsello);
                         $encontrada = (string)$response->document();
-                        if(str_contains($encontrada, "found")){
+                        if(str_contains($encontrada, "active")){
                            //Crear registro en la base de datos
+
+                           //Guardar en array para comprobar PDF
+                           $nombre_archivo = pathinfo($file, PATHINFO_FILENAME);
+                            $archivos_xml[] = $nombre_archivo;
 
                            //Copiar y mover el archivo a carpeta de facturas
                            rename($filePath, $TFilePath);
+                        }else if(str_contains($encontrada, "cancelled")){
+                            $archivos_rechazados[$file]["razon"] = "Factura Cancelada";
+                            $archivos_rechazados[$file]["nombre"] = $file;
+                            chmod($filePath, 0777 );
+                            unlink($filePath);
+                        }else{
+                            $archivos_rechazados[$file]["razon"] = "Factura no encontrada";
+                            $archivos_rechazados[$file]["nombre"] = $file;
+                            chmod($filePath, 0777 );
+                            unlink($filePath);
                         }
-                        rename($filePath, $TFilePath);
-
-
 
                     } else{
-
-                    }
-
-                        if (basename($filePath, ".xml") !== basename($_FILES['xmlFile']['name'], ".xml")) {
-                            // Eliminar el archivo XML que no coincide con el nombre del XML
-                            chmod($filePath, 0777 );
-                            unlink($filePath);
-
-                        }
-                    } elseif ($fileExtension === 'pdf') {
-                        // Acciones específicas para archivos PDF
-                        if (basename($filePath, ".pdf") !== basename($_FILES['xmlFile']['name'], ".xml")) {
-                            // Eliminar el archivo PDF que no coincide con el nombre del XML
-                            chmod($filePath, 0777 );
-                            unlink($filePath);
-
-                        }
-                    } else {
-                        // Otros tipos de archivos no deseados
-                        // Eliminar el archivo no deseado
+                        $archivos_rechazados[$file]["razon"] = "No se puede leer el CDFI";
+                        $archivos_rechazados[$file]["nombre"] = $file;
                         chmod($filePath, 0777 );
                         unlink($filePath);
+                    }
 
 
                     }
                 }
             }
 
+            $files = scandir($tempDir.$nombreSinExtension);
+            foreach ($files as $file) {
+                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                if ($file !== '.' && $file !== '..') {
+                    $filePath = $tempDir .$nombreSinExtension.'/'. $file;
+                    $TFilePath = $destinationFolder. $file;
+                    $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+                    if ($fileExtension === 'pdf') {
+                        // Acciones específicas para archivos PDF
+
+                        $objetoxml = array_search(basename($filePath, ".pdf"),$archivos_xml);
+
+                        if(isset($archivos_xml[$objetoxml])){
+                        if (basename($filePath, ".pdf") !== $archivos_xml[$objetoxml]) {
+
+                            // Eliminar el archivo PDF que no coincide con el nombre del XML
+                            $archivos_rechazados[$file]["razon"] = "Relacion con XML no encontrada";
+                            $archivos_rechazados[$file]["nombre"] = $file;
+                            chmod($filePath, 0777 );
+                            unlink($filePath);
+
+                        }else{
+                            $nombre_archivo = pathinfo($file, PATHINFO_FILENAME);
+                            $archivos_pdf[] = $nombre_archivo;
+                            rename($filePath, $TFilePath);
+                        }
+                    }else{
+                        // Eliminar el archivo PDF que no coincide con el nombre del XML
+                        $archivos_rechazados[$file]["razon"] = "Relacion con XML no encontrada";
+                        $archivos_rechazados[$file]["nombre"] = $file;
+                        chmod($filePath, 0777 );
+                        unlink($filePath);
+                    }
+                    }
+                    else {
+                        // Otros tipos de archivos no deseados
+                        // Eliminar el archivo no deseado
+                        $archivos_rechazados[$file]["razon"] = "Formato de archivo no admitido";
+                        $archivos_rechazados[$file]["nombre"] = $file;
+                        chmod($filePath, 0777 );
+                        unlink($filePath);
+                    }
+
+
+            }
+        }
+
             // Eliminar el directorio temporal
-             //rmdir($tempDir);
+             rmdir($tempDir.$nombreSinExtension);
         } else {
             echo 'No se pudo abrir el archivo ZIP.';
         }
     }
+    return view('facturas.factura-zip.confirmacion')->with('archivos_xml',$archivos_xml)->with('archivos_pdf',$archivos_pdf)->with('archivos_rechazados',$archivos_rechazados);
 
 }
 }
