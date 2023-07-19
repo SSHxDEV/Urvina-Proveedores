@@ -34,12 +34,19 @@ class ValidadorController extends Controller
         return redirect()->route('login', app()->getLocale());
     }
     }
-    public function Individual(){
+    public function Individual($Request){
         if(isset($_FILES['xmlFile']) && $_FILES['xmlFile']['error'] === UPLOAD_ERR_OK) {
+        $xmlFile = $_FILES['xmlFile']['tmp_name'];
+        $pdfFile1 = $_FILES['pdfFile1']['tmp_name'];
+        $pdfFile2 = $_FILES['pdfFile2']['tmp_name'];
+        $nombreXml = $_FILES['xmlFile']['name'];
+        $nombrePdf1 = $_FILES['pdfFile1']['name'];
+        $nombrePdf2 = $_FILES['pdfFile2']['name'];
+        $destinationFolder = 'facturas/';
         $xmlContent = file_get_contents($_FILES['xmlFile']['tmp_name']);
         $xml = simplexml_load_string($xmlContent);
         $ns = $xml->getNamespaces(true);
-        if( isset($ns['cfdi'])){
+        if(isset($ns['cfdi'])){
         $xml->registerXPathNamespace('c', $ns['cfdi']);
         $xml->registerXPathNamespace('t', $ns['tfd']);
         $uuid='';
@@ -83,11 +90,19 @@ class ValidadorController extends Controller
         // consumimos el webservice!
         $response = $consumer->execute('https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='.$uuid.'&re='.$emisor.'&rr='.$receptor.'&tt='.$total.'&fe='.$udsello);
         $encontrada = (string)$response->document();
-        if(str_contains($encontrada, "found")){
-            return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
+        if(str_contains($encontrada, "active")){
+            if(pathinfo($nombreXml, PATHINFO_FILENAME) == pathinfo($nombrePdf1, PATHINFO_FILENAME)){
+                move_uploaded_file($xmlFile, $destinationFolder . $nombreXml);
+                move_uploaded_file($pdfFile1, $destinationFolder . $nombrePdf1);
+                move_uploaded_file($pdfFile2, $destinationFolder . $nombrePdf2);
+                return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
+            }
+            Alert::error(__('Error'), __('Su PDF debe tener el mismo nombre que el XML'));
+            return redirect()->back();
          }
-
+         
          Alert::error(__('No se encontro'), __('Su factura no es valida para este portal'));
+         return redirect()->back();
 
 
 
@@ -95,7 +110,6 @@ class ValidadorController extends Controller
         Alert::error(__('No es una factura valida'), __('Su factura no es valida para este portal'));
         return redirect()->back();
     }
-    return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
 
     }
 

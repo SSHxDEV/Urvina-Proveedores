@@ -12,9 +12,9 @@ class UserController extends Controller
             if(isset($_SESSION['usuario'])){
 
             }
-        return view('inicio');
+        return view('user.profile');
     }else {
-        return redirect()->route('updateuser', app()->getLocale());
+        return redirect()->route('login', app()->getLocale());
     }
 
     }

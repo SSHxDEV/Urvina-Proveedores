@@ -4,6 +4,20 @@
 
 @section('content_header')
 <style>
+    .profile-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  opacity: .8;
+  text-align: center;
+}
     #folder-icon:hover {
 
   cursor: pointer; /* Opcionalmente, cambia el cursor al pasar sobre el icono */
@@ -23,6 +37,7 @@
   transform: scale(1.1); /* Cambia el factor de escala según tus necesidades */
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Cambia los valores según tus necesidades */
 }
+
 .grow {
             transition: 1s ease;
         }
@@ -60,11 +75,7 @@
                 max-width:14.5rem;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
 
-            }
             .bandera{
                 width:30px;
             }
@@ -76,10 +87,7 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 10rem;
-                height:23rem;
-            }
+
             .bandera{
                 width:30px;
             }
@@ -91,11 +99,7 @@
                 max-width:9.5rem;
 
             }
-            .card{
-                width: 10rem;
-                height:23rem;
 
-            }
             .bandera{
                 width:45px;
             }
@@ -107,11 +111,7 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
 
-            }
             .bandera{
                 width:45px;
             }
@@ -120,11 +120,6 @@
             .img-card-top{
                 height:11rem;
                 margin-top:10px;
-
-            }
-            .card{
-                width: 15rem;
-                height:21rem;
 
             }
             .bandera{
@@ -137,11 +132,6 @@
                 margin-top:10px
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
-
-            }
             .bandera{
                 width:45px;
             }
@@ -150,7 +140,7 @@
 
 <div class="container">
     <div class="row">
-        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Inicio')}}</h4></div>
+        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Perfil')}}</h4></div>
         <div class="col-md-3 col-3 ml-auto">
             <a href="{{route(Route::currentRouteName(),'en')}}">
                 <img src="/icons/en.svg" class="bandera" alt="EN">
@@ -170,10 +160,66 @@
 @stop
 
 @section('content')
+<div class="containter">
+        <div class="row">
+        <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{__('Información General')}}</h4>
+
+            <br>
+            <form>
+                <div class="form-group text-center">
+                  <div class="profile-image-container">
+                    <img src="/img/user.png" style="max-width:150px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image">
+                    <div class="profile-image-overlay">
+                      <label for="input-profile-image" style="color:black;opacity:1;" class="btn ">{{__('Cambiar imagen')}}</label>
+                      <input type="file" id="input-profile-image" style="display: none;">
+                    </div>
+                  </div>
+                </div>
+                <!-- Resto del formulario aquí -->
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">{{__('Nombre')}}</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
+                  </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">{{__('Correo Electrónico')}}</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{__('nombre')}} @ {{__('ejemplo')}} .com" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">{{__('Número Telefónico')}}</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[\+0-9]+.{0,}" placeholder="{{__('Celular o Fijo')}}" required maxlength="20">
+                  </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4>{{__('Datos de facturación')}}</h4><br>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">{{__('RFC (Número de Identificación Fiscal)')}}</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">{{__('Dirección')}}</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Dirección de la empresa')}}" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleFormControlInput1">{{__('Codigo Postal')}}</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[0-9]{5}" placeholder="{{__('Código Postal')}}" required>
+                      </div>
+                      <center><button type="submit" class="btn btn-primary">{{__('Guardar')}}</button></center>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 
 
-  
 
 
 
@@ -214,6 +260,25 @@ icono.addEventListener('mouseout', function() {
 });
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const profileImage = document.getElementById('profile-image');
+      const inputProfileImage = document.getElementById('input-profile-image');
+
+      inputProfileImage.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          profileImage.src = e.target.result;
+        };
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+  </script>
 <script>
 
     setTimeout(function() { $('#hi').fadeOut('fast'); }, 10000); // <-- time in milliseconds

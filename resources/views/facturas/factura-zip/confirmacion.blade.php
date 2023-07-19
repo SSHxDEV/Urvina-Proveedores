@@ -123,15 +123,11 @@
     <div class="row">
         <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Inicio')}}</h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            
+
           </div>
-
-
     </div>
 </div>
-
     <br>
-
 @stop
 
 @section('content')

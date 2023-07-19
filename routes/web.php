@@ -1,12 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CatalogoController;
-use App\Http\Controllers\ConsultasCController;
-use App\Http\Controllers\CarritoController;
-use App\Http\Controllers\PedidosController;
-use App\Http\Controllers\ReportesController;
+
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
