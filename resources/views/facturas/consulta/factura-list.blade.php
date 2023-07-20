@@ -166,7 +166,11 @@
             @foreach ($facturas as $factura)
             <td style="width:110px">{{$factura->factura}}</td>
             <td style="">{{$factura->uuid}}</td>
-            <td style=""></td>
+            <td style="">
+                <a href="#xml"><img src="/icons/xml.png" alt="" width="40px"></a>
+                @if ($factura->PDF != "")<a href="#pdf"><img src="/icons/pdf.png" width="40px" alt=""></a> @endif
+                @if ($factura->PDFsello != "")<a href="#pdf"><img src="/icons/sello.png" width="40px" alt=""></a> @endif
+            </td>
             <td style="">{{$factura->fecha_ingreso}}</td>
         </tr>
             @endforeach

@@ -45,7 +45,8 @@ class ValidadorController extends Controller
         $nombrePdf1 = $_FILES['pdfFile1']['name'];
         $nombrePdf2 = $_FILES['pdfFile2']['name'];
         $now = Carbon::now();
-        $destinationFolder = 'facturas/';
+        //$destinationFolder = 'D:\PRV/'.$nombreXml.'/';
+        $destinationFolder = 'E:\PRV/'.$nombreXml.'/';
         $xmlContent = file_get_contents($_FILES['xmlFile']['tmp_name']);
         $xml = simplexml_load_string($xmlContent);
         $ns = $xml->getNamespaces(true);
@@ -103,6 +104,9 @@ class ValidadorController extends Controller
                 $factura = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE uuid = '$uuid'");
 
                 if(count($factura) == 0){
+                    if (!is_dir($destinationFolder)) {
+                        mkdir($destinationFolder, 777, true);
+                    }
                     move_uploaded_file($xmlFile, $destinationFolder . $nombreXml);
                     move_uploaded_file($pdfFile1, $destinationFolder . $nombrePdf1);
                     move_uploaded_file($pdfFile2, $destinationFolder . $nombrePdf2);
@@ -143,17 +147,21 @@ public function ZIP(){
         $zip = new ZipArchive();
 
         if ($zip->open($zipFile) === true) {
-            $destinationFolder = 'facturas/';
-            // Crear la carpeta de destino si no existe, la carpeta es por Usuario
-            if (!is_dir($destinationFolder)) {
-                mkdir($destinationFolder, 777, true);
-            }
+
             // Extraer los archivos del ZIP a un directorio temporal
             $tempDir = 'temp/';
             $zip->extractTo($tempDir);
             $zip->close();
             $nombreArchivo = $_FILES['zipFile']['name'];
             $nombreSinExtension = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+
+            //$destinationFolder = 'D:\PRV/'.$nombreSinExtension.'/';
+            $destinationFolder = 'E:\PRV/'.$nombreSinExtension.'/';
+
+            // Crear la carpeta de destino si no existe, la carpeta es por Usuario
+            if (!is_dir($destinationFolder)) {
+                mkdir($destinationFolder, 777, true);
+            }
 
 
             // Leer los archivos extraídos
