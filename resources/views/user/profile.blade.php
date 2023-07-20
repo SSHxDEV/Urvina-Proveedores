@@ -166,12 +166,11 @@
         <div class="card">
             <div class="card-body">
                 <h4>{{__('Información General')}}</h4>
-
             <br>
             <form>
                 <div class="form-group text-center">
                   <div class="profile-image-container">
-                    <img src="/img/user.png" style="max-width:150px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image">
+                    <img src="{{$_SESSION['usuario']->imagen}}" style="max-width:150px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image">
                     <div class="profile-image-overlay">
                       <label for="input-profile-image" style="color:black;opacity:1;" class="btn ">{{__('Cambiar imagen')}}</label>
                       <input type="file" id="input-profile-image" style="display: none;">
@@ -181,7 +180,7 @@
                 <!-- Resto del formulario aquí -->
                 <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Nombre')}}</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
+                    <input type="text" value="{{$_SESSION['usuario']->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
                   </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Correo Electrónico')}}</label>
@@ -200,7 +199,7 @@
                     <h4>{{__('Datos de facturación')}}</h4><br>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('RFC (Número de Identificación Fiscal)')}}</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required>
+                        <input type="text" class="form-control" value="{{$_SESSION['usuario']->RFC}}" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Dirección')}}</label>

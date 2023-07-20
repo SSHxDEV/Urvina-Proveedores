@@ -46,6 +46,9 @@ Route::prefix('{language}')->group(function () {
     Route::get('/factura-zip', 'ValidadorController@FormZip')->name('factura-zip');
     Route::post('/upload-zip', 'ValidadorController@ZIP')->name('upload-zip');
 
+    //Consultar facturas
+    Route::get('/facturas-list', 'CheckBillController@Lista')->name('facturas-list');
+
 
 
 

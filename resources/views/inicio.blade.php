@@ -1,5 +1,13 @@
 @extends('adminlte::page')
 
+@if($_SESSION['usuario']->RFC != "")
+@section('usermenu_body')
+<center>
+    <b>RFC: {{$_SESSION['usuario']->RFC}}</b>
+</center>
+@stop
+@endif
+
 @section('title', __('Inicio'))
 
 @section('content_header')
@@ -173,7 +181,7 @@
 
 
 <div id="hi" class="jumbotron jumpin">
-    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']}}</b></small>!</h1>
+    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']->usuario}}</b></small>!</h1>
     <p class="lead">{{__("Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y subir sus facturas...")}}</p>
 
   </div>

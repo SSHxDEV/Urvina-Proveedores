@@ -23,14 +23,16 @@ class LoginController extends Controller
         //         "password" => $request->password,
         //     ]
         // );
-        $user="Usuario";
-        $pswd="USIsis2023@";
+        $query = "SELECT TOP 1 * FROM PRVusuarios WHERE usuario =  '$request->usuario' AND clave = '$request->password'";
+        $consulta = DB::select($query);
+        $user = $consulta[0];
 
-        if($user!= $request->usuario){
+
+        if($user->usuario != $request->usuario){
             $msg = "Usuario o Contraseña Incorrecta";
             return view('login')->with('msg', $msg);
         }
-        if($pswd!= $request->password){
+        if($user->clave != $request->password){
             $msg = "Contraseña Incorrecta";
             return view('login')->with('msg', $msg);
         }

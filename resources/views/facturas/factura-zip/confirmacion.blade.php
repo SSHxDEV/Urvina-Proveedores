@@ -1,5 +1,9 @@
 @extends('adminlte::page')
-
+@section('usermenu_body')
+<center>
+    <b>RFC: {{$_SESSION['usuario']->RFC}}</b>
+</center>
+@stop
 @section('title', __('Inicio'))
 
 @section('content_header')
