@@ -28,6 +28,42 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
       overflow: hidden;
     }
 
+    .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .loading b {
+    font-size: 20px;
+    /* Estilos para el texto "Cargando..." */
+    color: #00274c; /* Color azul profundo */
+    font-weight: bold;
+    text-shadow: 0 0 8px #00a4ff; /* Sombra de color azul luminoso */
+    background: linear-gradient(90deg, #00a4ff, #00274c); /* Gradiente de color azul luminoso a azul profundo */
+    background-clip: text; /* Hace que el gradiente solo aplique al texto */
+    -webkit-background-clip: text; /* Compatible con navegadores basados en WebKit */
+    color: transparent; /* Hace que el color del texto sea transparente para mostrar el gradiente */
+    }
+
+    .loading img {
+
+    height: 250px;
+    margin-bottom: 10px;
+    }
+
+    /* Clase para ocultar el elemento */
+    .hidden {
+        display: none;
+    }
+
     .drop-area input {
       position: absolute;
       top: 0;
@@ -85,6 +121,10 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
             /* blue colors for links too */
             text-decoration: inherit;
             /* no underline */
+        }
+        .fadeOut {
+        opacity: 0;
+        transition: opacity 0.5s ease;
         }
 
 @keyframes slidein {
@@ -194,43 +234,73 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 @section('content')
 
 <div class="container">
+    <div class="card buttons">
+        <div class="card-body">
+            <center><h3><b>Seleccione su receptor</b></h3></center>
+    <div class="row justify-content-md-center ">
+
+        <div class="col-6">
+            <center>
+            <a onclick="selectValue('USI970814616')" class="btn btn-dark btn-lg" >
+                <img src="/logo/grupo_urvina_logo.png" class="rounded" alt="" style="padding:10px;width:150px;background-color:white">
+            </a>
+            </center>
+        </div>
+        <div class="col-6">
+            <center>
+            <a onclick="selectValue('CNE980528JV6')" class="btn btn-dark btn-lg" >
+                <img src="/logo/logo_coeli.png" class="rounded" alt="" style="padding:10px;width:150px;background-color:white">
+            </a>
+            </center>
+        </div>
+
+    </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <div class="card">
-                <form method="post" action="{{route('upload-bill', app()->getLocale())}}" enctype="multipart/form-data">
+                <form id="myForm" class="hidden" method="post" action="{{route('upload-bill', app()->getLocale())}}" enctype="multipart/form-data">
                     @csrf
                 <div class="card-header">
                     {{__('Formulario de Subida de Factura Individual')}}
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 col-sm-12">
+                        {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
+                             <div class="col-md-4 col-sm-12">
                             <div class="drop-area"  for="file-input-pdf1" id="drop-area-pdf1" onclick="triggerFileInputPdf1()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-pdf1')">
                                 {{__('Arrastra y suelta aquí la Factura')}}
                               </div>
                               <input type="file" name="pdfFile1" id="file-input-pdf1" accept=".pdf" style="display: none;" required>
-                        </div>
-                        <div class="col-md-4 col-sm-12">
+                        </div> --}}
+                        <div class="col-md-6 col-sm-12">
                             <div class="drop-area"  for="file-input-pdf2" id="drop-area-pdf2" onclick="triggerFileInputPdf2()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-pdf2')">
                                 <p class="text">{{__('Arrastra y suelta aquí la Factura (sellada por almacén)')}}</p>
                               </div>
                               <input type="file" name="pdfFile2" id="file-input-pdf2" accept=".pdf" style="display: none;" required>
                         </div>
-                        <div class="col-md-4 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="drop-area"  for="file-input-xml" id="drop-area-xml" onclick="triggerFileInputXml()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-xml')">
                                 {{__('Arrastra y suelta aquí el archivo XML')}}
                               </div>
                               <input type="file" name="xmlFile" id="file-input-xml" accept=".xml" style="display: none;" required>
+                              <input type="hidden" id="hiddenInput" name="receptor">
                         </div>
+
                     </div>
 
                 </div>
                 <div class="card-footer">
-                    <center><input class="btn btn-success" type="submit" value="{{__("Enviar Factura")}}"></center>
+                    <center><input class="btn btn-success" type="submit" value="{{__("Enviar Factura")}}" onclick="showLoading()"></center>
                 </div>
             </form>
             </div>
-
+            <div id="loading" class="loading hidden">
+                <img class="rounded" src="/img/loading.gif" alt="Cargando...">
+                <b style="color:white"><span id="loading-text"></span></b>
+            </div>
         </div>
     </div>
 </div>
@@ -269,6 +339,25 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 
 @section('js')
 <script>
+    function selectValue(value) {
+  document.getElementById('hiddenInput').value = value;
+  hideButtons();
+  showForm();
+}
+
+function hideButtons() {
+  const buttons = document.getElementsByClassName('buttons')[0];
+  buttons.classList.add('fadeOut');
+  setTimeout( function() {buttons.style.display = 'none';},500);
+}
+
+function showForm() {
+  const form = document.getElementById('myForm');
+  form.classList.remove('hidden');
+}
+
+</script>
+<script>
     const icono = document.getElementById('folder-icon');
 icono.addEventListener('mouseover', function() {
   icono.classList.remove('fa-folder'); // Quita la clase actual del icono
@@ -279,6 +368,32 @@ icono.addEventListener('mouseout', function() {
   icono.classList.remove('fa-folder-open'); // Quita la clase del nuevo icono
   icono.classList.add('fa-folder'); // Agrega la clase original para restaurar el icono inicial
 });
+
+</script>
+<script>
+    function showLoading() {
+    // Muestra la pantalla de carga
+    var loadingElement = document.getElementById('loading');
+    loadingElement.classList.remove('hidden');
+
+    // Obtén el elemento del texto "Cargando..."
+    var textElement = document.getElementById('loading-text');
+    var text = {{__("Cargando...")}}; // Texto a mostrar
+    var index = 0; // Índice para seguir la progresión del texto
+
+    // Simula la escritura progresiva del texto con un intervalo de tiempo de 200ms entre cada punto
+    var interval = setInterval(function() {
+        if (index <= text.length) {
+            textElement.innerText = text.slice(0, index);
+            index++;
+        } else {
+            clearInterval(interval);
+            // Envía el formulario (simulado)
+            document.getElementById('myForm').submit();
+        }
+    }, 20000);
+}
+
 
 </script>
 <script>

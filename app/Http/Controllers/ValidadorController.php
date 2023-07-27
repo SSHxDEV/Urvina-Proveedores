@@ -9,6 +9,7 @@ use PhpCfdi\SatEstadoCfdi\Soap\SoapConsumerClient;
 use PhpCfdi\SatEstadoCfdi\Soap\SoapClientFactory;
 use PhpCfdi\SatEstadoCfdi\Consumer;
 use ZipArchive;
+use Jenssegers\Date\Date;
 use Carbon\Carbon;
 
 class ValidadorController extends Controller
@@ -35,18 +36,18 @@ class ValidadorController extends Controller
         return redirect()->route('login', app()->getLocale());
     }
     }
-    public function Individual($Request){
+    public function Individual(Request $request){
         session_start();
         if(isset($_FILES['xmlFile']) && $_FILES['xmlFile']['error'] === UPLOAD_ERR_OK) {
         $xmlFile = $_FILES['xmlFile']['tmp_name'];
-        $pdfFile1 = $_FILES['pdfFile1']['tmp_name'];
+        // $pdfFile1 = $_FILES['pdfFile1']['tmp_name'];
         $pdfFile2 = $_FILES['pdfFile2']['tmp_name'];
         $nombreXml = $_FILES['xmlFile']['name'];
-        $nombrePdf1 = $_FILES['pdfFile1']['name'];
+        // $nombrePdf1 = $_FILES['pdfFile1']['name'];
         $nombrePdf2 = $_FILES['pdfFile2']['name'];
         $now = Carbon::now();
-        //$destinationFolder = 'D:\PRV/'.$nombreXml.'/';
-        $destinationFolder = 'E:\PRV/'.$nombreXml.'/';
+        $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+        // $destinationPFolder = 'facturas/'.$_SESSION['usuario']->RFC.'/';
         $xmlContent = file_get_contents($_FILES['xmlFile']['tmp_name']);
         $xml = simplexml_load_string($xmlContent);
         $ns = $xml->getNamespaces(true);
@@ -55,7 +56,7 @@ class ValidadorController extends Controller
         $xml->registerXPathNamespace('t', $ns['tfd']);
         $uuid='';
         $emisor='';
-        $receptor='USI970814616';
+        $receptor = $request->receptor;
         $total='';
         $sello='';
 
@@ -95,11 +96,17 @@ class ValidadorController extends Controller
         $response = $consumer->execute('https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id='.$uuid.'&re='.$emisor.'&rr='.$receptor.'&tt='.$total.'&fe='.$udsello);
         $encontrada = (string)$response->document();
         if(str_contains($encontrada, "active")){
-            $archivoXML = pathinfo($nombreXml, PATHINFO_FILENAME);
-            $archivoPDF1 = pathinfo($nombrePdf1, PATHINFO_FILENAME);
-            $archivoPDF2 = pathinfo($nombrePdf2, PATHINFO_FILENAME);
+            $archivoXML = pathinfo($nombreXml, PATHINFO_EXTENSION);
+            $fileNameXML = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombreXml, PATHINFO_FILENAME)); // Elimina caracteres no deseados
+            $targetFileXML = $fileNameXML .'.'. $archivoXML;
+            // $archivoPDF1 = pathinfo($nombrePdf1, PATHINFO_EXTENSION);
+            // $fileNamePDF1 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePdf1, PATHINFO_FILENAME)); // Elimina caracteres no deseados
+            // $targetFilePDF1 = $fileNamePDF1 . $archivoPDF1;
+            $archivoPDF2 = pathinfo($nombrePdf2 , PATHINFO_EXTENSION);
+            $fileNamePDF2 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePdf2, PATHINFO_FILENAME)); // Elimina caracteres no deseados
+            $targetFilePDF2 = $fileNamePDF2 . "." . $archivoPDF2;
 
-            if(pathinfo($nombreXml, PATHINFO_FILENAME) == pathinfo($nombrePdf1, PATHINFO_FILENAME)){
+            if(pathinfo($nombreXml, PATHINFO_FILENAME) == pathinfo($nombrePdf2, PATHINFO_FILENAME)){
                 //BUSCAMOS LA FACTURA EN LA CARPETA
                 $factura = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE uuid = '$uuid'");
 
@@ -107,10 +114,18 @@ class ValidadorController extends Controller
                     if (!is_dir($destinationFolder)) {
                         mkdir($destinationFolder, 777, true);
                     }
-                    move_uploaded_file($xmlFile, $destinationFolder . $nombreXml);
-                    move_uploaded_file($pdfFile1, $destinationFolder . $nombrePdf1);
-                    move_uploaded_file($pdfFile2, $destinationFolder . $nombrePdf2);
-                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$archivoXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido con exito', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> $archivoPDF1 , 'PDFsello'=> $archivoPDF2 );
+                    // if (!is_dir($destinationPFolder)) {
+                    //     mkdir($destinationPFolder, 777, true);
+                    // }
+
+                    // move_uploaded_file($xmlFile, $destinationPFolder . $targetFileXML);
+                    // // move_uploaded_file($pdfFile1, $destinationPFolder . $targetFilePDF1);
+                    // move_uploaded_file($pdfFile2, $destinationPFolder . $targetFilePDF2);
+                    move_uploaded_file($xmlFile, $destinationFolder . $targetFileXML);
+                    // move_uploaded_file($pdfFile1, $destinationFolder . $targetFilePDF1);
+                    move_uploaded_file($pdfFile2, $destinationFolder . $targetFilePDF2);
+
+                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido con exito', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $fileNamePDF2,'receptor'=>$receptor );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                 }
@@ -135,11 +150,12 @@ class ValidadorController extends Controller
     }
 
 }
-public function ZIP(){
+public function ZIP(Request $request){
     session_start();
     $archivos_xml = [];
     $archivos_pdf = [];
     $archivos_rechazados= [];
+
     $now = Carbon::now();
 
     if (isset($_FILES['zipFile']) && $_FILES['zipFile']['error'] === UPLOAD_ERR_OK) {
@@ -155,13 +171,9 @@ public function ZIP(){
             $nombreArchivo = $_FILES['zipFile']['name'];
             $nombreSinExtension = pathinfo($nombreArchivo, PATHINFO_FILENAME);
 
-            //$destinationFolder = 'D:\PRV/'.$nombreSinExtension.'/';
-            $destinationFolder = 'E:\PRV/'.$nombreSinExtension.'/';
 
-            // Crear la carpeta de destino si no existe, la carpeta es por Usuario
-            if (!is_dir($destinationFolder)) {
-                mkdir($destinationFolder, 777, true);
-            }
+
+
 
 
             // Leer los archivos extraídos
@@ -170,7 +182,6 @@ public function ZIP(){
             foreach ($files as $file) {
                 if ($file !== '.' && $file !== '..') {
                     $filePath = $tempDir .$nombreSinExtension.'/'. $file;
-                    $TFilePath = $destinationFolder. $file;
                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
 
@@ -185,9 +196,10 @@ public function ZIP(){
                         $xml->registerXPathNamespace('t', $ns['tfd']);
                         $uuid='';
                         $emisor='';
-                        $receptor='USI970814616';
+                        $receptor = $request->receptor;
                         $total='';
                         $sello='';
+                        $destinationFolder ='';
 
                         //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
                         foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){
@@ -233,18 +245,38 @@ public function ZIP(){
 
 
                            if(count($factura) == 0){
+                            $archivoXML = pathinfo($file, PATHINFO_EXTENSION);
+                            $fileNameXML = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($file, PATHINFO_FILENAME)); // Elimina caracteres no deseados
+                            $targetFileXML = $fileNameXML .'.'. $archivoXML;
+                            $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
+                            $archivos_xml[] = $originalname;
+                            //$destinationFolder = 'D:\PRV/'.$nombre_archivo.'/';
+                            $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+                            // $publicPath = 'facturas/'.$_SESSION['usuario']->RFC.'/';
+                            // Crear la carpeta de destino si no existe, la carpeta es por Usuario
+                            if (!is_dir($destinationFolder)) {
+                                mkdir($destinationFolder, 777, true);
+                                mkdir($publicPath, 777, true);
+                            }
+                            $TFilePath = $destinationFolder. $targetFileXML;
 
-                            $nombre_archivo = pathinfo($file, PATHINFO_FILENAME);
-                            $archivos_xml[] = $nombre_archivo;
-                            $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$nombre_archivo,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido con exito', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '' );
+                            // $viewPath = $publicPath. $targetFileXML;
+                            //Copiar y mover el archivo a carpeta de facturas
+                            // copy($filePath, $viewPath);
+
+                            rename($filePath, $TFilePath);
+
+                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor );
                             DB::table('PRVfacturas')->insert($data);
 
-                           }
-                           $archivos_rechazados[$file]["razon"] = "Factura Repetida";
+                           }else{
+                            $archivos_rechazados[$file]["razon"] = "Factura Repetida";
                             $archivos_rechazados[$file]["nombre"] = $file;
+                            chmod($filePath, 0777 );
+                            unlink($filePath);
 
-                           //Copiar y mover el archivo a carpeta de facturas
-                           rename($filePath, $TFilePath);
+                           }
+
                         }else if(str_contains($encontrada, "cancelled")){
                             $archivos_rechazados[$file]["razon"] = "Factura Cancelada";
                             $archivos_rechazados[$file]["nombre"] = $file;
@@ -282,8 +314,10 @@ public function ZIP(){
 
                         $objetoxml = array_search(basename($filePath, ".pdf"),$archivos_xml);
 
+
                         if(isset($archivos_xml[$objetoxml])){
-                        if (basename($filePath, ".pdf") !== $archivos_xml[$objetoxml]) {
+
+                        if (basename($filePath,".pdf") !== pathinfo($archivos_xml[$objetoxml], PATHINFO_FILENAME)) {
 
                             // Eliminar el archivo PDF que no coincide con el nombre del XML
                             $archivos_rechazados[$file]["razon"] = "Relacion con XML no encontrada";
@@ -292,12 +326,23 @@ public function ZIP(){
                             unlink($filePath);
 
                         }else{
-
-                            $nombre_archivo = pathinfo($file, PATHINFO_FILENAME);
-                            $archivos_pdf[] = $nombre_archivo;
+                            $archivoPDF2 = pathinfo($file, PATHINFO_EXTENSION);
+                            $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
+                            $fileNamePDF2 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($file, PATHINFO_FILENAME)); // Elimina caracteres no deseados
+                            $targetFilePDF2 = $fileNamePDF2 .'.'. $archivoPDF2;
+                            $archivos_pdf[] = $originalname ;
+                            //Unidad de destino E:
+                            $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+                            // $publicPath = 'facturas/'.$_SESSION['usuario']->RFC.'/';
+                            if (!is_dir($destinationFolder)) {
+                                mkdir($destinationFolder, 777, true);
+                                mkdir($publicPath, 777, true);
+                            }
+                            $TFilePath = $destinationFolder. $targetFilePDF2;
+                            // $viewPath = $publicPath. $targetFilePDF1;
+                            // copy($filePath, $viewPath);
                             rename($filePath, $TFilePath);
-                            DB::table('PRVfacturas')->where('factura',$archivos_xml[$objetoxml])->update(array('PDF'=>$nombre_archivo,));
-
+                            DB::table('PRVfacturas')->where('factura',$fileNamePDF2)->update(array('PDFsello'=>$fileNamePDF2,));
                         }
                     }else{
                         // Eliminar el archivo PDF que no coincide con el nombre del XML

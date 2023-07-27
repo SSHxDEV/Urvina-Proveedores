@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
 
     public function login(Request $request){
-        if(isset($_SESSION)){
+        if(isset($_SESSION['usuario'])){
             return redirect()->route('home', app()->getLocale());
         }else{
         //Validar Datos
@@ -25,8 +25,8 @@ class LoginController extends Controller
         // );
         $query = "SELECT TOP 1 * FROM PRVusuarios WHERE usuario =  '$request->usuario' AND clave = '$request->password'";
         $consulta = DB::select($query);
+        if(isset($consulta[0])){
         $user = $consulta[0];
-
 
         if($user->usuario != $request->usuario){
             $msg = "Usuario o Contraseña Incorrecta";
@@ -41,6 +41,12 @@ class LoginController extends Controller
             $_SESSION['usuario'] = $user;
             return redirect()->route('home', app()->getLocale())->with('usuario', $user);
         }
+    }
+
+        $msg = "Usuario no registrado";
+        return view('login')->with('msg', $msg);
+
+
     }
 
         //$user[0]->Nombre

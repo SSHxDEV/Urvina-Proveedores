@@ -157,10 +157,10 @@
                         <div class="card-header bg-success text-white"> <i class="fas fa-check-circle fa-lg"></i> <h5>{{__("Archivos Subidos")}}</h5></div>
                         <div class="card-body">
                             @foreach ($archivos_xml as $xml)
-                            <i class="fas fa-check" style="color:#18ec1b"></i>&nbsp;&nbsp;&nbsp;<i class="far fa-file-code"></i>  {{$xml}}.xml <br>
+                            <i class="fas fa-check" style="color:#18ec1b"></i>&nbsp;&nbsp;&nbsp;<i class="far fa-file-code"></i>  {{$xml}} <br>
                             @endforeach
                             @foreach ($archivos_pdf as $pdf)
-                            <i class="fas fa-check" style="color:#18ec1b"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-file-pdf"></i>   {{$pdf}}.pdf <br>
+                            <i class="fas fa-check" style="color:#18ec1b"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-file-pdf"></i>   {{$pdf}} <br>
                             @endforeach
                         </div>
 

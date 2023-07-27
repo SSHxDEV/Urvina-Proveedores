@@ -48,16 +48,26 @@ Route::prefix('{language}')->group(function () {
 
     //Consultar facturas
     Route::get('/facturas-list', 'CheckBillController@Lista')->name('facturas-list');
+    Route::get('/factura-show/{factura?}', 'CheckBillController@ShowFactura')->name('factura-show');
+    Route::get('/docs-view', 'CheckBillController@DocsView')->name('docs-view');
+    Route::post('/upload-pdf', 'CheckBillController@UploadFaltante')->name('upload-pdf');
 
 
 
 
+
+//Herramientas
+Route::get('/phpinfo', function() {
+    phpinfo();
+});
 
 
 
 
 
 });
+
+
 
 
 

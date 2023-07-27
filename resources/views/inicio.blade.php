@@ -190,7 +190,7 @@
             <div class="container-fluid"><center>
             <div class="row justify-content-md-center" >
                 <div class="col-md-4 col-sm-12">
-                    <a href="">
+                    <a href="{{route('facturas-list', app()->getLocale())}}">
                     <div class="card button" style="height:200px; width:200px">
                         <div class="card-header">
                             <center>{{__('Consultar Facturas')}}</center>

@@ -20,6 +20,12 @@
   transition: box-shadow 0.3s;
 }
 
+/* Estilo para el contenido del PDF */
+#pdfContainer {
+    max-height: calc(100% - 40px); /* Resta el espacio para el botón de cerrar y el padding del modal */
+    overflow-y: auto;
+}
+
 .button:hover {
   transform: scale(1.1); /* Cambia el factor de escala según tus necesidades */
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Cambia los valores según tus necesidades */
@@ -31,9 +37,9 @@
 
         .grow:hover {
 
-            -webkit-transform: scale(1.1);
-            -ms-transform: scale(1.1);
-            transform: scale(1.1);
+            -webkit-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            transform: scale(1.2);
             transition: 1s ease;
             z-index: 4;
         }
@@ -152,26 +158,35 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-    <table id="facturas-list" class=" table">
+    <table id="facturas-list" class=" table table-striped">
         <thead class="">
             <tr class="bg-success">
-                <th style="width:110px">{{__('Factura')}}</th>
+                <th style="">{{__('Factura')}}</th>
                 <th style="">{{__('UUID')}}</th>
-                <th style="">{{__('Adjuntos')}}</th>
+                <th style="width:82px">{{__('Adjuntos')}}</th>
                 <th style="">{{__('Subido')}}</th>
+                <th style="">{{__('Observaciones')}}</th>
             </tr>
         </thead>
         <tbody>
 
-            @foreach ($facturas as $factura)
-            <td style="width:110px">{{$factura->factura}}</td>
+            @foreach ($data as $factura)
+            <td style="">{{$factura->factura}}</td>
             <td style="">{{$factura->uuid}}</td>
-            <td style="">
-                <a href="#xml"><img src="/icons/xml.png" alt="" width="40px"></a>
-                @if ($factura->PDF != "")<a href="#pdf"><img src="/icons/pdf.png" width="40px" alt=""></a> @endif
-                @if ($factura->PDFsello != "")<a href="#pdf"><img src="/icons/sello.png" width="40px" alt=""></a> @endif
+            <td style="width:82px">
+                <a  class="btn-xml" data-file="/{{$data[0]->factura}}.xml" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
+                {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
+                    @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
+                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$data[0]->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
-            <td style="">{{$factura->fecha_ingreso}}</td>
+            <td style="">{{$factura->IFecha }}</td>
+            @if($factura->descripcion == "Subido Exitosamente")
+            <td style="text-align: center; vertical-align:middle;" class="bg-success">{{__($factura->descripcion) }}<a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            @endif
+            @if($factura->descripcion == "Archivos faltantes")
+            <td style="text-align: center; vertical-align:middle;" class="bg-warning">{{__($factura->descripcion)}}<a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            @endif
+
         </tr>
             @endforeach
 
@@ -181,6 +196,51 @@
     </table>
 
 </div>
+    <!-- Modal para mostrar el archivo PDF-->
+    <div class="modal" id="fileModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog  modal-xl " role="document">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vista previa del archivo PDF</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <center>
+                    <div id="pdfContainer">
+                        <!-- Aquí se mostrará el contenido del PDF -->
+                    </div>
+                    </center>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal para mostrar el archivo XML -->
+        <div class="modal" id="xmlModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Vista previa del archivo XML</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div id="pdfContainer">
+                            <!-- Aquí se mostrará el contenido del PDF -->
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
             </div>
         </div>
@@ -211,10 +271,77 @@
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.8.162/web/pdf_viewer.min.css" rel="stylesheet">
 @stop
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.8.162/build/pdf.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+<script>
+    // Función para cargar y visualizar el PDF seleccionado en el contenedor
+    function cargarPDF(rutaArchivo) {
+        var url = '{{route('docs-view', app()->getLocale())}}?archivo=' + encodeURIComponent(rutaArchivo);
+
+        // Cargar el PDF usando PDF.js
+        pdfjsLib.getDocument(url).promise.then(function(pdf) {
+            // Cargar la primera página del PDF
+            pdf.getPage(1).then(function(page) {
+                var canvas = document.createElement('canvas');
+                var pdfContainer = document.getElementById('pdfContainer');
+                pdfContainer.innerHTML = '';
+                pdfContainer.appendChild(canvas);
+
+                // Escalar el contenido del PDF para que se ajuste al tamaño del contenedor
+                var viewport = page.getViewport({ scale: 1.5 });
+                var context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+
+                // Renderizar la página del PDF en el lienzo
+                page.render(renderContext);
+
+
+
+            });
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(".btn-file").on("click", function() {
+            var fileName = $(this).data("file");
+            // Reemplaza "ruta_archivos/" por la ruta real de tus archivos
+           // var fileURL = "/facturas/{{$_SESSION['usuario']->RFC}}/" + fileName;
+
+            // Abre el modal y muestra el archivo dentro de un iframe
+            // $("#fileModal .modal-body").html('<iframe type="text/plain" src="' + fileURL + '" width="100%" height="500px"></iframe>');
+            $("#fileModal").modal("show");
+        });
+    });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(".btn-xml").on("click", function() {
+                var fileName = $(this).data("file");
+                // Reemplaza "ruta_archivos/" por la ruta real de tus archivos
+
+                var fileURL = "/es/docs-view?archivo={{$_SESSION['usuario']->RFC}}"+fileName;
+                var decodedFileURL= decodeURIComponent(fileURL);
+
+                console.log(decodedFileURL);
+
+                // Abre el modal y muestra el archivo dentro de un iframe
+                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="' + decodedFileURL + '" width="100%" height="500px"></iframe>');
+                $("#xmlModal").modal("show");
+            });
+        });
+        </script>
 <script>
     const icono = document.getElementById('folder-icon');
 icono.addEventListener('mouseover', function() {
@@ -234,21 +361,21 @@ icono.addEventListener('mouseout', function() {
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "info": "{{__('Mostrando')}} _START_ {{__('a')}} _END_ {{__('de')}} _TOTAL_ {{__('Entradas')}}",
+                "infoEmpty": "{{__('Mostrando')}} 0 {{__('a')}} 0 {{__('de')}} 0 {{__('Entradas')}}",
                 "infoFiltered": "(Filtrado de _MAX_ total entradas)",
                 "infoPostFix": "",
                 "thousands": ",",
                 "lengthMenu": "{{__('Mostrar')}} _MENU_ {{__('entradas')}}",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "{{__('Buscar:')}}",
-                "zeroRecords": "Sin resultados encontrados",
+                "loadingRecords": "{{__('Cargando...')}}",
+                "processing": "{{__('Procesando...')}}",
+                "search": "{{__('Buscar')}}:",
+                "zeroRecords": "{{__('Sin resultados encontrados')}}",
                 "paginate": {
                     "first": "{{__('Primer')}}",
                     "last": "{{__('Ultimo')}}",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
+                    "next": "{{__('Siguiente')}}",
+                    "previous": "{{__('Anterior')}}"
                 }
             },
         });
