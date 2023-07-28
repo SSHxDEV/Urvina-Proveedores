@@ -153,6 +153,7 @@
 @stop
 
 @section('content')
+@include('sweetalert::alert')
 <div class="container">
         <div class="row">
         <div class="col-12">
@@ -164,6 +165,7 @@
                 <th style="">{{__('Factura')}}</th>
                 <th style="">{{__('UUID')}}</th>
                 <th style="width:82px">{{__('Adjuntos')}}</th>
+                <th style="width:82px">{{__('Orden de Compra')}}</th>
                 <th style="">{{__('Subido')}}</th>
                 <th style="">{{__('Observaciones')}}</th>
             </tr>
@@ -179,13 +181,19 @@
                     @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
                 @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$data[0]->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
+            @if ($factura->OrdenCompra!="")
+            <td style="">{{$factura->OrdenCompra}}</td>
+            @else
+            <td style=""><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
+            @endif
+
             <td style="">{{$factura->IFecha }}</td>
             @if($factura->descripcion == "Subido Exitosamente")
-            <td style="text-align: center; vertical-align:middle;" class="bg-success">{{__($factura->descripcion) }}<a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            <td style="text-align: center; vertical-align:middle;" class="bg-success"><b> {{__($factura->descripcion) }} </b><br> <a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            @else
+            <td style="text-align: center; vertical-align:middle;" class="bg-warning"><b> {{__($factura->descripcion)}} </b><br> <a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
             @endif
-            @if($factura->descripcion == "Archivos faltantes")
-            <td style="text-align: center; vertical-align:middle;" class="bg-warning">{{__($factura->descripcion)}}<a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
-            @endif
+
 
         </tr>
             @endforeach
@@ -196,6 +204,42 @@
     </table>
 
 </div>
+<!-- Modal Orden de Compra -->
+<div class="modal" id="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{__('Añadir orden de compra')}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+          <!-- Aquí va el formulario para el registro -->
+          <!-- Asegúrate de tener un campo oculto para almacenar el ID del registro -->
+          <form action="{{route('add-order', app()->getLocale())}}" method="POST">
+            @csrf
+            <!-- Campos del formulario -->
+            <!-- Puedes usar los campos necesarios para el registro -->
+            <div class="form-group">
+                <label for="OrdenCompra">{{__('Orden de Compra')}}</label>
+                <input type="text" name="OrdenCompra" class="form-control" id="OrdenCompra"  placeholder="{{__('Ingrese la Orden de Compra')}}">
+              </div>
+
+            <!-- Campo oculto para almacenar el ID del registro -->
+            <input type="hidden" id="registroid" name="registroid" value="">
+            <!-- Otros campos del formulario -->
+
+        </div>
+        <div class="modal-footer">
+            <!-- Botón de envío del formulario -->
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- Modal para mostrar el archivo PDF-->
     <div class="modal" id="fileModal" tabindex="-1" role="dialog">
         <div class="modal-dialog  modal-xl " role="document">
@@ -277,6 +321,23 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.8.162/build/pdf.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+<!-- JavaScript para controlar el modal -->
+<script>
+// JavaScript con Bootstrap
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = new bootstrap.Modal(document.getElementById('modal'));
+  const botonesRegistro = document.querySelectorAll('.btn-registro');
+
+  botonesRegistro.forEach((boton) => {
+    boton.addEventListener('click', () => {
+      const idRegistro = boton.dataset.id;
+      document.getElementById('registroid').value = idRegistro; // Rellenar el campo oculto del formulario
+
+      modal.show(); // Mostrar el modal utilizando Bootstrap
+    });
+  });
+});
+</script>
 <script>
     // Función para cargar y visualizar el PDF seleccionado en el contenedor
     function cargarPDF(rutaArchivo) {

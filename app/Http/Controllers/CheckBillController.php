@@ -160,4 +160,20 @@ class CheckBillController extends Controller
 
     }
 
+    public function AddBuyOrder(Request $request){
+        session_start();
+        if(isset($_SESSION['usuario'])){
+            $OrdenCompra = $request->OrdenCompra;
+            $facturaId = $request->registroid;
+            DB::table('PRVfacturas')
+                ->where('ID', $facturaId)
+                ->update(['OrdenCompra' => $OrdenCompra, 'descripcion' => 'Subido Exitosamente']);
+                Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
+                return redirect()->route('facturas-list', app()->getLocale());
+                
+        }else {
+            return redirect()->route('login', app()->getLocale());
+        }
+    }
+
 }

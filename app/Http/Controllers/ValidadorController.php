@@ -57,6 +57,7 @@ class ValidadorController extends Controller
         $uuid='';
         $emisor='';
         $receptor = $request->receptor;
+        $BuyOrder = $request->OrdenCompra;
         $total='';
         $sello='';
 
@@ -124,10 +125,17 @@ class ValidadorController extends Controller
                     move_uploaded_file($xmlFile, $destinationFolder . $targetFileXML);
                     // move_uploaded_file($pdfFile1, $destinationFolder . $targetFilePDF1);
                     move_uploaded_file($pdfFile2, $destinationFolder . $targetFilePDF2);
-
-                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido con exito', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $fileNamePDF2,'receptor'=>$receptor );
+                        // DEBE MODIFICARSE LAS SIGUIENTES LINEAS PARA VERIFICAR LA ORDEN DE COMPRA
+                    if($BuyOrder != ""){
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido con exito', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $fileNamePDF2,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
+                    }else{
+                        Alert::error(__('Invalido'), __('Orden de Compra invalida'));
+                        return redirect()->back();
+                    }
+
+
                 }
 
                 Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
@@ -155,6 +163,7 @@ public function ZIP(Request $request){
     $archivos_xml = [];
     $archivos_pdf = [];
     $archivos_rechazados= [];
+    $archivos_OC= [];
 
     $now = Carbon::now();
 
@@ -250,6 +259,8 @@ public function ZIP(Request $request){
                             $targetFileXML = $fileNameXML .'.'. $archivoXML;
                             $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
                             $archivos_xml[] = $originalname;
+                            $archivos_OC[$file]["nombre"] = $originalname;
+                            $archivos_OC[$file]["id"] = $uuid ;
                             //$destinationFolder = 'D:\PRV/'.$nombre_archivo.'/';
                             $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
                             // $publicPath = 'facturas/'.$_SESSION['usuario']->RFC.'/';
@@ -266,7 +277,7 @@ public function ZIP(Request $request){
 
                             rename($filePath, $TFilePath);
 
-                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor );
+                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue PDF sellado', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor );
                             DB::table('PRVfacturas')->insert($data);
 
                            }else{
@@ -342,7 +353,7 @@ public function ZIP(Request $request){
                             // $viewPath = $publicPath. $targetFilePDF1;
                             // copy($filePath, $viewPath);
                             rename($filePath, $TFilePath);
-                            DB::table('PRVfacturas')->where('factura',$fileNamePDF2)->update(array('PDFsello'=>$fileNamePDF2,));
+                            DB::table('PRVfacturas')->where('factura',$fileNamePDF2)->update(array('PDFsello'=>$fileNamePDF2,'descripcion'=>'Agregue Orden de Compra'));
                         }
                     }else{
                         // Eliminar el archivo PDF que no coincide con el nombre del XML
@@ -371,7 +382,28 @@ public function ZIP(Request $request){
             echo 'No se pudo abrir el archivo ZIP.';
         }
     }
-    return view('facturas.factura-zip.confirmacion')->with('archivos_xml',$archivos_xml)->with('archivos_pdf',$archivos_pdf)->with('archivos_rechazados',$archivos_rechazados);
+    return view('facturas.factura-zip.confirmacion')->with('archivos_OC',$archivos_OC)->with('archivos_xml',$archivos_xml)->with('archivos_pdf',$archivos_pdf)->with('archivos_rechazados',$archivos_rechazados);
+
+}
+
+public function VerifyUSIOrder(Request $request){
+    // Obtener los datos enviados del formulario
+    $datosFormulario = $request->all();
+
+    // Recorrer el array de facturas y guardar los valores en la base de datos
+    foreach ($datosFormulario as $nombreCampo => $valorCampo) {
+        if (strpos($nombreCampo, 'OrdenCompra') === 0) {
+            $facturaId = substr($nombreCampo, strlen('OrdenCompra'));
+
+            // Actualizar el campo OrdenCompra en la base de datos con el valor enviado desde el formulario
+            DB::table('PRVfacturas')
+                ->where('uuid', $facturaId)
+                ->update(['OrdenCompra' => $valorCampo, 'descripcion' => 'Subido Exitosamente']);
+            }
+        }
+        Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
+        return redirect()->route('facturas-list', app()->getLocale());
+
 
 }
 }

@@ -145,7 +145,8 @@
                     <center>
                     @if(count($archivos_xml)>0)
                     <h2 style="relative:relative; z-index:1">
-                        {{__("¡Su")}} <i class="far fa-file-archive"></i> {{__("se ha subido con exito!")}}
+                        {{-- {{__("¡Su")}} <i class="far fa-file-archive"></i> {{__("se ha subido con exito!")}} --}}
+                        <i class="fas fa-exclamation-circle"></i> <b>{{__('Añada la siguiente informacion')}}</b>
                     </h2><br>
                     @else
                     <h2 style="relative:relative; z-index:1">
@@ -153,6 +154,28 @@
                     </h2><br>
                     @endif
                     @if(count($archivos_xml)>0)
+                    <div class="card  " >
+                        <div class="card-header bg-warning"> <i class="fas fa-exclamation-circle fa-lg"></i> <h5>{{__("Ingrese orden(es) de compra")}}</h5></div>
+                        <div class="card-body">
+                            <form method="post" action="{{route('zip-voc', app()->getLocale())}}">
+                                @csrf
+                            @foreach ($archivos_OC as $OC)
+                            <hr>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-8 col-form-label"><i class="fas fa-circle" style="color:#18ec1b"></i>&nbsp;  {{$OC["nombre"]}} <br></label>
+                                <div class="col-sm-4">
+                                  <input type="text" name="{{ "OrdenCompra" . $OC["id"]}}" value="" class="form-control" id="inputPassword" placeholder="{{__('Orden de compra')}}" required>
+                                </div>
+                              </div>
+                              <hr>
+
+                            @endforeach
+                            <button class="btn btn-success" type="submit"> {{__('Comprobar Facturas')}} </button>
+                        </form>
+
+                        </div>
+
+                    </div><br>
                     <div class="card  " >
                         <div class="card-header bg-success text-white"> <i class="fas fa-check-circle fa-lg"></i> <h5>{{__("Archivos Subidos")}}</h5></div>
                         <div class="card-body">

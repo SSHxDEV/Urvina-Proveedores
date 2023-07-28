@@ -52,6 +52,10 @@ Route::prefix('{language}')->group(function () {
     Route::get('/docs-view', 'CheckBillController@DocsView')->name('docs-view');
     Route::post('/upload-pdf', 'CheckBillController@UploadFaltante')->name('upload-pdf');
 
+    //Agregar Orden Compra
+    Route::post('/zip-voc', 'ValidadorController@VerifyUSIOrder')->name('zip-voc');
+    Route::post('/add-order', 'CheckBillControlleR@AddBuyOrder')->name('add-order');
+
 
 
 
