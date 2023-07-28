@@ -36,6 +36,7 @@ Route::prefix('{language}')->group(function () {
 
     //Perfil
     Route::get('/perfil', 'UserController@UpdateUser')->name('updateuser');
+    Route::post('/update-perfil', 'UserController@UpdateInfoUser')->name('updateinfouser');
 
     //Subir Factura
     Route::get('/factura-form', 'ValidadorController@Form')->name('factura-form');

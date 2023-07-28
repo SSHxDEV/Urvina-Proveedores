@@ -160,6 +160,7 @@
 @stop
 
 @section('content')
+@include('sweetalert::alert')
 <div class="containter">
         <div class="row">
         <div class="col-6">
@@ -167,29 +168,31 @@
             <div class="card-body">
                 <h4>{{__('Información General')}}</h4>
             <br>
-            <form>
+            <form action="{{route('updateinfouser', app()->getLocale())}}" method="post" enctype="multipart/form-data">
+                @csrf
                 <div class="form-group text-center">
                   <div class="profile-image-container">
                     <img src="{{$_SESSION['usuario']->imagen}}" style="max-width:150px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image">
                     <div class="profile-image-overlay">
                       <label for="input-profile-image" style="color:black;opacity:1;" class="btn ">{{__('Cambiar imagen')}}</label>
-                      <input type="file" id="input-profile-image" style="display: none;">
+                      <input type="file"  id="input-profile-image" style="display: none;">
+                      <input type="hidden" name="id" value="{{$_SESSION['usuario']->ID}}" >
                     </div>
                   </div>
                 </div>
                 <!-- Resto del formulario aquí -->
                 <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Nombre')}}</label>
-                    <input type="text" value="{{$_SESSION['usuario']->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
+                    <input type="text" name="nombre" value="{{$_SESSION['usuario']->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
                   </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Correo Electrónico')}}</label>
                     <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{__('nombre')}} @ {{__('ejemplo')}} .com" required>
                   </div>
                   <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Número Telefónico')}}</label>
                     <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[\+0-9]+.{0,}" placeholder="{{__('Celular o Fijo')}}" required maxlength="20">
-                  </div>
+                  </div> --}}
             </div>
         </div>
         </div>
@@ -199,16 +202,16 @@
                     <h4>{{__('Datos de facturación')}}</h4><br>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('RFC (Número de Identificación Fiscal)')}}</label>
-                        <input type="text" class="form-control" value="{{$_SESSION['usuario']->RFC}}" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required>
+                        <input type="text" name="rfc" class="form-control" value="{{$_SESSION['usuario']->RFC}}" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required>
                       </div>
-                      <div class="form-group">
+                      {{-- <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Dirección')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Dirección de la empresa')}}" required>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Codigo Postal')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[0-9]{5}" placeholder="{{__('Código Postal')}}" required>
-                      </div>
+                      </div> --}}
                       <center><button type="submit" class="btn btn-primary">{{__('Guardar')}}</button></center>
                 </div>
             </div>
