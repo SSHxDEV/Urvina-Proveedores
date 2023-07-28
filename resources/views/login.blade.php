@@ -59,7 +59,7 @@ h2{
 
 </style>
 <div class="container" >
-
+    @include('sweetalert::alert')
 
     <div class="row" display="flex" height="100%" style="margin-right:-10%">
     <div class="col-sm-6 banner"  style="align-items: center; y justify-content: center; margin-right:-10%;background-image: url('/img/1260.jpg');background-position: center;border-radius: 5% 0% 0% 5%;">
