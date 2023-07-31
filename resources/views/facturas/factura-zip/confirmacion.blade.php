@@ -302,5 +302,10 @@ icono.addEventListener('mouseout', function() {
         }
     });
     </script>
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
 
 @stop

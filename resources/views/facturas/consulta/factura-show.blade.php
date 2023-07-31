@@ -160,14 +160,14 @@
             <div class="card bg-dark">
                 <div class="card-body">
                     <center>
-                        <h5><b>Factura:</b>  {{$data[0]->factura}}</h5>
+                        <h5><b>{{__('Factura')}}:</b>  {{$data[0]->factura}}</h5>
                     </center>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-6"><div class="card"><div class="card-header bg-dark">Información General</div>
+        <div class="col-md-6 col-sm-12"><div class="card"><div class="card-header bg-dark">{{__('Información General')}}</div>
         <div class="card-body">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -216,11 +216,11 @@
         </div>
         </div></div>
 
-        <div class="col-6"><div class="card"><div class="card-header @if($data[0]->descripcion=="Subido Exitosamente") bg-success @else bg-warning @endif"><b>{{__('Estado:')}}</b> {{$data[0]->descripcion}}</div>
+        <div class="col-md-6 col-sm-12"><div class="card"><div class="card-header @if($data[0]->descripcion=="Subido Exitosamente") bg-success @else bg-warning @endif"><b>{{__('Estado')}}:</b> {{__($data[0]->descripcion)}}</div>
         <div class="card-body">
             <div style="padding:20px;background-color: RGBA( 0 , 255 , 0 , 0.2 );" class="row">
                 <div class="col-4"><img class="grow" src="/icons/xml.png" width="60px" alt=""></div>
-                <div class="col-8"><b>Documento XML de Factura</b><br><a class="btn btn-primary btn-xml" data-file="/{{$data[0]->factura}}.xml"> Visualizar XML</a></div>
+                <div class="col-8"><b>{{__('Documento XML de Factura')}}</b><br><a class="btn btn-primary btn-xml" data-file="/{{$data[0]->factura}}.xml"> {{__('Visualizar XML')}}</a></div>
             </div>
 
             {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
@@ -254,12 +254,12 @@
                 <form action="{{route('upload-pdf', app()->getLocale())}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                      <label for="exampleFormControlFile1">Suba su factura sellada por almacen</label>
+                      <label for="exampleFormControlFile1">{{__('Suba su factura sellada por almacen')}}</label>
                       <input type="file" accept=".pdf" name="PDFsello" class="form-control-file">
                       <input type="hidden" name="receptor" class="form-control-file">
                       <input type="hidden" name="factura" class="form-control-file" value="{{$data[0]->ID}}">
                     </div>
-                    <center><button class="btn btn-primary" type="submit"> Subir PDF </button></center>
+                    <center><button class="btn btn-primary" type="submit"> {{__('Subir PDF')}} </button></center>
                   </form>
             </div>
 
@@ -269,7 +269,7 @@
             <div style="padding:20px;background-color: RGBA( 0 , 255 , 0 , 0.2 );" class="row">
 
                 <div class="col-4"><a></a><img class="grow" src="/icons/pdf.png" width="60px" alt=""></div>
-                <div class="col-8"><b>Documento PDF de Factura</b><br><a class="btn btn-primary btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$data[0]->PDFsello}}.pdf')" > Visualizar PDF </a> </div>
+                <div class="col-8"><b>{{__('Documento PDF de Factura')}}</b><br><a class="btn btn-primary btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$data[0]->PDFsello}}.pdf')" > {{__('Visualizar PDF')}} </a> </div>
             </div>
 
             @endif
@@ -287,7 +287,7 @@
     <div class="modal-dialog  modal-xl " role="document">
         <div class="modal-content bg-dark text-white">
             <div class="modal-header">
-                <h5 class="modal-title">Vista previa del archivo PDF</h5>
+                <h5 class="modal-title">{{__('Vista previa del archivo PDF')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -302,7 +302,7 @@
 
             </div>
             <div class="modal-footer">
-                <a class="btn btn-success" id="downloadLink" href="" download>Descargar PDF</a>
+                <a class="btn btn-success" id="downloadLink" href="" download>{{__('Descargar PDF')}}</a>
             </div>
         </div>
     </div>
@@ -313,7 +313,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
-                    <h5 class="modal-title">Vista previa del archivo XML</h5>
+                    <h5 class="modal-title">{{__('Vista previa del archivo XML')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -326,7 +326,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-success" id="downloadXML" href="" download>Descargar XML</a>
+                    <a class="btn btn-success" id="downloadXML" href="" download>{{__('Descargar XML')}}</a>
                 </div>
             </div>
         </div>
@@ -521,6 +521,11 @@ icono.addEventListener('mouseout', function() {
             document.querySelector('form').submit();
         }
     });
+    </script>
+    <script>
+        function goBack() {
+          window.history.back();
+        }
     </script>
 
 @stop

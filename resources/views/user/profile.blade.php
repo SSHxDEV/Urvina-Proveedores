@@ -163,7 +163,7 @@
 @include('sweetalert::alert')
 <div class="containter">
         <div class="row">
-        <div class="col-6">
+        <div class="col">
         <div class="card">
             <div class="card-body">
                 <h4>{{__('Información General')}}</h4>
@@ -196,7 +196,7 @@
             </div>
         </div>
         </div>
-        <div class="col-6">
+        <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h4>{{__('Datos de facturación')}}</h4><br>
@@ -334,6 +334,11 @@ icono.addEventListener('mouseout', function() {
             document.querySelector('form').submit();
         }
     });
+    </script>
+    <script>
+        function goBack() {
+          window.history.back();
+        }
     </script>
 
 @stop

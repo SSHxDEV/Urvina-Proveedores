@@ -144,6 +144,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 max-width:14.5rem;
 
             }
+            .btnM{
+                width:100px;
+            }
 
             .bandera{
                 width:30px;
@@ -155,6 +158,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 max-width:9.5rem;
                 margin-top:10px;
 
+            }
+            .btnM{
+                width:100px;
             }
 
             .bandera{
@@ -168,6 +174,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 max-width:9.5rem;
 
             }
+            .btnM{
+                width:150px;
+            }
 
             .bandera{
                 width:45px;
@@ -180,6 +189,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 margin-top:10px;
 
             }
+            .btnM{
+                width:150px;
+            }
 
             .bandera{
                 width:45px;
@@ -191,6 +203,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 margin-top:10px;
 
             }
+            .btnM{
+                width:150px;
+            }
 
             .bandera{
                 width:45px;
@@ -201,6 +216,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 height:11rem;
                 margin-top:10px
 
+            }
+            .btnM{
+                width:150px;
             }
 
             .bandera{
@@ -236,20 +254,20 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 <div class="container">
     <div class="card buttons">
         <div class="card-body">
-            <center><h3><b>Seleccione su receptor</b></h3></center>
+            <center><h3><b>{{__('Seleccione su receptor')}}</b></h3></center>
     <div class="row justify-content-md-center ">
 
         <div class="col-6">
             <center>
-            <a onclick="selectValue('USI970814616')" class="btn btn-dark btn-lg" >
-                <img src="/logo/grupo_urvina_logo.png" class="rounded" alt="" style="padding:10px;width:150px;background-color:white">
+            <a onclick="selectValue('USI970814616')" class="btn btn-dark btn-lg " >
+                <img src="/logo/grupo_urvina_logo.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
             </a>
             </center>
         </div>
         <div class="col-6">
             <center>
-            <a onclick="selectValue('CNE980528JV6')" class="btn btn-dark btn-lg" >
-                <img src="/logo/logo_coeli.png" class="rounded" alt="" style="padding:10px;width:150px;background-color:white">
+            <a onclick="selectValue('CNE980528JV6')" class="btn btn-dark btn-lg " >
+                <img src="/logo/logo_coeli.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
             </a>
             </center>
         </div>
@@ -274,7 +292,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                         <div class="col-12">
                             <center>
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Orden de Compra</label>
+                                <label for="exampleFormControlInput1">{{__('Orden de Compra')}}</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1" name="OrdenCompra" placeholder="MSD213354667" required>
                               </div></center><hr>
                         </div>
@@ -288,7 +306,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                         </div> --}}
                         <div class="col-md-6 col-sm-12">
                             <center>
-                            <label for="exampleFormControlInput1"> Archivo PDF </label>
+                            <label for="exampleFormControlInput1"> {{__('Archivo PDF')}} </label>
                             <div class="drop-area"  for="file-input-pdf2" id="drop-area-pdf2" onclick="triggerFileInputPdf2()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-pdf2')">
                                 <p class="text">{{__('Arrastra y suelta aquí la Factura (sellada por almacén)')}}</p>
                               </div>
@@ -297,7 +315,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <center>
-                            <label for="exampleFormControlInput1"> Archivo XML </label>
+                            <label for="exampleFormControlInput1"> {{__('Archivo XML')}} </label>
                             <div class="drop-area"  for="file-input-xml" id="drop-area-xml" onclick="triggerFileInputXml()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-xml')">
                                 {{__('Arrastra y suelta aquí el archivo XML')}}
                               </div>
@@ -397,21 +415,8 @@ icono.addEventListener('mouseout', function() {
     var textElement = document.getElementById('loading-text');
     var text = {{__("Cargando...")}}; // Texto a mostrar
     var index = 0; // Índice para seguir la progresión del texto
-
-    // Simula la escritura progresiva del texto con un intervalo de tiempo de 200ms entre cada punto
-    var interval = setInterval(function() {
-        if (index <= text.length) {
-            textElement.innerText = text.slice(0, index);
-            index++;
-        } else {
-            clearInterval(interval);
-            // Envía el formulario (simulado)
-            document.getElementById('myForm').submit();
-        }
-    }, 20000);
+    document.getElementById('myForm').submit();
 }
-
-
 </script>
 <script>
 
@@ -542,5 +547,10 @@ icono.addEventListener('mouseout', function() {
         }, 2000); // Tiempo de espera en milisegundos (1 segundo en este caso)
         }
       </script>
+      <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
 
 @stop

@@ -159,6 +159,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="table-responsive">
     <table id="facturas-list" class=" table table-striped">
         <thead class="">
             <tr class="bg-success">
@@ -202,6 +203,7 @@
         </tbody>
 
     </table>
+</div>
 
 </div>
 <!-- Modal Orden de Compra -->
@@ -419,6 +421,7 @@ icono.addEventListener('mouseout', function() {
 <script>
     $(document).ready(function() {
         $('#facturas-list').DataTable({
+            responsive: true,
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -514,6 +517,11 @@ icono.addEventListener('mouseout', function() {
             document.querySelector('form').submit();
         }
     });
+    </script>
+    <script>
+        function goBack() {
+          window.history.back();
+        }
     </script>
 
 @stop

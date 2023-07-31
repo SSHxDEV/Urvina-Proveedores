@@ -149,6 +149,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 max-width:14.5rem;
 
             }
+            .btnM{
+                width:100px;
+            }
 
             .bandera{
                 width:30px;
@@ -160,6 +163,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 max-width:9.5rem;
                 margin-top:10px;
 
+            }
+            .btnM{
+                width:100px;
             }
 
             .bandera{
@@ -173,6 +179,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 max-width:9.5rem;
 
             }
+            .btnM{
+                width:150px;
+            }
 
             .bandera{
                 width:45px;
@@ -185,6 +194,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 margin-top:10px;
 
             }
+            .btnM{
+                width:150px;
+            }
 
             .bandera{
                 width:45px;
@@ -196,6 +208,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 margin-top:10px;
 
             }
+            .btnM{
+                width:150px;
+            }
 
             .bandera{
                 width:45px;
@@ -206,6 +221,9 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 height:11rem;
                 margin-top:10px
 
+            }
+            .btnM{
+                width:150px;
             }
 
             .bandera{
@@ -241,20 +259,20 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 <div class="container">
     <div class="card buttons">
         <div class="card-body">
-            <center><h3><b>Seleccione su receptor</b></h3></center>
+            <center><h3><b>{{__('Seleccione su receptor')}}</b></h3></center>
     <div class="row justify-content-md-center ">
 
         <div class="col-6">
             <center>
             <a onclick="selectValue('USI970814616')" class="btn btn-dark btn-lg" >
-                <img src="/logo/grupo_urvina_logo.png" class="rounded" alt="" style="padding:10px;width:150px;background-color:white">
+                <img src="/logo/grupo_urvina_logo.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
             </a>
             </center>
         </div>
         <div class="col-6">
             <center>
             <a onclick="selectValue('CNE980528JV6')" class="btn btn-dark btn-lg" >
-                <img src="/logo/logo_coeli.png" class="rounded" alt="" style="padding:10px;width:150px;background-color:white">
+                <img src="/logo/logo_coeli.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
             </a>
             </center>
         </div>
@@ -283,7 +301,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 
                 </div>
                 <div class="card-footer">
-                    <center><input class="btn btn-success" type="submit" value="{{__("Enviar Factura")}}" onclick="showLoading()"></center>
+                    <center><input class="btn btn-success" type="submit" value="{{__("Enviar Factura")}}" onclick="showloading()"></center>
                 </div>
             </form>
             </div>
@@ -362,7 +380,7 @@ icono.addEventListener('mouseout', function() {
 
 </script>
 <script>
-    function showLoading() {
+    function showloading() {
     // Muestra la pantalla de carga
     var loadingElement = document.getElementById('loading');
     loadingElement.classList.remove('hidden');
@@ -371,21 +389,8 @@ icono.addEventListener('mouseout', function() {
     var textElement = document.getElementById('loading-text');
     var text = {{__("Cargando...")}}; // Texto a mostrar
     var index = 0; // Índice para seguir la progresión del texto
-
-    // Simula la escritura progresiva del texto con un intervalo de tiempo de 200ms entre cada punto
-    var interval = setInterval(function() {
-        if (index <= text.length) {
-            textElement.innerText = text.slice(0, index);
-            index++;
-        } else {
-            clearInterval(interval);
-            // Envía el formulario (simulado)
-            document.getElementById('myForm').submit();
-        }
-    }, 20000);
+    document.getElementById('myForm').submit();
 }
-
-
 </script>
 <script>
 
@@ -483,5 +488,10 @@ icono.addEventListener('mouseout', function() {
 
 
       </script>
+      <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
 
 @stop

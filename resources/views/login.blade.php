@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('sweetalert::alert')
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
@@ -59,7 +60,7 @@ h2{
 
 </style>
 <div class="container" >
-    @include('sweetalert::alert')
+
 
     <div class="row" display="flex" height="100%" style="margin-right:-10%">
     <div class="col-sm-6 banner"  style="align-items: center; y justify-content: center; margin-right:-10%;background-image: url('/img/1260.jpg');background-position: center;border-radius: 5% 0% 0% 5%;">
@@ -75,7 +76,7 @@ h2{
     <div class="col-sm-6 box" style="">
         <center>
         <div style="">
-        <img src="/logo/grupo_urvina_logo.png" class="rounded" alt="" style="padding:10px;margin-top:50px;width:150px;background-color:white"> <img src="/logo/logo_coeli.png" class="rounded" alt="" style="padding:10px;margin-top:50px;width:150px;background-color:white">
+        <a href="https://urvina.com.mx/es/index.php" style="z-index:1" target="_blank"><img src="/logo/grupo_urvina_logo.png" class="rounded" alt="" style="padding:10px;margin-top:50px;width:150px;background-color:white"></a> <a target="_blank" href="https://urvina.com.mx/es/programa-coeli-mexicana-recuperacion-de-equipos-de-seguridad-ecologico.php"><img src="/logo/logo_coeli.png" class="rounded" alt="" style="padding:10px;margin-top:50px;width:150px;background-color:white"></a>
         </div>
     </center>
 
