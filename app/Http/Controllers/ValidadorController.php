@@ -267,7 +267,7 @@ public function ZIP(Request $request){
                             // Crear la carpeta de destino si no existe, la carpeta es por Usuario
                             if (!is_dir($destinationFolder)) {
                                 mkdir($destinationFolder, 777, true);
-                                mkdir($publicPath, 777, true);
+                                //mkdir($publicPath, 777, true);
                             }
                             $TFilePath = $destinationFolder. $targetFileXML;
 
@@ -347,7 +347,7 @@ public function ZIP(Request $request){
                             // $publicPath = 'facturas/'.$_SESSION['usuario']->RFC.'/';
                             if (!is_dir($destinationFolder)) {
                                 mkdir($destinationFolder, 777, true);
-                                mkdir($publicPath, 777, true);
+                                //mkdir($publicPath, 777, true);
                             }
                             $TFilePath = $destinationFolder. $targetFilePDF2;
                             // $viewPath = $publicPath. $targetFilePDF1;
