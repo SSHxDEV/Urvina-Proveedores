@@ -31,6 +31,12 @@
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Cambia los valores según tus necesidades */
 }
 
+.single-line-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 .grow {
             transition: 1s ease;
         }
@@ -160,40 +166,50 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-    <table id="facturas-list" class=" table table-striped">
+    <table id="facturas-list" class="display table table-striped compact">
         <thead class="">
             <tr class="bg-success">
-                <th style="">{{__('Factura')}}</th>
-                <th style="">{{__('UUID')}}</th>
-                <th style="width:82px">{{__('Adjuntos')}}</th>
-                <th style="width:82px">{{__('Orden de Compra')}}</th>
-                <th style="">{{__('Subido')}}</th>
-                <th style="">{{__('Observaciones')}}</th>
+                <th class="align-top" style="width:100%">{{__('Factura')}}</th>
+                <th class="align-top" style="width:100%">{{__('UUID')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('Orden de Compra')}}</th>
+                <th class="align-top" style="width:100%">{{__('Subido')}}</th>
+                <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
+                <th  class="align-top" style="">{{__('Importe')}}</th>
+                <th  class="align-top" style="">{{__('Moneda')}}</th>
+                <th  class="align-top" style="">{{__('Estatus')}}</th>
+                <th class="align-top" style="width:82px">{{__('Adjuntos')}}</th>
+                <th  class="align-top" style="">{{__('Opciones')}}</th>
             </tr>
         </thead>
         <tbody>
 
             @foreach ($data as $factura)
-            <td style="">{{$factura->factura}}</td>
-            <td style="">{{$factura->uuid}}</td>
-            <td style="width:82px">
-                <a  class="btn-xml" data-file="/{{$data[0]->factura}}.xml" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
-                {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
-                    @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
-                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$data[0]->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
-            </td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->factura}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
             @if ($factura->OrdenCompra!="")
-            <td style="">{{$factura->OrdenCompra}}</td>
+            <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
-            <td style=""><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
+            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
             @endif
 
-            <td style="">{{$factura->IFecha }}</td>
+            <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
+            <td>{{$factura->fechaFactura}}</td>
+            <td><b>${{$factura->total}}</b></td>
+            <td>{{$factura->moneda}}</td>
+
             @if($factura->descripcion == "Subido Exitosamente")
-            <td style="text-align: center; vertical-align:middle;" class="bg-success"><b> {{__($factura->descripcion) }} </b><br> <a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->descripcion) }} </b></td>
             @else
-            <td style="text-align: center; vertical-align:middle;" class="bg-warning"><b> {{__($factura->descripcion)}} </b><br> <a class="btn btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
             @endif
+            <td rowspan="1" class="align-top" style="height:20px; width:82px">
+                <a  class="btn-xml" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
+                {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
+                    @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
+                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$_SESSION['usuario']->RFC}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
+            </td>
+
+            <td><a class="btn btn-sm btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
 
 
         </tr>
@@ -343,7 +359,9 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
     // Función para cargar y visualizar el PDF seleccionado en el contenedor
     function cargarPDF(rutaArchivo) {
-        var url = '{{route('docs-view', app()->getLocale())}}?archivo=' + encodeURIComponent(rutaArchivo);
+        var fileName = $(this).data("file");
+        var fileRFC = $(this).data("rfc");
+        var url = '{{route('docs-view', app()->getLocale())}}?archivo=' + decodeURIComponent(rutaArchivo);
 
         // Cargar el PDF usando PDF.js
         pdfjsLib.getDocument(url).promise.then(function(pdf) {
@@ -392,15 +410,15 @@ document.addEventListener('DOMContentLoaded', () => {
         $(document).ready(function() {
             $(".btn-xml").on("click", function() {
                 var fileName = $(this).data("file");
+                var fileRFC = $(this).data("rfc");
                 // Reemplaza "ruta_archivos/" por la ruta real de tus archivos
 
-                var fileURL = "/es/docs-view?archivo={{$_SESSION['usuario']->RFC}}"+fileName;
-                var decodedFileURL= decodeURIComponent(fileURL);
+                var decodedFileURL= decodeURIComponent(fileName);
 
-                console.log(decodedFileURL);
+                console.log(fileRFC);
 
                 // Abre el modal y muestra el archivo dentro de un iframe
-                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="' + decodedFileURL + '" width="100%" height="500px"></iframe>');
+                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="/es/docs-view?emisor={{$_SESSION['usuario']->RFC}}&receptor=' +fileRFC +'&archivo='+ decodedFileURL + '" width="100%" height="500px"></iframe>');
                 $("#xmlModal").modal("show");
             });
         });

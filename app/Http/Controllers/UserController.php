@@ -29,7 +29,7 @@ class UserController extends Controller
                 $Nombre= $request->nombre;
                 $ID = $request->id;
                 if($_SESSION['usuario']->RFC != $RFC){
-                    $_SESSION['usuario']['RFC'] = $RFC;
+                    $_SESSION['usuario']->RFC = $RFC;
                 }
                 if($_SESSION['usuario']->usuario != $Nombre){
                     $_SESSION['usuario']->usuario = $Nombre;

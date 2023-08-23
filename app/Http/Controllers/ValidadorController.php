@@ -11,6 +11,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 use ZipArchive;
 use Jenssegers\Date\Date;
 use Carbon\Carbon;
+use DateTime;
 
 class ValidadorController extends Controller
 {
@@ -46,7 +47,7 @@ class ValidadorController extends Controller
         // $nombrePdf1 = $_FILES['pdfFile1']['name'];
         $nombrePdf2 = $_FILES['pdfFile2']['name'];
         $now = Carbon::now();
-        $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+        $destinationFolder = 'E:\PRV/'.$request->receptor.'/'.$_SESSION['usuario']->RFC.'/';
         // $destinationPFolder = 'facturas/'.$_SESSION['usuario']->RFC.'/';
         $xmlContent = file_get_contents($_FILES['xmlFile']['tmp_name']);
         $xml = simplexml_load_string($xmlContent);
@@ -55,19 +56,28 @@ class ValidadorController extends Controller
         $xml->registerXPathNamespace('c', $ns['cfdi']);
         $xml->registerXPathNamespace('t', $ns['tfd']);
         $uuid='';
-        $emisor='';
+        $emisor=$_SESSION['usuario']->RFC;
         $receptor = $request->receptor;
         $BuyOrder = $request->OrdenCompra;
         $total='';
         $sello='';
+        $moneda='';
+        $NombreFactura='';
 
         //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
         foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){
             $total= (string)$cfdiComprobante['Total'];
+            $moneda= (string)$cfdiComprobante['Moneda'];
+            $serie= (string)$cfdiComprobante['Serie'];
+            $folio=(string)$cfdiComprobante['Folio'];
+            $NombreFactura=$serie.$folio;
+            $fechaHoraOriginal = (string)$cfdiComprobante['FechaTimbrado'];
+            $fechaObj = new DateTime($fechaHoraOriginal);
+            $fechaFormateada = $fechaObj->format("Y-m-d");
         }
-        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
-        $emisor= (string)$Emisor['Rfc'];
-        }
+        // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
+        // $emisor= (string)$Emisor['Rfc'];
+        // }
 
         // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){
         // $receptor= (string)$Receptor['Rfc'];
@@ -99,13 +109,13 @@ class ValidadorController extends Controller
         if(str_contains($encontrada, "active")){
             $archivoXML = pathinfo($nombreXml, PATHINFO_EXTENSION);
             $fileNameXML = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombreXml, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-            $targetFileXML = $fileNameXML .'.'. $archivoXML;
+            $targetFileXML = $NombreFactura .'.'. $archivoXML;
             // $archivoPDF1 = pathinfo($nombrePdf1, PATHINFO_EXTENSION);
             // $fileNamePDF1 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePdf1, PATHINFO_FILENAME)); // Elimina caracteres no deseados
             // $targetFilePDF1 = $fileNamePDF1 . $archivoPDF1;
             $archivoPDF2 = pathinfo($nombrePdf2 , PATHINFO_EXTENSION);
             $fileNamePDF2 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePdf2, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-            $targetFilePDF2 = $fileNamePDF2 . "." . $archivoPDF2;
+            $targetFilePDF2 = $NombreFactura . "." . $archivoPDF2;
 
             if(pathinfo($nombreXml, PATHINFO_FILENAME) == pathinfo($nombrePdf2, PATHINFO_FILENAME)){
                 //BUSCAMOS LA FACTURA EN LA CARPETA
@@ -127,7 +137,7 @@ class ValidadorController extends Controller
                     move_uploaded_file($pdfFile2, $destinationFolder . $targetFilePDF2);
                         // DEBE MODIFICARSE LAS SIGUIENTES LINEAS PARA VERIFICAR LA ORDEN DE COMPRA
                     if($BuyOrder != ""){
-                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido con exito', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $fileNamePDF2,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder );
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }else{
@@ -204,15 +214,24 @@ public function ZIP(Request $request){
                         $xml->registerXPathNamespace('c', $ns['cfdi']);
                         $xml->registerXPathNamespace('t', $ns['tfd']);
                         $uuid='';
-                        $emisor='';
+                        $emisor=$_SESSION['usuario']->RFC;
                         $receptor = $request->receptor;
                         $total='';
                         $sello='';
                         $destinationFolder ='';
+                        $moneda = '';
+                        $NombreFactura='';
 
                         //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
                         foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){
                             $total= (string)$cfdiComprobante['Total'];
+                            $moneda= (string)$cfdiComprobante['Moneda'];
+                            $serie= (string)$cfdiComprobante['Serie'];
+                            $folio=(string)$cfdiComprobante['Folio'];
+                            $NombreFactura=$serie.$folio;
+                            $fechaHoraOriginal = (string)$cfdiComprobante['FechaTimbrado'];
+                            $fechaObj = new DateTime($fechaHoraOriginal);
+                            $fechaFormateada = $fechaObj->format("Y-m-d");
                         }
 
                         // Se deja el Receptor fijo de URVINA
@@ -220,9 +239,9 @@ public function ZIP(Request $request){
                         //     $receptor= (string)$Receptor['Rfc'];
                         //     }
 
-                        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
-                        $emisor= (string)$Emisor['Rfc'];
-                        }
+                        // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
+                        // $emisor= (string)$Emisor['Rfc'];
+                        // }
 
                         //ESTA ULTIMA PARTE ES LA QUE GENERABA EL ERROR
                         foreach ($xml->xpath('//t:TimbreFiscalDigital') as $tfd) {
@@ -255,14 +274,13 @@ public function ZIP(Request $request){
 
                            if(count($factura) == 0){
                             $archivoXML = pathinfo($file, PATHINFO_EXTENSION);
-                            $fileNameXML = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($file, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-                            $targetFileXML = $fileNameXML .'.'. $archivoXML;
+                            $targetFileXML = $NombreFactura .'.'. $archivoXML;
                             $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
                             $archivos_xml[] = $originalname;
                             $archivos_OC[$file]["nombre"] = $originalname;
                             $archivos_OC[$file]["id"] = $uuid ;
                             //$destinationFolder = 'D:\PRV/'.$nombre_archivo.'/';
-                            $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+                            $destinationFolder = 'E:\PRV/'.$request->receptor.'/'.$_SESSION['usuario']->RFC.'/';
                             // $publicPath = 'facturas/'.$_SESSION['usuario']->RFC.'/';
                             // Crear la carpeta de destino si no existe, la carpeta es por Usuario
                             if (!is_dir($destinationFolder)) {
@@ -277,7 +295,7 @@ public function ZIP(Request $request){
 
                             rename($filePath, $TFilePath);
 
-                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$fileNameXML,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue PDF sellado', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor );
+                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue PDF sellado', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada );
                             DB::table('PRVfacturas')->insert($data);
 
                            }else{
@@ -340,10 +358,10 @@ public function ZIP(Request $request){
                             $archivoPDF2 = pathinfo($file, PATHINFO_EXTENSION);
                             $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
                             $fileNamePDF2 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($file, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-                            $targetFilePDF2 = $fileNamePDF2 .'.'. $archivoPDF2;
+                            $targetFilePDF2 = $NombreFactura .'.'. $archivoPDF2;
                             $archivos_pdf[] = $originalname ;
                             //Unidad de destino E:
-                            $destinationFolder = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+                            $destinationFolder = 'E:\PRV/'.$request->receptor.'/'.$_SESSION['usuario']->RFC.'/';
                             // $publicPath = 'facturas/'.$_SESSION['usuario']->RFC.'/';
                             if (!is_dir($destinationFolder)) {
                                 mkdir($destinationFolder, 777, true);
@@ -353,7 +371,7 @@ public function ZIP(Request $request){
                             // $viewPath = $publicPath. $targetFilePDF1;
                             // copy($filePath, $viewPath);
                             rename($filePath, $TFilePath);
-                            DB::table('PRVfacturas')->where('factura',$fileNamePDF2)->update(array('PDFsello'=>$fileNamePDF2,'descripcion'=>'Agregue Orden de Compra'));
+                            DB::table('PRVfacturas')->where('factura',$NombreFactura)->update(array('PDFsello'=>$NombreFactura,'descripcion'=>'Agregue Orden de Compra'));
                         }
                     }else{
                         // Eliminar el archivo PDF que no coincide con el nombre del XML
