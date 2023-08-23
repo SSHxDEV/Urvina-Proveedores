@@ -438,7 +438,9 @@ icono.addEventListener('mouseout', function() {
 </script>
 <script>
     $(document).ready(function() {
-        $('#facturas-list').DataTable({
+        var table = $('#facturas-list').DataTable({
+            orderCellsTop:true,
+            fixedHeader:true,
             responsive: true,
             language: {
                 "decimal": "",
@@ -461,6 +463,23 @@ icono.addEventListener('mouseout', function() {
                 }
             },
         });
+
+        //Creamos una fila en el head de la tabla y lo clonamos para cada columna
+        $('#facturas-list thead tr').clone(true).appendTo( '#facturas-list thead' );
+
+        $('#facturas-list thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text(); //es el nombre de la columna
+            $(this).html( '<input type="text" placeholder="{{__('Buscar')}}...'+title+'" />' );
+
+            $( 'input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
     });
 </script>
 <script>
