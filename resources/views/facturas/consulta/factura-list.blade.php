@@ -464,22 +464,32 @@ icono.addEventListener('mouseout', function() {
             },
         });
 
-        //Creamos una fila en el head de la tabla y lo clonamos para cada columna
-        $('#facturas-list thead tr').clone(true).appendTo( '#facturas-list thead' );
+        // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 3
+        var columnsToFilter = [0, 1, 2, 3, 4 ,5 ,6, 7];
 
-        $('#facturas-list thead tr:eq(1) th').each( function (i) {
-            var title = $(this).text(); //es el nombre de la columna
-            $(this).html( '<input type="text" placeholder="{{__('Buscar')}}...'+title+'" />' );
+        // Creamos una fila en el head de la tabla y lo clonamos para cada columna
+        $('#facturas-list thead tr').clone(true).appendTo('#facturas-list thead');
 
-            $( 'input', this ).on( 'keyup change', function () {
-                if ( table.column(i).search() !== this.value ) {
-                    table
-                        .column(i)
-                        .search( this.value )
-                        .draw();
-                }
-            } );
-        } );
+        $('#facturas-list thead tr:eq(1) th').each(function (i) {
+            var title = $(this).text(); // es el nombre de la columna
+
+            // Verificamos si el índice de la columna está en el arreglo columnsToFilter
+            if (columnsToFilter.includes(i)) {
+                $(this).html('<input type="text" placeholder="{{__('Buscar')}}...' + title + '" />');
+
+                $('input', this).on('keyup change', function () {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            } else {
+                $(this).empty(); // Dejamos vacío el contenido en las columnas no filtradas
+            }
+        });
+
     });
 </script>
 <script>

@@ -61,6 +61,9 @@ Route::prefix('{language}')->group(function () {
 
 
 
+//Pruebas
+Route::get('/array-comparer/{orden?}', 'PruebasController@ArrayComparer')->name('arraycomparer');
+
 //Herramientas
 Route::get('/phpinfo', function() {
     phpinfo();
