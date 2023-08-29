@@ -106,7 +106,7 @@ class ValidadorController extends Controller
 
         // Imprimir comprobacion
         if (!empty($excluded_costo)) {
-            Alert::error(__('Las valores unitarios no coinciden en Orden de Compra'), __('Datos incorrectos'.$excluded_costo));
+            Alert::error(__('Las valores unitarios no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_costo));
             return redirect()->back();
         }
 
@@ -128,7 +128,7 @@ class ValidadorController extends Controller
 
         // Imprimir comprobacion
         if (!empty($excluded_importe)) {
-            Alert::error(__('Las importes no coinciden en Orden de Compra'), __('Datos incorrectos'.$excluded_importe));
+            Alert::error(__('Las importes no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_importe));
             return redirect()->back();
         }
 
@@ -150,7 +150,7 @@ class ValidadorController extends Controller
 
         // Imprimir comprobacion
         if (!empty($excluded_cantidad)) {
-            Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos'.$excluded_cantidad));
+            Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
             return redirect()->back();
         }
 
@@ -216,7 +216,7 @@ class ValidadorController extends Controller
                     }
 
 
-            
+
 
                 Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
                 return redirect()->back();

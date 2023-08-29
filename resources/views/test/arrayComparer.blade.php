@@ -1,6 +1,8 @@
 
 <?php
-$xml = simplexml_load_file('test/T31.xml');
+//$xml = simplexml_load_file('test/T31_Importe-error.xml');
+$xml = simplexml_load_file('test/T31_ValorU-error.xml');
+//$xml = simplexml_load_file('test/T31_Cantidad-error.xml');
 $ns = $xml->getNamespaces(true);
 $xml->registerXPathNamespace('c', $ns['cfdi']);
 $xml->registerXPathNamespace('t', $ns['tfd']);
@@ -33,9 +35,7 @@ $excluded_costo = array_diff($valorUArray, $costosArray);
 $excluded_costo = implode(', ', $excluded_costo);
 
 // Imprimir comprobacion
-if (empty($excluded_costo)) {
-    echo "Los arrays de costo son iguales.";
-} else {
+if (!empty($excluded_costo)) {
     echo "Los arrays de costo son diferentes.";
     echo $excluded_costo;
 }
@@ -67,12 +67,13 @@ $excluded_importe = array_diff($valorIArray, $importeArray);
 $excluded_importe = implode(', ', $excluded_importe);
 
 // Imprimir comprobacion
-if (empty($excluded_importe)) {
-    echo "Los arrays de importe son iguales.";
-} else {
+if (!empty($excluded_importe)) {
+
     echo "Los arrays de importe son diferentes.";
     echo $excluded_importe;
 }
+
+
 
 echo "<br>";
 echo "<hr>";
@@ -101,9 +102,7 @@ $excluded_cantidad = array_diff($valorCArray, $cantidadArray);
 $excluded_cantidad = implode(', ', $excluded_cantidad);
 
 // Imprimir comprobacion
-if (empty($excluded_cantidad)) {
-    echo "Los arrays de cantidad son iguales.";
-} else {
+if (!empty($excluded_cantidad)) {
     echo "Los arrays de cantidad son diferentes.";
     echo $excluded_cantidad;
 }

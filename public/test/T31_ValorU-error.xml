@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Serie="T" Folio="31" Fecha="2022-11-02T13:53:57" Sello="QPM+rjE6pw855KO3cc97HpHclT2HsR1o9GDcC0gi15ILuski98a+UoZhwoJn+bP7Jqpusplqi24UWljZA6xQat6dVQXk2SkUyFk+PcsUn91p1RB8GIyTLd8HxNC2f7u2WgtY1cOOAQyUApWlFhqc6o5pQmxNG3h+uwDVd2PpeXIojYIubJwp+/sf88gPkpYQIU1aHkhZ6bGjdPro3c6TjM6MR5fkym7PYGMbPwEfCNVW8jSrt/62WX5yzqo/TSokshhQPns1/Y8CqPlQnP8XEX62RZzhWGVEC+RYoBAsDafDLTDy+bVBqL4WPgB7VWzDet+PdDSt2bZMKSDJanwr0Q==" FormaPago="99" NoCertificado="00001000000504209611" Certificado="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" CondicionesDePago="60 DIAS" SubTotal="56248.70" Moneda="MXN" TipoCambio="1" Total="65248.49" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" LugarExpedicion="52000">
+  <cfdi:Emisor Rfc="CME980528JB6" Nombre="COELI MEXICANA" RegimenFiscal="601" />
+  <cfdi:Receptor Rfc="USI970814616" Nombre="URVINA SERVICIOS INTERNACIONALES" DomicilioFiscalReceptor="52000" RegimenFiscalReceptor="601" UsoCFDI="G01" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="31211918" NoIdentificacion="IQA1-012" Cantidad="183.00" ClaveUnidad="H87" Unidad="pza" Descripcion="SERVICIO INTEGRAL DE LAVADO Y ADMINISTRACIÓN DE OVEROLES PLANTA FORD LAVADO Y ADMINISTRACION DE OVEROLES" ValorUnitario="27.66" ObjetoImp="02" Importe="5061.78">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="5061.78" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="809.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="91111502" NoIdentificacion="LMG3-006" Cantidad="357.00" ClaveUnidad="H87" Unidad="pza" Descripcion="LAVADO DE PLAYERAS FORD" ValorUnitario="14.89" ObjetoImp="02" Importe="5315.73">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="5315.73" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="850.52" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="91111502" NoIdentificacion="LSO1-001" Cantidad="361.00" ClaveUnidad="H87" Unidad="pza" Descripcion="LAVADO DE OVEROL ANTIESTATICO LAVADO DE OVEROL" ValorUnitario="38.90" ObjetoImp="02" Importe="14042.90">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="14042.90" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2246.86" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="72102100" NoIdentificacion="IQA1-016" Cantidad="7.00" ClaveUnidad="H87" Unidad="pza" Descripcion="SERVICIO INTEGRAL DE LAVADO Y ADMINISTRACIÓN DE FUNDAS DE MANGUERAS ANTIESTÁTICAS PLANTA FORD LAVADO Y ADMINISTRACION DE FUNDAS" ValorUnitario="24.50" ObjetoImp="02" Importe="171.50">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="171.50" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="27.44" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="31211918" NoIdentificacion="IQA1-014" Cantidad="4.00" ClaveUnidad="H87" Unidad="pza" Descripcion="SERVICIO INTEGRAL DE LAVADO Y ADMINISTRACIÓN DE BATAS ANIESTATICAS PLANTA FORD LAVADO Y ADMINISTRACION DE BATAS" ValorUnitario="30.66" ObjetoImp="02" Importe="90.64">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="90.64" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="14.50" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="72102100" NoIdentificacion="IQA1-013" Cantidad="25.00" ClaveUnidad="H87" Unidad="pza" Descripcion="SERVICIO INTEGRAL DE LAVADO Y ADMINISTRACIÓN DE COFIAS/ESCAFANDRAS PLANTA FORD LAVADO Y ADMINISTRACION DE COFIAS" ValorUnitario="17.55" ObjetoImp="02" Importe="438.75">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="438.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="70.20" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="72102100" NoIdentificacion="IQA1-015" Cantidad="1.00" ClaveUnidad="H87" Unidad="pza" Descripcion="SERVICIO INTEGRAL DE LAVADO Y ADMINISTRACIÓN DE CANGURERAS ANIESTATICAS PLANTA FORD LAVADO Y ADMINISTRACION DE CANGURERAS" ValorUnitario="17.91" ObjetoImp="02" Importe="17.91">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="17.91" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2.87" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="91111502" NoIdentificacion="IRA2-010" Cantidad="9.00" ClaveUnidad="H87" Unidad="pza" Descripcion="SERVICIO INTEGRAL DE REPARACIÓN Y ADMINISTRACIÓN DE OVEROLES,CANGURERAS Y FUNDAS ANIESTATICAS PLANTA REPARACION Y ADMINISTRACION DE OVEROLES" ValorUnitario="14.15" ObjetoImp="02" Importe="127.35">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="127.35" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="20.38" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="72141700" NoIdentificacion="RSA1-007" Cantidad="1.00" ClaveUnidad="E48" Unidad="SERVICIO" Descripcion="SERVICIO INTEGRAL DE PERSONAL OPERATIVO Y ADMINISTRATIVO EN PLANTA FORD SERVICIO INTEGRAL DE PERSONAL OPERATIVO Y ADMINISTRATIVO EN PLANTA FORD" ValorUnitario="21019.70" ObjetoImp="02" Importe="21019.70">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="21019.70" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="3363.15" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="72141700" NoIdentificacion="RSA1-008" Cantidad="1.00" ClaveUnidad="E48" Unidad="SERVICIO" Descripcion="SERVICIO INTEGRAL DE LOGISTICA RECOLECCIÓN Y ENTREGA DE ITEMS EN PLANTA FORD SERVICIO INTEGRAL DE LOGISTICA RECOLECCIÓN Y ENTREGA DE ITEMS EN PLANTA FORD" ValorUnitario="6750.00" ObjetoImp="02" Importe="6750.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="6750.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1080.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="80101500" NoIdentificacion="RSA1-050" Cantidad="1.00" ClaveUnidad="H87" Unidad="pza" Descripcion="LOGISTICA EXTRA FORD (SABADOS)" ValorUnitario="3212.44" ObjetoImp="02" Importe="3212.44">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3212.44" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="513.99" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="8999.79">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="56248.70" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="8999.79" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="1637790E-5AE8-11ED-8835-35B53A198CA3" FechaTimbrado="2022-11-02T15:59:56" SelloCFD="QPM+rjE6pw855KO3cc97HpHclT2HsR1o9GDcC0gi15ILuski98a+UoZhwoJn+bP7Jqpusplqi24UWljZA6xQat6dVQXk2SkUyFk+PcsUn91p1RB8GIyTLd8HxNC2f7u2WgtY1cOOAQyUApWlFhqc6o5pQmxNG3h+uwDVd2PpeXIojYIubJwp+/sf88gPkpYQIU1aHkhZ6bGjdPro3c6TjM6MR5fkym7PYGMbPwEfCNVW8jSrt/62WX5yzqo/TSokshhQPns1/Y8CqPlQnP8XEX62RZzhWGVEC+RYoBAsDafDLTDy+bVBqL4WPgB7VWzDet+PdDSt2bZMKSDJanwr0Q==" NoCertificadoSAT="00001000000505600468" SelloSAT="NjhhkLI7a0QeooFfAg1YrXAc3XmXW6BxSGmT5qO3qHfNr05NBnv6VgyksPZAbXseHAuuv7ZbtAmX84Yl0UCwMf9fE4Wdp/RkT06L5LME041rTp0ZMf/O5yy3xSqQAt29ZLiJzuTlFPD4qyiAbPoR1M2SKA0cuDksF2ojCkGhrORgFzBUgTmVUPCxGgNTRX0elAWI3UgswiWmNunCI+Cwh3FQ6XLacs2YF/XoeRQ+KKSU3oByVwNmeHwjcFM2U8wuIRF+rtcRCure02YYjdTa6i/bM9AdSc46pQoLfGaHFXeJbLyd1zzUhwoZHgSZgMfrR+qBqSZHTH4FXnqWBapkNA==" RfcProvCertif="EME000602QR9" /></cfdi:Complemento></cfdi:Comprobante>
