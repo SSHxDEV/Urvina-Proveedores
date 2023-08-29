@@ -187,7 +187,7 @@ class ValidadorController extends Controller
             $fileNamePDF2 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePdf2, PATHINFO_FILENAME)); // Elimina caracteres no deseados
             $targetFilePDF2 = $NombreFactura . "." . $archivoPDF2;
 
-            if(pathinfo($nombreXml, PATHINFO_FILENAME) == pathinfo($nombrePdf2, PATHINFO_FILENAME)){
+
                 //BUSCAMOS LA FACTURA EN LA CARPETA
                 $factura = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE uuid = '$uuid'");
 
@@ -216,13 +216,12 @@ class ValidadorController extends Controller
                     }
 
 
-                }
+            
 
                 Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
                 return redirect()->back();
             }
-            Alert::error(__('Error'), __('Su PDF debe tener el mismo nombre que el XML'));
-            return redirect()->back();
+
          }
 
          Alert::error(__('No se encontro'), __('Su factura no es valida para este portal'));
