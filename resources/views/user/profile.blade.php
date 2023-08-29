@@ -183,7 +183,7 @@
                 <!-- Resto del formulario aquí -->
                 <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Nombre')}}</label>
-                    <input type="text" name="nombre" value="{{$_SESSION['usuario']->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
+                    <input type="text" name="nombre" value="{{$_SESSION['usuario']->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required disabled>
                   </div>
                 {{-- <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Correo Electrónico')}}</label>
@@ -202,7 +202,7 @@
                     <h4>{{__('Datos de facturación')}}</h4><br>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('RFC (Número de Identificación Fiscal)')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="{{$_SESSION['usuario']->RFC}}" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required>
+                        <input type="text" name="rfc" class="form-control" value="{{$_SESSION['usuario']->RFC}}" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte el RFC Emisor')}}" required disabled>
                       </div>
                       {{-- <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Dirección')}}</label>
@@ -212,35 +212,35 @@
                         <label for="exampleFormControlInput1">{{__('Codigo Postal')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[0-9]{5}" placeholder="{{__('Código Postal')}}" required>
                       </div> --}}
-                      <center><button type="submit" class="btn btn-primary">{{__('Guardar')}}</button></center>
+                      {{-- <center><button type="submit" class="btn btn-primary">{{__('Guardar')}}</button></center> --}}
                 </div>
             </div>
         </form>
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body">
                     <h4>{{__('Cambio de contraseña')}}</h4><br>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Contraseña Actual')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte la contraseña actual')}}" required>
+                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte la contraseña actual')}}" required disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Contraseña Nueva')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte la nueva contraseña')}}" required>
+                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte la nueva contraseña')}}" required disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Confirmar Contraseña')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Confirme su contraseña')}}" required>
+                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Confirme su contraseña')}}" required disabled>
                       </div>
-                      {{-- <div class="form-group">
+                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Dirección')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Dirección de la empresa')}}" required>
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Codigo Postal')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[0-9]{5}" placeholder="{{__('Código Postal')}}" required>
-                      </div> --}}
-                      <center><button type="submit" class="btn btn-primary">{{__('Cambiar Contraseña')}}</button></center>
-                </div>
+                      </div>
+                       <center><button type="submit" class="btn btn-primary">{{__('Cambiar Contraseña')}}</button></center>
+                </div> --}}
             </div>
             </div>
 
