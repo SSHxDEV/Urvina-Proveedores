@@ -189,7 +189,7 @@
             @if ($factura->OrdenCompra!="")
             <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
-            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
+            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button><small>{{$factura->errores}}</small></td>
             @endif
 
             <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
