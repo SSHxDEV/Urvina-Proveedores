@@ -190,7 +190,7 @@
             @if ($factura->OrdenCompra!="")
             <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
-            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
+            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
             @endif
             <td><small style="color:red">{{$factura->errores}}</small></td>
 
@@ -248,6 +248,9 @@
 
             <!-- Campo oculto para almacenar el ID del registro -->
             <input type="hidden" id="registroid" name="registroid" value="">
+            <input type="hidden" id="emisoroc" name="emisoroc" value="{{$_SESSION['usuario']->RFC}}">
+            <input type="hidden" id="receptoroc" name="receptoroc" value="">
+            <input type="hidden" id="facturaoc" name="facturaoc" value="">
             <!-- Otros campos del formulario -->
 
         </div>
@@ -351,7 +354,11 @@ document.addEventListener('DOMContentLoaded', () => {
   botonesRegistro.forEach((boton) => {
     boton.addEventListener('click', () => {
       const idRegistro = boton.dataset.id;
-      document.getElementById('registroid').value = idRegistro; // Rellenar el campo oculto del formulario
+      const factRegistro = boton.dataset.fact;
+      const receptorRegistro = boton.dataset.receptor;
+      document.getElementById('registroid').value = idRegistro;
+      document.getElementById('facturaoc').value = factRegistro;
+      document.getElementById('receptoroc').value = receptorRegistro; // Rellenar el campo oculto del formulario
 
       modal.show(); // Mostrar el modal utilizando Bootstrap
     });
@@ -466,7 +473,7 @@ icono.addEventListener('mouseout', function() {
             },
         });
 
-        // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 3
+        // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 8
         var columnsToFilter = [0, 1, 2, 3, 4 ,5 ,6, 7, 8];
 
         // Creamos una fila en el head de la tabla y lo clonamos para cada columna

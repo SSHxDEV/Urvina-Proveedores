@@ -161,19 +161,104 @@ class CheckBillController extends Controller
     }
 
     public function AddBuyOrder(Request $request){
-        session_start();
-        if(isset($_SESSION['usuario'])){
-            $OrdenCompra = $request->OrdenCompra;
-            $facturaId = $request->registroid;
-            DB::table('PRVfacturas')
-                ->where('ID', $facturaId)
-                ->update(['OrdenCompra' => $OrdenCompra, 'descripcion' => 'Subido Exitosamente']);
-                Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
-                return redirect()->route('facturas-list', app()->getLocale());
-                
-        }else {
-            return redirect()->route('login', app()->getLocale());
-        }
+        //LINK XML $rutaArchivo = 'E:\PRV/'.$receptor.'/'.$emisor.'/'.$nombreArchivo.'.xml';
+    $contenido = file_get_contents('E:\PRV/'.$request->receptoroc.'/'.$request->emisoroc.'/'.$request->facturaoc.'.xml');
+    $xml = simplexml_load_file($contenido);
+    $ns = $xml->getNamespaces(true);
+    $xml->registerXPathNamespace('c', $ns['cfdi']);
+    $xml->registerXPathNamespace('t', $ns['tfd']);
+    // DATOS FACTURA OBTENIDA DE BD
+    $costos = DB::select("SELECT costo from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
+    $importes = DB::select("SELECT importe from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
+    $cantidades = DB::select("SELECT cantidad from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
+
+                    // Array de XML Costos
+                    $valorUArray = [];
+                    foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                        $valorUArray[] = (string)$Concepto['ValorUnitario'];;
+                    }
+
+                    // Array de BD Costos
+                    $costosArray = [];
+                    foreach ($costos as $costo) {
+                        $costosArray[] = number_format($costo->costo, 2, '.', '');;
+                    }
+
+                    // Comparar valores, sin orden especifico
+                    $excluded_costo = array_diff($valorUArray, $costosArray);
+                    $excluded_costo = implode(', ', $excluded_costo);
+
+                    // Imprimir comprobacion
+                    if (!empty($excluded_costo)) {
+                        $errorinfo = 'Los valores unitarios no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_costo;
+                        DB::table('PRVfacturas')
+                        ->where('uuid', $request->registroid)
+                        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
+                        Alert::error(__('Los valores unitarios no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_costo));
+                        return redirect()->back();
+                    }
+
+                    // Array de XML Importes
+                    $valorIArray = [];
+                    foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                        $valorIArray[] = (string)$Concepto['Importe'];;
+                    }
+
+                    // Array de BD Importes
+                    $importeArray = [];
+                    foreach ($importes as $importe) {
+                        $importeArray[] = number_format($importe->importe, 2, '.', '');;
+                    }
+
+                    // Comparar valores, sin orden especifico
+                    $excluded_importe = array_diff($valorIArray, $importeArray);
+                    $excluded_importe = implode(', ', $excluded_importe);
+
+                    // Imprimir comprobacion
+                    if (!empty($excluded_importe)) {
+                        $errorinfo = 'Los importes no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_importe;
+                        DB::table('PRVfacturas')
+                        ->where('uuid', $request->registroid)
+                        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
+                        Alert::error(__('Los importes no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_importe));
+                        return redirect()->back();
+                    }
+
+                    // Array de XML Cantidades
+                    $valorCArray = [];
+                    foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                        $valorCArray[] = (string)$Concepto['Cantidad'];;
+                    }
+
+                    // Array de BD Cantidades
+                    $cantidadArray = [];
+                    foreach ($cantidades as $cantidad) {
+                        $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');;
+                    }
+
+                    // Comparar valores, sin orden especifico
+                    $excluded_cantidad = array_diff($valorCArray, $cantidadArray);
+                    $excluded_cantidad = implode(', ', $excluded_cantidad);
+
+                    // Imprimir comprobacion
+                    if (!empty($excluded_cantidad)) {
+                        $errorinfo = 'Las cantidades no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_cantidad;
+                        DB::table('PRVfacturas')
+                        ->where('uuid', $request->registroid)
+                        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
+                        Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
+                        return redirect()->back();
+                    }
+
+
+        // Actualizar el campo OrdenCompra en la base de datos con el valor enviado desde el formulario
+        DB::table('PRVfacturas')
+        ->where('uuid', $request->registroid)
+        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Subido Exitosamente', 'errores'=>'']);
+
+        Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
+        return redirect()->route('facturas-list', app()->getLocale());
+
     }
 
 }
