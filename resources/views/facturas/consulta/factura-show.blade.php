@@ -426,7 +426,7 @@
                 console.log(fileRFC);
 
                 // Abre el modal y muestra el archivo dentro de un iframe
-                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="' + decodedFileURL + '" width="100%" height="500px"></iframe>');
+                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="/es/docs-view?emisor={{$_SESSION['usuario']->RFC}}&receptor=' +fileRFC +'&archivo='+ decodedFileURL + '" width="100%" height="500px"></iframe>');
                  // Mostrar el enlace de descarga cuando se cargue el PDF
                 var downloadLink = document.getElementById('downloadXML');
                         downloadLink.href = decodedFileURL; // Obtener la URL de descarga del PDF desde los datos almacenados
