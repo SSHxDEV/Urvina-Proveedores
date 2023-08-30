@@ -220,7 +220,7 @@
         <div class="card-body">
             <div style="padding:20px;background-color: RGBA( 0 , 255 , 0 , 0.2 );" class="row">
                 <div class="col-4"><img class="grow" src="/icons/xml.png" width="60px" alt=""></div>
-                <div class="col-8"><b>{{__('Documento XML de Factura')}}</b><br><a class="btn btn-primary btn-xml" data-file="/{{$data[0]->factura}}.xml"> {{__('Visualizar XML')}}</a></div>
+                <div class="col-8"><b>{{__('Documento XML de Factura')}}</b><br><a class="btn btn-primary btn-xml" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}"> {{__('Visualizar XML')}}</a></div>
             </div>
 
             {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
@@ -269,7 +269,7 @@
             <div style="padding:20px;background-color: RGBA( 0 , 255 , 0 , 0.2 );" class="row">
 
                 <div class="col-4"><a></a><img class="grow" src="/icons/pdf.png" width="60px" alt=""></div>
-                <div class="col-8"><b>{{__('Documento PDF de Factura')}}</b><br><a class="btn btn-primary btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$data[0]->PDFsello}}.pdf')" > {{__('Visualizar PDF')}} </a> </div>
+                <div class="col-8"><b>{{__('Documento PDF de Factura')}}</b><br><a class="btn btn-primary btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$_SESSION['usuario']->RFC}}/{{$factura->PDFsello}}.pdf')" > {{__('Visualizar PDF')}} </a> </div>
             </div>
 
             @endif
@@ -362,6 +362,8 @@
 <script>
     // Función para cargar y visualizar el PDF seleccionado en el contenedor
     function cargarPDF(rutaArchivo) {
+        var fileName = $(this).data("file");
+        var fileRFC = $(this).data("rfc");
         var url = '{{route('docs-view', app()->getLocale())}}?archivo=' + encodeURIComponent(rutaArchivo);
 
         // Cargar el PDF usando PDF.js
@@ -416,12 +418,12 @@
         $(document).ready(function() {
             $(".btn-xml").on("click", function() {
                 var fileName = $(this).data("file");
+                var fileRFC = $(this).data("rfc");
                 // Reemplaza "ruta_archivos/" por la ruta real de tus archivos
 
-                var fileURL = "/es/docs-view?archivo={{$_SESSION['usuario']->RFC}}"+fileName;
-                var decodedFileURL= decodeURIComponent(fileURL);
+                var decodedFileURL= decodeURIComponent(fileName);
 
-                console.log(decodedFileURL);
+                console.log(fileRFC);
 
                 // Abre el modal y muestra el archivo dentro de un iframe
                  $("#xmlModal .modal-body").html('<iframe type="text/plain" src="' + decodedFileURL + '" width="100%" height="500px"></iframe>');
