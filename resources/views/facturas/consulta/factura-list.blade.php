@@ -172,6 +172,7 @@
                 <th class="align-top" style="width:100%">{{__('Factura')}}</th>
                 <th class="align-top" style="width:100%">{{__('UUID')}}</th>
                 <th class="align-top single-line-cell" style="width:100%">{{__('Orden de Compra')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('Error')}}</th>
                 <th class="align-top" style="width:100%">{{__('Subido')}}</th>
                 <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
                 <th  class="align-top" style="">{{__('Importe')}}</th>
@@ -189,8 +190,9 @@
             @if ($factura->OrdenCompra!="")
             <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
-            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button><small>{{$factura->errores}}</small></td>
+            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
             @endif
+            <td><small style="color:red">{{$factura->errores}}</small></td>
 
             <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
             <td>{{$factura->fechaFactura}}</td>
@@ -465,7 +467,7 @@ icono.addEventListener('mouseout', function() {
         });
 
         // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 3
-        var columnsToFilter = [0, 1, 2, 3, 4 ,5 ,6, 7];
+        var columnsToFilter = [0, 1, 2, 3, 4 ,5 ,6, 7, 8];
 
         // Creamos una fila en el head de la tabla y lo clonamos para cada columna
         $('#facturas-list thead tr').clone(true).appendTo('#facturas-list thead');
