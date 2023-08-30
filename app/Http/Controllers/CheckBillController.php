@@ -162,8 +162,8 @@ class CheckBillController extends Controller
 
     public function AddBuyOrder(Request $request){
         //LINK XML $rutaArchivo = 'E:\PRV/'.$receptor.'/'.$emisor.'/'.$nombreArchivo.'.xml';
-    $contenido = file_get_contents('E:\PRV/'.$request->receptoroc.'/'.$request->emisoroc.'/'.$request->facturaoc.'.xml');
-    $xml = simplexml_load_file($contenido);
+    $xml = simplexml_load_file('E:\PRV/'.$request->receptoroc.'/'.$request->emisoroc.'/'.$request->facturaoc.'.xml');
+
     $ns = $xml->getNamespaces(true);
     $xml->registerXPathNamespace('c', $ns['cfdi']);
     $xml->registerXPathNamespace('t', $ns['tfd']);
