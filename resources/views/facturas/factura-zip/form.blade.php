@@ -291,7 +291,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                 <div class="card-body">
                     <div class="row justify-content-md-center">
                         <center>
-                        <div class="col-4">
+                        <div class="col-12">
                             <div class="drop-area"  for="file-input-zip" id="drop-area-zip" onclick="triggerFileInputZip()" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event, 'file-input-zip')">
                                 {{__('Arrastra y suelta aquí el ZIP')}}
                               </div>

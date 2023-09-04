@@ -166,7 +166,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-    <table id="facturas-list" class="display table table-striped compact">
+    <table id="facturas-list" class="display table table-striped table-bordered compact">
         <thead class="">
             <tr class="bg-success">
                 <th class="align-top" style="width:100%">{{__('Factura')}}</th>
@@ -192,11 +192,18 @@
             @else
             <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
             @endif
-            <td><small style="color:red">{{$factura->errores}}</small></td>
+            <?php
+            $parts = explode(':', $factura->errores);
+            ?>
+            @if(count($parts) == 2)
+            <td><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
+            @else
+            <td><small style="color:green"><i class="fas fa-check-double"></i></small></td>
+            @endif
 
             <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
             <td>{{$factura->fechaFactura}}</td>
-            <td><b>${{$factura->total}}</b></td>
+            <td><b>${{number_format($factura->total,2 , '.', ',')}}</b></td>
             <td>{{$factura->moneda}}</td>
 
             @if($factura->descripcion == "Subido Exitosamente")
@@ -256,7 +263,7 @@
         </div>
         <div class="modal-footer">
             <!-- Botón de envío del formulario -->
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button type="submit" class="btn btn-primary">{{__('Registrar')}}</button>
           </form>
 
         </div>

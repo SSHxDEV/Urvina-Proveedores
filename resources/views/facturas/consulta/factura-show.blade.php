@@ -133,16 +133,8 @@
 
 <div class="container">
     <div class="row">
-        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Información de Factura')}}</h4></div>
-        <div class="col-md-3 col-3 ml-auto">
-            <a href="{{route(Route::currentRouteName(),'en')}}">
-                <img src="/icons/en.svg" class="bandera" alt="EN">
-              </a>
-              <a href="{{route(Route::currentRouteName(), 'es' )}}">
-                <img src="/icons/es.svg" class="bandera"  alt="ES">
-              </a>
+        <div class=" col-md-12 col-12"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Información de Factura')}}</h4></div>
 
-          </div>
 
 
     </div>
@@ -203,8 +195,14 @@
                                 <div class="input-group-prepend">
                                 <span style="width:85px" class="input-group-text"><b>{{__('Total')}}</b> </span>
                                 </div>
-                                <input type="text" class="form-control" value="$ {{$data[0]->total}}" disabled>
+                                <input type="text" class="form-control" value="$ {{number_format($data[0]->total,2 , '.', ',')}}" disabled>
                                 </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span style="width:85px" class="input-group-text"><b>{{__('Moneda')}}</b> </span>
+                                    </div>
+                                    <input type="text" class="form-control" value=" {{$data[0]->moneda}}" disabled>
+                                    </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                     <span style="width:85px" class="input-group-text"><b>{{__('Ingreso')}}</b> </span>
