@@ -8,7 +8,7 @@
 html,
 body {
 	align-items: center;
-	background: linear-gradient(#003eff, #0028a9);
+	background: linear-gradient(#0E7E2D, #0F1934);
 	color: white;
 	display: flex;
 	font: 2rem "Poiret One";
