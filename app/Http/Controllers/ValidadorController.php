@@ -75,13 +75,13 @@ class ValidadorController extends Controller
             $serie= (string)$cfdiComprobante['Serie'];
             $folio=(string)$cfdiComprobante['Folio'];
             $NombreFactura=$serie.$folio;
-            
+
 
             //
 
         }
         foreach ($xml->xpath('//t:TimbreFiscalDigital') as $tfd) {
-            $fechaFormateada = date((string)$cfdiComprobante['FechaTimbrado']);
+            $fechaFormateada = date((string)$tfd['FechaTimbrado']);
         }
         // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
         // $emisor= (string)$Emisor['Rfc'];
