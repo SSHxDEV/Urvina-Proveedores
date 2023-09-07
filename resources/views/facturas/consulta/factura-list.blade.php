@@ -206,8 +206,10 @@
             <td><b>${{number_format($factura->total,2 , '.', ',')}}</b></td>
             <td>{{$factura->moneda}}</td>
 
-            @if($factura->descripcion == "Subido Exitosamente")
+            @if($factura->estatus == "Aceptado")
             <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->descripcion) }} </b></td>
+            @elseif($factura->estatus == "Rechazado")
+            <td style="height:20px; text-align: center" class="bg-danger align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
             @else
             <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
             @endif
