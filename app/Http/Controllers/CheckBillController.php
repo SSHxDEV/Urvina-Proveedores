@@ -171,6 +171,16 @@ class CheckBillController extends Controller
     $costos = DB::select("SELECT costo from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
     $importes = DB::select("SELECT importe from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
     $cantidades = DB::select("SELECT cantidad from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
+                    // Confirmar que hay registros de Entrada de compra
+                    if(count($costos)==0){
+                        $errorinfo = 'No se encuentra la entrada de compra';
+                        DB::table('PRVfacturas')
+                        ->where('ID', $request->registroid)
+                        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
+                        Alert::error(__($errorinfo), __('Asegúrese de que la entrada sea correcta o intente nuevamente en otro momento'));
+                        return redirect()->back();
+
+                    }
 
                     // Array de XML Costos
                     $valorUArray = [];
@@ -252,12 +262,18 @@ class CheckBillController extends Controller
 
 
         // Actualizar el campo OrdenCompra en la base de datos con el valor enviado desde el formulario
+        $estatus="Aceptado";
         DB::table('PRVfacturas')
         ->where('ID', $request->registroid)
-        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Subido Exitosamente', 'errores'=>'']);
+        ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Subido Exitosamente', 'errores'=>'', 'estatus'=>$estatus]);
 
         Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
         return redirect()->route('facturas-list', app()->getLocale());
+
+    }
+    // Cron Job de Entradas de Compra (Actualiza los campos verificando facturas y la base de datos)
+    public function CronJobFEC(){
+        // Listar facturas con estado de Vigente
 
     }
 
