@@ -166,6 +166,10 @@ p a {
 }
 
 </style>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+</head>
 <h5>Internal Server error !</h5>
     <h1>5</h1>
     <h1>00</h1>
