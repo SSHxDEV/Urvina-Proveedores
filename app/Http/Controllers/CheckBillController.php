@@ -179,7 +179,6 @@ class CheckBillController extends Controller
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
                         Alert::error(__($errorinfo), __('Asegúrese de que la entrada sea correcta o intente nuevamente en otro momento'));
                         return redirect()->back();
-
                     }
 
                     // Array de XML Costos

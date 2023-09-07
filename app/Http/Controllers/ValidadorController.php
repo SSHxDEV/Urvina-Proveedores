@@ -137,7 +137,7 @@ class ValidadorController extends Controller
 
 
                         //  LINEAS PARA VERIFICAR LA ORDEN DE COMPRA
-                    if($BuyOrder != "" ){
+                    if($BuyOrder != ""){
                     // move_uploaded_file($xmlFile, $destinationPFolder . $targetFileXML);
                     // // move_uploaded_file($pdfFile1, $destinationPFolder . $targetFilePDF1);
                     // move_uploaded_file($pdfFile2, $destinationPFolder . $targetFilePDF2);
@@ -160,6 +160,14 @@ class ValidadorController extends Controller
                     // Comparar valores, sin orden especifico
                     $excluded_costo = array_diff($valorUArray, $costosArray);
                     $excluded_costo = implode(', ', $excluded_costo);
+
+                    if(count($costos)==0){
+                        $errorinfo = 'No se encuentra la entrada de compra';
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue Orden de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
+                        DB::table('PRVfacturas')->insert($data);
+                        Alert::error(__($errorinfo), __('Asegúrese de que la entrada sea correcta o intente nuevamente en otro momento'));
+                        return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
+                    }
 
                     // Imprimir comprobacion
                     if (!empty($excluded_costo)) {
