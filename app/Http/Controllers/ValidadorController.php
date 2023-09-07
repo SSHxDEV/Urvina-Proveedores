@@ -62,7 +62,7 @@ class ValidadorController extends Controller
         $costos = DB::select("SELECT costo from compratcalc where mov='Entrada Compra' and movid= '$BuyOrder'");
         $importes = DB::select("SELECT importe from compratcalc where mov='Entrada Compra' and movid= '$BuyOrder'");
         $cantidades = DB::select("SELECT cantidad from compratcalc where mov='Entrada Compra' and movid= '$BuyOrder'");
-
+        $fechaFormateada='';
         $total='';
         $sello='';
         $moneda='';
@@ -75,10 +75,13 @@ class ValidadorController extends Controller
             $serie= (string)$cfdiComprobante['Serie'];
             $folio=(string)$cfdiComprobante['Folio'];
             $NombreFactura=$serie.$folio;
-            dd((string)$cfdiComprobante['FechaTimbrado']);
-            $fechaFormateada = date((string)$cfdiComprobante['FechaTimbrado']);
+            
+
             //
 
+        }
+        foreach ($xml->xpath('//t:TimbreFiscalDigital') as $tfd) {
+            $fechaFormateada = date((string)$cfdiComprobante['FechaTimbrado']);
         }
         // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
         // $emisor= (string)$Emisor['Rfc'];
