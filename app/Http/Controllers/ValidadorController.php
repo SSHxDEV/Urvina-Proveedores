@@ -77,7 +77,7 @@ class ValidadorController extends Controller
             $NombreFactura=$serie.$folio;
             $fechaHoraOriginal = (string)$cfdiComprobante['FechaTimbrado'];
             $fechaFormateada = date("Y-m-d", strtotime($fechaHoraOriginal));
-            
+
         }
         // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){
         // $emisor= (string)$Emisor['Rfc'];
@@ -227,7 +227,7 @@ class ValidadorController extends Controller
                         Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }
-                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada );
+                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'estatus'=>'Aceptado' );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }else{
