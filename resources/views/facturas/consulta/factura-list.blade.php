@@ -187,7 +187,7 @@
             @foreach ($data as $factura)
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->factura}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
-            @if ($factura->OrdenCompra!="")
+            @if ($factura->estatus="Revision")
             <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
             <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Agregar')}}</b></button></td>
