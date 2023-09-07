@@ -175,13 +175,13 @@ class CheckBillController extends Controller
                     // Array de XML Costos
                     $valorUArray = [];
                     foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
-                        $valorUArray[] = (string)$Concepto['ValorUnitario'];;
+                        $valorUArray[] = (string)$Concepto['ValorUnitario'];
                     }
 
                     // Array de BD Costos
                     $costosArray = [];
                     foreach ($costos as $costo) {
-                        $costosArray[] = number_format($costo->costo, 2, '.', '');;
+                        $costosArray[] = number_format($costo->costo, 2, '.', '');
                     }
 
                     // Comparar valores, sin orden especifico
@@ -192,7 +192,7 @@ class CheckBillController extends Controller
                     if (!empty($excluded_costo)) {
                         $errorinfo = 'Los valores unitarios no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_costo;
                         DB::table('PRVfacturas')
-                        ->where('uuid', $request->registroid)
+                        ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
                         Alert::error(__('Los valores unitarios no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_costo));
                         return redirect()->back();
@@ -201,13 +201,13 @@ class CheckBillController extends Controller
                     // Array de XML Importes
                     $valorIArray = [];
                     foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
-                        $valorIArray[] = (string)$Concepto['Importe'];;
+                        $valorIArray[] = (string)$Concepto['Importe'];
                     }
 
                     // Array de BD Importes
                     $importeArray = [];
                     foreach ($importes as $importe) {
-                        $importeArray[] = number_format($importe->importe, 2, '.', '');;
+                        $importeArray[] = number_format($importe->importe, 2, '.', '');
                     }
 
                     // Comparar valores, sin orden especifico
@@ -218,7 +218,7 @@ class CheckBillController extends Controller
                     if (!empty($excluded_importe)) {
                         $errorinfo = 'Los importes no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_importe;
                         DB::table('PRVfacturas')
-                        ->where('uuid', $request->registroid)
+                        ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
                         Alert::error(__('Los importes no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_importe));
                         return redirect()->back();
@@ -233,7 +233,7 @@ class CheckBillController extends Controller
                     // Array de BD Cantidades
                     $cantidadArray = [];
                     foreach ($cantidades as $cantidad) {
-                        $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');;
+                        $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');
                     }
 
                     // Comparar valores, sin orden especifico
@@ -244,7 +244,7 @@ class CheckBillController extends Controller
                     if (!empty($excluded_cantidad)) {
                         $errorinfo = 'Las cantidades no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_cantidad;
                         DB::table('PRVfacturas')
-                        ->where('uuid', $request->registroid)
+                        ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
                         Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
                         return redirect()->back();
@@ -253,7 +253,7 @@ class CheckBillController extends Controller
 
         // Actualizar el campo OrdenCompra en la base de datos con el valor enviado desde el formulario
         DB::table('PRVfacturas')
-        ->where('uuid', $request->registroid)
+        ->where('ID', $request->registroid)
         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Subido Exitosamente', 'errores'=>'']);
 
         Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
