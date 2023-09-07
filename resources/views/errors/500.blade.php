@@ -170,7 +170,7 @@ p a {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
 </head>
-<h5>Internal Server error !</h5>
+<h5>Servicio no disponible</h5>
     <h1>5</h1>
     <h1>00</h1>
     <div class="box">
@@ -183,7 +183,7 @@ p a {
 			<span></span><span></span>
 			<span></span>
 		</div>
-    <p> We're unable to find out what's happening! We suggest you to
+    <p> El servicio no está disponible en este momento. Le recomendamos regresar al
 			<br/>
-			<a href="#">Go Back</a>
-			or visit here later.</p>
+			<a href="#">Inicio</a>
+			o intentarlo de nuevo más tarde</p>
