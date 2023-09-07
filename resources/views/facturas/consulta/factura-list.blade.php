@@ -171,7 +171,7 @@
             <tr class="bg-success">
                 <th class="align-top" style="width:100%">{{__('Factura')}}</th>
                 <th class="align-top" style="width:100%">{{__('UUID')}}</th>
-                <th class="align-top single-line-cell" style="width:100%">{{__('Orden de Compra')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('Entrada de Compra')}}</th>
                 <th class="align-top single-line-cell" style="width:100%">{{__('Error')}}</th>
                 <th class="align-top" style="width:100%">{{__('Subido')}}</th>
                 <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
@@ -238,7 +238,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{__('Añadir orden de compra')}}</h5>
+          <h5 class="modal-title">{{__('Añadir entrada de compra')}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -251,8 +251,8 @@
             <!-- Campos del formulario -->
             <!-- Puedes usar los campos necesarios para el registro -->
             <div class="form-group">
-                <label for="OrdenCompra">{{__('Orden de Compra')}}</label>
-                <input type="text" name="OrdenCompra" class="form-control" id="OrdenCompra"  placeholder="{{__('Ingrese la Orden de Compra')}}">
+                <label for="OrdenCompra">{{__('Entrada de Compra')}}</label>
+                <input type="text" name="OrdenCompra" class="form-control" id="OrdenCompra"  placeholder="{{__('Ingrese la Entrada de Compra')}}">
               </div>
 
             <!-- Campo oculto para almacenar el ID del registro -->

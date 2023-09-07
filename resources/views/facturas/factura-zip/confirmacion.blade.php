@@ -155,7 +155,7 @@
                     @endif
                     @if(count($archivos_xml)>0)
                     <div class="card  " >
-                        <div class="card-header bg-warning"> <i class="fas fa-exclamation-circle fa-lg"></i> <h5>{{__("Ingrese orden(es) de compra")}}</h5></div>
+                        <div class="card-header bg-warning"> <i class="fas fa-exclamation-circle fa-lg"></i> <h5>{{__("Ingrese entrada(s) de compra")}}</h5></div>
                         <div class="card-body">
                             <form method="post" action="{{route('zip-voc', app()->getLocale())}}">
                                 @csrf
@@ -164,7 +164,7 @@
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-8 col-form-label"><i class="fas fa-circle" style="color:#18ec1b"></i>&nbsp;  {{$OC["nombre"]}} <br></label>
                                 <div class="col-sm-4">
-                                  <input type="text" name="{{ "OrdenCompra" . $OC["id"]}}" value="" class="form-control" id="inputPassword" placeholder="{{__('Orden de compra')}}" required>
+                                  <input type="text" name="{{ "OrdenCompra" . $OC["id"]}}" value="" class="form-control" id="inputPassword" placeholder="{{__('Entrada de compra')}}" required>
                                 </div>
                               </div>
                               <hr>

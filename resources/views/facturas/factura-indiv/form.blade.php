@@ -292,7 +292,7 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
                         <div class="col-12">
                             <center>
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">{{__('Orden de Compra')}}</label>
+                                <label for="exampleFormControlInput1">{{__('Entrada de Compra')}}</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1" name="OrdenCompra" placeholder="MSD213354667" required>
                               </div></center><hr>
                         </div>
