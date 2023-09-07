@@ -196,7 +196,7 @@
             $parts = explode(':', $factura->errores);
             ?>
             @if(count($parts) == 2)
-            <td><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
+            <td class="align-top single-line-cell"><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
             @else
             <td><small style="color:green"><i class="fas fa-check-double"></i></small></td>
             @endif
