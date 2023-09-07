@@ -162,7 +162,7 @@ class ValidadorController extends Controller
                     $excluded_costo = implode(', ', $excluded_costo);
 
                     if(count($costos) == 0){
-                        $errorinfo = 'No se encuentra la entrada de compra';
+                        $errorinfo = 'Error : No se encuentra la entrada de compra';
                         $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue Orden de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
                         DB::table('PRVfacturas')->insert($data);
                         Alert::error(__($errorinfo), __('Asegúrese de que la entrada sea correcta o intente nuevamente en otro momento'));

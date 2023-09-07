@@ -173,7 +173,7 @@ class CheckBillController extends Controller
     $cantidades = DB::select("SELECT cantidad from compratcalc where mov='Entrada Compra' and movid= '$request->OrdenCompra'");
                     // Confirmar que hay registros de Entrada de compra
                     if(count($costos)==0){
-                        $errorinfo = 'No se encuentra la entrada de compra';
+                        $errorinfo = 'Error : No se encuentra la entrada de compra';
                         DB::table('PRVfacturas')
                         ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Agregue Orden de Compra', 'errores'=>$errorinfo]);
