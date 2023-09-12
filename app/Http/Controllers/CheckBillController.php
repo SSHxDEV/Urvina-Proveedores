@@ -273,8 +273,8 @@ class CheckBillController extends Controller
     // Cron Job de Entradas de Compra (Actualiza los campos verificando facturas y la base de datos)
     public function CronJobFEC(){
         // Listar facturas con estado de Vigente
-        return 'Hola, se ejecuto el comando';
-
+        DB::statement("EXEC ActualizarEstatusPRVfacturas");
+        return view('asciiart.usi');
     }
 
 }
