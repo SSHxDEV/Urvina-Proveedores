@@ -272,6 +272,7 @@ class CheckBillController extends Controller
     }
     // Cron Job de Entradas de Compra (Actualiza los campos verificando facturas y la base de datos)
     public function CronJobFEC(){
+        $counterror=0;
         // Ejecutar SP ObtenerDatosFiltradosPRVfacturas
         // Este SP se encarga de Juntar aquellos registros de PRVfacturas en estatus 'Revision' y que el Campo OrdenCompra este presente en tabla compratcalc
         $facturas = DB::select("EXEC ObtenerDatosFiltradosPRVfacturas");
@@ -315,6 +316,7 @@ class CheckBillController extends Controller
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);
+                $counterror++;
             }
 
 
@@ -322,13 +324,13 @@ class CheckBillController extends Controller
             // Array de XML Importes
             $valorIArray = [];
             foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
-                $valorIArray[] = (string)$Concepto['Importe'];;
+                $valorIArray[] = (string)$Concepto['Importe'];
             }
 
             // Array de BD Importes
             $importeArray = [];
             foreach ($importes as $importe) {
-                $importeArray[] = number_format($importe->importe, 2, '.', '');;
+                $importeArray[] = number_format($importe->importe, 2, '.', '');
             }
 
 
@@ -343,6 +345,7 @@ class CheckBillController extends Controller
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);
+                $counterror++;
             }
 
             // Array de XML Cantidades
@@ -367,14 +370,21 @@ class CheckBillController extends Controller
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);
+                $counterror++;
+
+
             }
 
-            DB::table('PRVfacturas')
+            if($counterror==0){
+                DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['estatus'=>'Aceptado']);
-            return view('asciiart.usi');
+            }
+
+
 
         }
+        return view('asciiart.usi');
     }
 
 }
