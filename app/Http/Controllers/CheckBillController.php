@@ -272,9 +272,109 @@ class CheckBillController extends Controller
     }
     // Cron Job de Entradas de Compra (Actualiza los campos verificando facturas y la base de datos)
     public function CronJobFEC(){
-        // Ejecutar SP ActualizarEstatusPRVfacturas
-        DB::statement("EXEC ActualizarEstatusPRVfacturas");
-        return view('asciiart.usi');
+        // Ejecutar SP ObtenerDatosFiltradosPRVfacturas
+        // Este SP se encarga de Juntar aquellos registros de PRVfacturas en estatus 'Revision' y que el Campo OrdenCompra este presente en tabla compratcalc
+        $facturas = DB::select("EXEC ObtenerDatosFiltradosPRVfacturas");
+        // Separamos y haremos evaluacion de cada uno de los registros obtenidos en el SP
+        foreach($facturas as $factura){
+            $costos = DB::select("SELECT costo from compratcalc where mov='Entrada Compra' and movid= '$factura->OrdenCompra'");
+            $importes = DB::select("SELECT importe from compratcalc where mov='Entrada Compra' and movid= '$factura->OrdenCompra'");
+            $cantidades = DB::select("SELECT cantidad from compratcalc where mov='Entrada Compra' and movid= '$factura->OrdenCompra'");
+            $receptor = $factura->receptor;
+            $emisor = $factura->emisor;
+            $nombreArchivo = $factura->factura;
+            $xml = simplexml_load_file('E:\PRV/'.$receptor.'/'.$emisor.'/'.$nombreArchivo.'.xml');
+            $ns = $xml->getNamespaces(true);
+            $xml->registerXPathNamespace('c', $ns['cfdi']);
+            $xml->registerXPathNamespace('t', $ns['tfd']);
+
+
+            //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
+
+
+
+            // Array de XML Costos
+            $valorUArray = [];
+            foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                $valorUArray[] = (string)$Concepto['ValorUnitario'];;
+            }
+
+            // Array de BD Costos
+            $costosArray = [];
+            foreach ($costos as $costo) {
+                $costosArray[] = number_format($costo->costo, 2, '.', '');;
+            }
+
+            // Comparar valores, sin orden especifico
+            $excluded_costo = array_diff($valorUArray, $costosArray);
+            $excluded_costo = implode(', ', $excluded_costo);
+
+            // Imprimir comprobacion
+            if (!empty($excluded_costo)) {
+                $errorinfo = 'Los valores unitarios no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_costo;
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['errores'=>$errorinfo]);
+            }
+
+
+
+            // Array de XML Importes
+            $valorIArray = [];
+            foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                $valorIArray[] = (string)$Concepto['Importe'];;
+            }
+
+            // Array de BD Importes
+            $importeArray = [];
+            foreach ($importes as $importe) {
+                $importeArray[] = number_format($importe->importe, 2, '.', '');;
+            }
+
+
+
+            // Comparar valores, sin orden especifico
+            $excluded_importe = array_diff($valorIArray, $importeArray);
+            $excluded_importe = implode(', ', $excluded_importe);
+
+            // Imprimir comprobacion
+            if (!empty($excluded_importe)) {
+                $errorinfo = 'Los importes no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_importe;
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['errores'=>$errorinfo]);
+            }
+
+            // Array de XML Cantidades
+            $valorCArray = [];
+            foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                $valorCArray[] = (string)$Concepto['Cantidad'];;
+            }
+
+            // Array de BD Cantidades
+            $cantidadArray = [];
+            foreach ($cantidades as $cantidad) {
+                $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');;
+            }
+
+            // Comparar valores, sin orden especifico
+            $excluded_cantidad = array_diff($valorCArray, $cantidadArray);
+            $excluded_cantidad = implode(', ', $excluded_cantidad);
+
+            // Imprimir comprobacion
+            if (!empty($excluded_cantidad)) {
+                $errorinfo = 'Las cantidades no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_cantidad;
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['errores'=>$errorinfo]);
+            }
+
+            DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['estatus'=>'Aceptado']);
+            return view('asciiart.usi');
+
+        }
     }
 
 }
