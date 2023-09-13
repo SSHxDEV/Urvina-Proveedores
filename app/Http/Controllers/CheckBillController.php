@@ -378,7 +378,7 @@ class CheckBillController extends Controller
             if($counterror==0){
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
-                        ->update(['estatus'=>'Aceptado','descripcion'=>'Subido Exitosamente','error'=>'']);
+                        ->update(['estatus'=>'Aceptado','descripcion'=>'Subido Exitosamente','errores'=>'']);
             }
 
 
