@@ -351,13 +351,13 @@ class CheckBillController extends Controller
             // Array de XML Cantidades
             $valorCArray = [];
             foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
-                $valorCArray[] = (string)$Concepto['Cantidad'];;
+                $valorCArray[] = (string)$Concepto['Cantidad'];
             }
 
             // Array de BD Cantidades
             $cantidadArray = [];
             foreach ($cantidades as $cantidad) {
-                $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');;
+                $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');
             }
 
             // Comparar valores, sin orden especifico
