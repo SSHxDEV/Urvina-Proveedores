@@ -199,11 +199,11 @@ class CheckBillController extends Controller
 
                     // Imprimir comprobacion
                     if (!empty($excluded_costo)) {
-                        $errorinfo = 'Los valores unitarios no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_costo;
+                        $errorinfo = 'Los valores unitarios no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_costo;
                         DB::table('PRVfacturas')
                         ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Revision de Entrada de Compra', 'errores'=>$errorinfo]);
-                        Alert::error(__('Los valores unitarios no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_costo));
+                        Alert::error(__('Los valores unitarios no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_costo));
                         return redirect()->back();
                     }
 
@@ -225,11 +225,11 @@ class CheckBillController extends Controller
 
                     // Imprimir comprobacion
                     if (!empty($excluded_importe)) {
-                        $errorinfo = 'Los importes no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_importe;
+                        $errorinfo = 'Los importes no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_importe;
                         DB::table('PRVfacturas')
                         ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Revision de Entrada de Compra', 'errores'=>$errorinfo]);
-                        Alert::error(__('Los importes no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_importe));
+                        Alert::error(__('Los importes no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_importe));
                         return redirect()->back();
                     }
 
@@ -251,11 +251,11 @@ class CheckBillController extends Controller
 
                     // Imprimir comprobacion
                     if (!empty($excluded_cantidad)) {
-                        $errorinfo = 'Las cantidades no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_cantidad;
+                        $errorinfo = 'Las cantidades no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_cantidad;
                         DB::table('PRVfacturas')
                         ->where('ID', $request->registroid)
                         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Revision de Entrada de Compra', 'errores'=>$errorinfo]);
-                        Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
+                        Alert::error(__('Las cantidades no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
                         return redirect()->back();
                     }
 
@@ -266,7 +266,7 @@ class CheckBillController extends Controller
         ->where('ID', $request->registroid)
         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Subido Exitosamente', 'errores'=>'', 'estatus'=>$estatus]);
 
-        Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
+        Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Entrada de Compra.'));
         return redirect()->route('facturas-list', app()->getLocale());
 
     }
@@ -312,7 +312,7 @@ class CheckBillController extends Controller
 
             // Imprimir comprobacion
             if (!empty($excluded_costo)) {
-                $errorinfo = 'Los valores unitarios no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_costo;
+                $errorinfo = 'Los valores unitarios no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_costo;
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);
@@ -341,7 +341,7 @@ class CheckBillController extends Controller
 
             // Imprimir comprobacion
             if (!empty($excluded_importe)) {
-                $errorinfo = 'Los importes no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_importe;
+                $errorinfo = 'Los importes no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_importe;
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);
@@ -366,7 +366,7 @@ class CheckBillController extends Controller
 
             // Imprimir comprobacion
             if (!empty($excluded_cantidad)) {
-                $errorinfo = 'Las cantidades no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_cantidad;
+                $errorinfo = 'Las cantidades no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_cantidad;
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);

@@ -175,10 +175,10 @@ class ValidadorController extends Controller
 
                     // Imprimir comprobacion
                     if (!empty($excluded_costo)) {
-                        $errorinfo = 'Los valores unitarios no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_costo;
+                        $errorinfo = 'Los valores unitarios no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_costo;
                         $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
                         DB::table('PRVfacturas')->insert($data);
-                        Alert::error(__('Las valores unitarios no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_costo));
+                        Alert::error(__('Las valores unitarios no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_costo));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }
 
@@ -200,10 +200,10 @@ class ValidadorController extends Controller
 
                     // Imprimir comprobacion
                     if (!empty($excluded_importe)) {
-                        $errorinfo = 'Los importes no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_importe;
+                        $errorinfo = 'Los importes no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_importe;
                         $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid,'OrdenCompra'=> $BuyOrder, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
                         DB::table('PRVfacturas')->insert($data);
-                        Alert::error(__('Los importes no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_importe));
+                        Alert::error(__('Los importes no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_importe));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }
 
@@ -225,17 +225,17 @@ class ValidadorController extends Controller
 
                     // Imprimir comprobacion
                     if (!empty($excluded_cantidad)) {
-                        $errorinfo = 'Las cantidades no coinciden en Orden de Compra | Datos incorrectos: '.$excluded_cantidad;
+                        $errorinfo = 'Las cantidades no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_cantidad;
                         $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid,'OrdenCompra'=> $BuyOrder, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
                         DB::table('PRVfacturas')->insert($data);
-                        Alert::error(__('Las cantidades no coinciden en Orden de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
+                        Alert::error(__('Las cantidades no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }
                     $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'estatus'=>'Aceptado' );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }else{
-                        Alert::error(__('Invalido'), __('Orden de Compra invalida'));
+                        Alert::error(__('Invalido'), __('Entrada de Compra invalida'));
                         return redirect()->back();
                     }
 
@@ -324,7 +324,9 @@ public function ZIP(Request $request){
                             $NombreFactura=$serie.$folio;
                             $fechaHoraOriginal = (string)$cfdiComprobante['FechaTimbrado'];
                             $fechaObj = new DateTime($fechaHoraOriginal);
-                            $fechaFormateada = $fechaObj->format("Y-m-d");
+                        }
+                        foreach ($xml->xpath('//t:TimbreFiscalDigital') as $tfd) {
+                            $fechaFormateada = date(substr((string)$tfd['FechaTimbrado'], 0, 10));
                         }
 
                         // Se deja el Receptor fijo de URVINA
@@ -439,7 +441,7 @@ public function ZIP(Request $request){
 
                         if(isset($archivos_xml[$objetoxml])){
 
-                        if (basename($filePath,".pdf") !== pathinfo($archivos_xml[$objetoxml], PATHINFO_FILENAME)) {
+                        if (basename($filePath,".pdf") != pathinfo($archivos_xml[$objetoxml], PATHINFO_FILENAME)) {
 
                             // Eliminar el archivo PDF que no coincide con el nombre del XML
                             $archivos_rechazados[$file]["razon"] = "Relacion con XML no encontrada";
@@ -450,8 +452,7 @@ public function ZIP(Request $request){
                         }else{
                             $archivoPDF2 = pathinfo($file, PATHINFO_EXTENSION);
                             $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
-                            $fileNamePDF2 = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($file, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-                            $targetFilePDF2 = $NombreFactura .'.'. $archivoPDF2;
+                            $targetFilePDF2 = $originalname ;
                             $archivos_pdf[] = $originalname ;
                             //Unidad de destino E:
                             $destinationFolder = 'E:\PRV/'.$request->receptor.'/'.$_SESSION['usuario']->RFC.'/';
@@ -463,8 +464,10 @@ public function ZIP(Request $request){
                             $TFilePath = $destinationFolder. $targetFilePDF2;
                             // $viewPath = $publicPath. $targetFilePDF1;
                             // copy($filePath, $viewPath);
+
                             rename($filePath, $TFilePath);
-                            DB::table('PRVfacturas')->where('factura',$NombreFactura)->update(array('PDFsello'=>$NombreFactura,'descripcion'=>'Revision de Entrada de Compra'));
+                            $errorinfo = 'Error : No se encuentra la entrada de compra';
+                            DB::table('PRVfacturas')->where('factura',pathinfo($file, PATHINFO_FILENAME))->update(['PDFsello'=>pathinfo($file, PATHINFO_FILENAME),'descripcion'=>'Revision de Entrada de Compra','errores'=>$errorinfo]);
                         }
                     }else{
                         // Eliminar el archivo PDF que no coincide con el nombre del XML
@@ -498,6 +501,7 @@ public function ZIP(Request $request){
 }
 
 public function VerifyUSIOrder(Request $request){
+    $counterror=0;
     // Obtener los datos enviados del formulario
     $datosFormulario = $request->all();
 
@@ -505,14 +509,119 @@ public function VerifyUSIOrder(Request $request){
     foreach ($datosFormulario as $nombreCampo => $valorCampo) {
         if (strpos($nombreCampo, 'OrdenCompra') === 0) {
             $facturaId = substr($nombreCampo, strlen('OrdenCompra'));
+            $facturas = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE uuid = '$facturaId'");
+            $factura= $facturas[0];
+            $costos = DB::select("SELECT costo from compratcalc where mov='Entrada Compra' and movid= '$factura->OrdenCompra'");
+            $importes = DB::select("SELECT importe from compratcalc where mov='Entrada Compra' and movid= '$factura->OrdenCompra'");
+            $cantidades = DB::select("SELECT cantidad from compratcalc where mov='Entrada Compra' and movid= '$factura->OrdenCompra'");
+            $receptor = $factura->receptor;
+            $emisor = $factura->emisor;
+            $nombreArchivo = $factura->factura;
+            $xml = simplexml_load_file('E:\PRV/'.$receptor.'/'.$emisor.'/'.$nombreArchivo.'.xml');
+            $ns = $xml->getNamespaces(true);
+            $xml->registerXPathNamespace('c', $ns['cfdi']);
+            $xml->registerXPathNamespace('t', $ns['tfd']);
 
-            // Actualizar el campo OrdenCompra en la base de datos con el valor enviado desde el formulario
-            DB::table('PRVfacturas')
-                ->where('uuid', $facturaId)
-                ->update(['OrdenCompra' => $valorCampo, 'descripcion' => 'Subido Exitosamente']);
+
+            //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
+
+
+
+            // Array de XML Costos
+            $valorUArray = [];
+            foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                $valorUArray[] = (string)$Concepto['ValorUnitario'];;
+            }
+
+            // Array de BD Costos
+            $costosArray = [];
+            foreach ($costos as $costo) {
+                $costosArray[] = number_format($costo->costo, 2, '.', '');;
+            }
+
+            // Comparar valores, sin orden especifico
+            $excluded_costo = array_diff($valorUArray, $costosArray);
+            $excluded_costo = implode(', ', $excluded_costo);
+
+            // Imprimir comprobacion
+            if (!empty($excluded_costo)) {
+                $errorinfo = 'Los valores unitarios no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_costo;
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['errores'=>$errorinfo]);
+                $counterror++;
+            }
+
+
+
+            // Array de XML Importes
+            $valorIArray = [];
+            foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                $valorIArray[] = (string)$Concepto['Importe'];
+            }
+
+            // Array de BD Importes
+            $importeArray = [];
+            foreach ($importes as $importe) {
+                $importeArray[] = number_format($importe->importe, 2, '.', '');
+            }
+
+
+
+            // Comparar valores, sin orden especifico
+            $excluded_importe = array_diff($valorIArray, $importeArray);
+            $excluded_importe = implode(', ', $excluded_importe);
+
+            // Imprimir comprobacion
+            if (!empty($excluded_importe)) {
+                $errorinfo = 'Los importes no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_importe;
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['errores'=>$errorinfo]);
+                $counterror++;
+            }
+
+            // Array de XML Cantidades
+            $valorCArray = [];
+            foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
+                $valorCArray[] = (string)$Concepto['Cantidad'];
+            }
+
+            // Array de BD Cantidades
+            $cantidadArray = [];
+            foreach ($cantidades as $cantidad) {
+                $cantidadArray[] = number_format($cantidad->cantidad, 2, '.', '');
+            }
+
+            // Comparar valores, sin orden especifico
+            $excluded_cantidad = array_diff($valorCArray, $cantidadArray);
+            $excluded_cantidad = implode(', ', $excluded_cantidad);
+            dd($excluded_cantidad);
+            // Imprimir comprobacion
+            if (!empty($excluded_cantidad)) {
+                $errorinfo = 'Las cantidades no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_cantidad;
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['errores'=>$errorinfo]);
+                $counterror++;
+
+
+            }
+
+            if($counterror==0){
+                DB::table('PRVfacturas')
+                        ->where('ID', $factura->ID)
+                        ->update(['estatus'=>'Aceptado','descripcion'=>'Subido Exitosamente','errores'=>'']);
+            }
+
+
+
+
+
+
             }
         }
-        Alert::success(__('Registrado correctamente.'), __('Se ha registrado su Orden de Compra.'));
+        Alert::success(__('Registrado correctamente.'), __('Se ha registrado su(s) Entrada(s) de Compra.'));
         return redirect()->route('facturas-list', app()->getLocale());
 
 
