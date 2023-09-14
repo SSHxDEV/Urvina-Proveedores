@@ -510,6 +510,7 @@ public function VerifyUSIOrder(Request $request){
         if (strpos($nombreCampo, 'OrdenCompra') === 0) {
             $facturaId = substr($nombreCampo, strlen('OrdenCompra'));
             $facturas = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE uuid = '$facturaId'");
+        
             $factura= $facturas[0];
             $costos = DB::select("SELECT costo from compratcalc where mov='Entrada Compra' and movid= '$valorCampo'");
             $importes = DB::select("SELECT importe from compratcalc where mov='Entrada Compra' and movid= '$valorCampo'");
@@ -611,7 +612,7 @@ public function VerifyUSIOrder(Request $request){
                 $estatus="Aceptado";
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
-                        ->update(['OrdenCompra'=>$valorCampo,'descripcion'=>'Subido Exitosamente','errores'=>'','estatus'=>$estatus]);
+                        ->update(['descripcion'=>'Subido Ex','errores'=>'','estatus'=>$estatus]);
             }
 
 
