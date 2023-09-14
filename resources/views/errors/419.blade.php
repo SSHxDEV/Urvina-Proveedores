@@ -1,3 +1,3 @@
 <script>
-     window.location.href = '{{route("login")}}'; //using a named route
+     window.location.href = '{{route('login', app()->getLocale())}}'; //using a named route
 </script>
