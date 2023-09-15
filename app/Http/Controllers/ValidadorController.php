@@ -284,10 +284,6 @@ public function ZIP(Request $request){
             $nombreSinExtension = pathinfo($nombreArchivo, PATHINFO_FILENAME);
 
 
-
-
-
-
             // Leer los archivos extraídos
             $files = scandir($tempDir.$nombreSinExtension);
 
@@ -603,8 +599,6 @@ public function VerifyUSIOrder(Request $request){
                         ->where('ID', $factura->ID)
                         ->update(['errores'=>$errorinfo]);
                 $counterror++;
-
-
             }
 
             if($counterror==0){

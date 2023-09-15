@@ -65,8 +65,7 @@ class CheckBillController extends Controller
 
                 $qfactura = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE ID_usuario = {$_SESSION['usuario']->ID} AND ID = {$request->factura}");
                 $factura = $qfactura[0];
-                $PublicDir = 'facturas/'.$_SESSION['usuario']->RFC.'/';
-                $targetDir = 'E:\PRV/'.$_SESSION['usuario']->RFC.'/';
+                $targetDir = 'E:\PRV/'.$factura->receptor.'/'.$_SESSION['usuario']->RFC.'/';
                 $targetFile = '';
                 $publicFile = '';
                 $uploadOk = 1;
@@ -80,10 +79,12 @@ class CheckBillController extends Controller
 
 
                         $nombrePDF = $_FILES['PDFsello']['name'];
-                        $nombre_archivo = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePDF, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-                        $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-                        $targetFile = $targetDir . $nombre_archivo . $fileType;
-                        $publicFile = $PublicDir . $nombre_archivo . $fileType;
+
+
+                        $fileType = strtolower(pathinfo($nombrePDF, PATHINFO_EXTENSION));
+
+                        $targetFile = $targetDir . $nombrePDF;
+
                         // Verificar si es un archivo PDF
                         if ($fileType != "pdf") {
                             Alert::error(__('Archivo invalido'), __('Solo se aceptan archivos PDF'));
@@ -104,51 +105,54 @@ class CheckBillController extends Controller
                             Alert::error(__('El archivo es demasiado grande.'), __('El tamaño máximo permitido es de 5 MB.'));
                             return redirect()->back();
                         }
-                        if($nombre_archivo !== $factura->PDF){
+
+                        if($nombrePDF == $factura->factura.'.pdf'){
+                            $nombreArchivo = 'T31.pdf'; // Reemplaza con tu cadena variable que contiene el nombre del archivo
+
+                        // Quita la extensión ".pdf" de la cadena
+                        $nombreArchivoSinExtension = str_replace('.pdf', '', $nombreArchivo);
                         move_uploaded_file($_FILES["PDFsello"]["tmp_name"], $targetFile);
-                        move_uploaded_file($_FILES["PDFsello"]["tmp_name"], $publicFile);
-                        DB::table('PRVfacturas')->where('factura',$factura->factura)->update(array('PDFsello'=>$nombre_archivo, 'descripcion'=>'Subido Exitosamente',));
+                        DB::table('PRVfacturas')->where('factura',$factura->factura)->update(array('PDFsello'=>$nombreArchivoSinExtension, 'descripcion'=>'Subido Exitosamente',));
                         }
                         Alert::success(__('El archivo se subio correctamente.'), __('Su archivo PDF sera revisado.'));
                         return redirect()->back();
                     }
-                    if(isset($request->PDF)){
+                    // if(isset($request->PDF)){
 
-                        $nombrePDF = $_FILES['PDF']['name'];
-                        $nombre_archivo = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePDF, PATHINFO_FILENAME)); // Elimina caracteres no deseados
-                        $fileType = strtolower(pathinfo($nombrePDF, PATHINFO_EXTENSION));
-                        $targetFile = $targetDir . $nombre_archivo . $fileType;
-                        $publicFile = $PublicDir . $nombre_archivo . $fileType;
-                        // Verificar si es un archivo PDF
-                        if ($fileType != "pdf") {
-                            Alert::error(__('Archivo invalido'), __('Solo se aceptan archivos PDF'));
-                            return redirect()->back();
-                        }
-                        // Verificar si el archivo ya existe
-                        if (file_exists($targetFile)) {
-                            Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
-                            return redirect()->back();
-                        }
-                        if (file_exists($publicFile)) {
-                            Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
-                            return redirect()->back();
-                        }
-                        // Verificar el tamaño máximo del archivo (opcional)
-                        if ($_FILES["PDF"]["size"] > 5242880) { // 5 MB (puedes ajustar este valor)
-                            Alert::error(__('El archivo es demasiado grande.'), __('El tamaño máximo permitido es de 5 MB.'));
-                            return redirect()->back();
-                        }
-                        if($nombre_archivo == $factura->factura){
+                    //     $nombrePDF = $_FILES['PDF']['name'];
+                    //     $nombre_archivo = preg_replace('/[^A-Za-z0-9\-]/', '', pathinfo($nombrePDF, PATHINFO_FILENAME)); // Elimina caracteres no deseados
+                    //     $fileType = strtolower(pathinfo($nombrePDF, PATHINFO_EXTENSION));
+                    //     $targetFile = $targetDir . $nombre_archivo . $fileType;
+                    //     // Verificar si es un archivo PDF
+                    //     if ($fileType != "pdf") {
+                    //         Alert::error(__('Archivo invalido'), __('Solo se aceptan archivos PDF'));
+                    //         return redirect()->back();
+                    //     }
+                    //     // Verificar si el archivo ya existe
+                    //     if (file_exists($targetFile)){
+                    //         Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
+                    //         return redirect()->back();
+                    //     }
+                    //     if (file_exists($publicFile)){
+                    //         Alert::error(__('Factura Repetida'), __('Esta factura ya ha sido subida anteriormente'));
+                    //         return redirect()->back();
+                    //     }
+                    //     // Verificar el tamaño máximo del archivo (opcional)
+                    //     if ($_FILES["PDF"]["size"] > 5242880) { // 5 MB (puedes ajustar este valor)
+                    //         Alert::error(__('El archivo es demasiado grande.'), __('El tamaño máximo permitido es de 5 MB.'));
+                    //         return redirect()->back();
+                    //     }
+                    //     if($nombre_archivo == $factura->factura){
 
-                            move_uploaded_file($_FILES["PDF"]["tmp_name"], $targetFile);
-                            move_uploaded_file($_FILES["PDF"]["tmp_name"], $publicFile);
-                            DB::table('PRVfacturas')->where('factura',$factura->factura)->update(array('PDFsello'=>$nombre_archivo,'descripcion'=>'Subido Exitosamente',));
+                    //         move_uploaded_file($_FILES["PDF"]["tmp_name"], $targetFile);
+                    //         move_uploaded_file($_FILES["PDF"]["tmp_name"], $publicFile);
+                    //         DB::table('PRVfacturas')->where('factura',$factura->factura)->update(array('PDFsello'=>$nombre_archivo,'descripcion'=>'Subido Exitosamente',));
 
-                        }
-                        Alert::success(__('El archivo se subio correctamente.'), __('Su PDF sellado sera revisado.'));
-                        return redirect()->back();
+                    //     }
+                    //     Alert::success(__('El archivo se subio correctamente.'), __('Su PDF sellado sera revisado.'));
+                    //     return redirect()->back();
 
-                    }
+                    // }
 
 
 
@@ -236,7 +240,7 @@ class CheckBillController extends Controller
                     // Array de XML Cantidades
                     $valorCArray = [];
                     foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto) {
-                        $valorCArray[] = (string)$Concepto['Cantidad'];;
+                        $valorCArray[] = (string)$Concepto['Cantidad'];
                     }
 
                     // Array de BD Cantidades
@@ -303,7 +307,7 @@ class CheckBillController extends Controller
             // Array de BD Costos
             $costosArray = [];
             foreach ($costos as $costo) {
-                $costosArray[] = number_format($costo->costo, 2, '.', '');;
+                $costosArray[] = number_format($costo->costo, 2, '.', '');
             }
 
             // Comparar valores, sin orden especifico
