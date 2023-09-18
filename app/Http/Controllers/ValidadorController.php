@@ -273,6 +273,7 @@ public function ZIP(Request $request){
     if (isset($_FILES['zipFile']) && $_FILES['zipFile']['error'] === UPLOAD_ERR_OK) {
         $zipFile = $_FILES['zipFile']['tmp_name'];
         $zip = new ZipArchive();
+        $pdfname="";
 
         if ($zip->open($zipFile) === true) {
 
@@ -385,7 +386,7 @@ public function ZIP(Request $request){
                             // copy($filePath, $viewPath);
 
                             rename($filePath, $TFilePath);
-
+                            $pdfname=$NombreFactura.".pdf";
                            $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue PDF sellado', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada );
                             DB::table('PRVfacturas')->insert($data);
 
@@ -437,6 +438,7 @@ public function ZIP(Request $request){
 
                         if(isset($archivos_xml[$objetoxml])){
 
+
                         if (basename($filePath,".pdf") != pathinfo($archivos_xml[$objetoxml], PATHINFO_FILENAME)) {
 
                             // Eliminar el archivo PDF que no coincide con el nombre del XML
@@ -448,7 +450,7 @@ public function ZIP(Request $request){
                         }else{
                             $archivoPDF2 = pathinfo($file, PATHINFO_EXTENSION);
                             $originalname = pathinfo($file, PATHINFO_FILENAME).'.'.pathinfo($file, PATHINFO_EXTENSION);
-                            $targetFilePDF2 = $originalname ;
+                            $targetFilePDF2 = $pdfname ;
                             $archivos_pdf[] = $originalname ;
                             //Unidad de destino E:
                             $destinationFolder = 'E:\PRV/'.$request->receptor.'/'.$_SESSION['usuario']->RFC.'/';
@@ -463,7 +465,7 @@ public function ZIP(Request $request){
 
                             rename($filePath, $TFilePath);
                             $errorinfo = 'Error : No se encuentra la entrada de compra';
-                            DB::table('PRVfacturas')->where('factura',pathinfo($file, PATHINFO_FILENAME))->update(['PDFsello'=>pathinfo($file, PATHINFO_FILENAME),'descripcion'=>'Revision de Entrada de Compra','errores'=>$errorinfo]);
+                            DB::table('PRVfacturas')->where('factura',pathinfo($pdfname, PATHINFO_FILENAME))->update(['PDFsello'=>pathinfo($file, PATHINFO_FILENAME),'descripcion'=>'Revision de Entrada de Compra','errores'=>$errorinfo]);
                         }
                     }else{
                         // Eliminar el archivo PDF que no coincide con el nombre del XML
