@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CrystalReport xmlns="urn:crystal-reports:schemas:report-detail"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:crystal-reports:schemas:report-detail http://www.businessobjects.com/products/xml/CR2008Schema.xsd">
+<ReportHeader>
+<Section SectionNumber="0">
+<Field Name="OBJVERSION1" FieldName="{CR_WEB_INIT\.OBJVERSION}"><FormattedValue>40000101000000</FormattedValue><Value>40000101000000</Value></Field>
+<Text Name="Text6"><TextValue>Invoice</TextValue>
+</Text>
+<Text Name="Text2"><TextValue>Invoice Date</TextValue>
+</Text>
+<Text Name="Text4"><TextValue>Invoice No.</TextValue>
+</Text>
+<Text Name="Text45"><TextValue>P.O. BOX 751010</TextValue>
+</Text>
+<Text Name="Text44"><TextValue>REMIT TO:</TextValue>
+</Text>
+<Text Name="Text8"><TextValue>Contec, Inc.</TextValue>
+</Text>
+<Text Name="Text1"><TextValue>CHARLOTTE, NC  28275-1010</TextValue>
+</Text>
+<Text Name="Text3"><TextValue>(864) 503-8333</TextValue>
+</Text>
+<Text Name="Text5"><TextValue>Terms of Payment:</TextValue>
+</Text>
+<Field Name="CurrentDate2" FieldName="{@CurrentDate}"><FormattedValue>10-Jul-2023</FormattedValue><Value>2023-07-10</Value></Field>
+<Text Name="Text9"><TextValue>Customer Number</TextValue>
+</Text>
+<Text Name="Text11"><TextValue>Customer Reference</TextValue>
+</Text>
+<Text Name="Text10"><TextValue>Customer PO No.</TextValue>
+</Text>
+<Field Name="CurrentDate3" FieldName="{@CurrentDate}"><FormattedValue>10-Jul-2023</FormattedValue><Value>2023-07-10</Value></Field>
+<Text Name="Text7"><TextValue>Invoice Due Date </TextValue>
+</Text>
+<Text Name="Text30"><TextValue>Shipment ID</TextValue>
+</Text>
+<Field Name="SHIPMENTID2" FieldName="{?SHIPMENT_ID}"><FormattedValue>125669</FormattedValue><Value>125669</Value></Field>
+<Field Name="SHIPMENTID1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIPMENT_ID}"><FormattedValue>125669</FormattedValue><Value>125669.00</Value></Field>
+<Field Name="CUSTOMERNO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.CUSTOMER_NO}"><FormattedValue>15937</FormattedValue><Value>15937</Value></Field>
+<Text Name="Text55"><TextValue>SEE LINE DETAIL</TextValue>
+</Text>
+<Field Name="INVOICENO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.INVOICE_NO}"><FormattedValue>IS125669613251</FormattedValue><Value>IS125669613251</Value></Field>
+<Field Name="PAYTERMSDESC1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.PAY_TERMS_DESC}"><FormattedValue>Due Immediately</FormattedValue><Value>Due Immediately</Value></Field>
+<Picture Name="Picture1" GraphicType="OLE">
+</Picture>
+</Section>
+<Section SectionNumber="1">
+<Text Name="Text24"><TextValue>Bill To: </TextValue>
+</Text>
+<Text Name="Text35"><TextValue>Ship To:</TextValue>
+</Text>
+<Field Name="SHIPADDR11" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIP_ADDR_1}"><FormattedValue>COELI MEXICANA, S.A. DE C.V. -Lerma, Edo de México CP</FormattedValue><Value>COELI MEXICANA, S.A. DE C.V. -Lerma, Edo de México CP</Value></Field>
+<Field Name="BILLADDR11" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.BILL_ADDR_1}"><FormattedValue>Carl Knaack - Sample Account</FormattedValue><Value>Carl Knaack - Sample Account</Value></Field>
+</Section>
+<Section SectionNumber="2">
+<Field Name="SHIPADDR21" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIP_ADDR_2}"><FormattedValue>Blvd. Aeropuerto Miguel Aleman</FormattedValue><Value>Blvd. Aeropuerto Miguel Aleman</Value></Field>
+<Field Name="BILLADDR21" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.BILL_ADDR_2}"><FormattedValue>525 Locust Grove</FormattedValue><Value>525 Locust Grove</Value></Field>
+</Section>
+<Section SectionNumber="4">
+<Field Name="SHIPADDR41" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIP_ADDR_4}"><FormattedValue>Octavio Garcia Castaneda</FormattedValue><Value>Octavio Garcia Castaneda</Value></Field>
+<Field Name="BILLADDR41" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.BILL_ADDR_4}"><FormattedValue></FormattedValue><Value></Value></Field>
+</Section>
+<Section SectionNumber="8">
+<Field Name="SHIPADDR81" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIP_ADDR_8}"><FormattedValue>Lerma,Edo.de Mexico C.P.  52000</FormattedValue><Value>Lerma,Edo.de Mexico C.P.  52000</Value></Field>
+<Field Name="BILLADDR81" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.BILL_ADDR_8}"><FormattedValue>Spartanburg SC 29303</FormattedValue><Value>Spartanburg SC 29303</Value></Field>
+</Section>
+<Section SectionNumber="9">
+<Field Name="SHIPADDR91" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIP_ADDR_9}"><FormattedValue>MEXICO</FormattedValue><Value>MEXICO</Value></Field>
+<Field Name="BILLADDR91" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.BILL_ADDR_9}"><FormattedValue>UNITED STATES</FormattedValue><Value>UNITED STATES</Value></Field>
+</Section>
+<Section SectionNumber="10">
+<Text Name="Text14"><TextValue>Shipped From:</TextValue>
+</Text>
+<Field Name="SENDERADDR11" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SENDER_ADDR_1}"><FormattedValue>CONTEC, INC.  FLATWOOD DISTRIBUTION CENTER</FormattedValue><Value>CONTEC, INC.  FLATWOOD DISTRIBUTION CENTER</Value></Field>
+</Section>
+<Section SectionNumber="11">
+<Field Name="SENDERADDR21" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SENDER_ADDR_2}"><FormattedValue>767 FLATWOOD INDUSTRIAL DRIVE</FormattedValue><Value>767 FLATWOOD INDUSTRIAL DRIVE</Value></Field>
+</Section>
+<Section SectionNumber="17">
+<Field Name="SENDERADDR81" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SENDER_ADDR_8}"><FormattedValue>SPARTANBURG SC 29303-5501</FormattedValue><Value>SPARTANBURG SC 29303-5501</Value></Field>
+</Section>
+<Section SectionNumber="18">
+<Field Name="SENDERADDR91" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SENDER_ADDR_9}"><FormattedValue>UNITED STATES</FormattedValue><Value>UNITED STATES</Value></Field>
+</Section>
+<Section SectionNumber="19">
+<Text Name="Text58"><TextValue>Ship Via: </TextValue>
+</Text>
+<Text Name="Text61"><TextValue>Delivery Terms: </TextValue>
+</Text>
+<Field Name="SHIPVIADESC1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIP_VIA_DESC}"><FormattedValue>Most Economical</FormattedValue><Value>Most Economical</Value></Field>
+<Field Name="DELIVERYTERMSDESC1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.DELIVERY_TERMS_DESC}"><FormattedValue>Prepaid</FormattedValue><Value>Prepaid</Value></Field>
+<Field Name="ACTUALSHIPDATE1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.ACTUAL_SHIP_DATE}"><FormattedValue>06-Jul-2023</FormattedValue><Value>2023-07-06T10:49:43</Value></Field>
+<Text Name="Text25"><TextValue>Ship Date:</TextValue>
+</Text>
+<Text Name="Text64"><TextValue>Delivery Note:</TextValue>
+</Text>
+<Field Name="DELNOTENO2" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.DELNOTE_NO}"><FormattedValue>613251</FormattedValue><Value>613251</Value></Field>
+<Field Name="SALESMAN1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SALESMAN}"><FormattedValue>Carl Knaack</FormattedValue><Value>Carl Knaack</Value></Field>
+<Text Name="Text59"><TextValue>Salesman:</TextValue>
+</Text>
+</Section>
+</ReportHeader>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="CUSTOMERPONO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.CUSTOMER_PO_NO}"><FormattedValue>2023-18802-P</FormattedValue><Value>2023-18802-P</Value></Field>
+<Field Name="LINEORDERNO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.LINE_ORDER_NO}"><FormattedValue>S13196</FormattedValue><Value>S13196</Value></Field>
+<Field Name="LINEORDERLINENO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.LINE_ORDER_LINE_NO}"><FormattedValue>1</FormattedValue><Value>1</Value></Field>
+<Field Name="LINERELEASENO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.LINE_RELEASE_NO}"><FormattedValue>1</FormattedValue><Value>1</Value></Field>
+<Field Name="SHIPMENTLINENO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SHIPMENT_LINE_NO}"><FormattedValue>1</FormattedValue><Value>1.00</Value></Field>
+</Section>
+<Section SectionNumber="1">
+<Field Name="PARTNO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.PART_NO}"><FormattedValue>BELLRINGR25-SAM-BG</FormattedValue><Value>BELLRINGR25-SAM-BG</Value></Field>
+<Field Name="SOURCEUNITMEAS1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.SOURCE_UNIT_MEAS}"><FormattedValue>BG</FormattedValue><Value>BG</Value></Field>
+<Field Name="QTYORDERED1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.QTY_ORDERED}"><FormattedValue>4.00</FormattedValue><Value>4.00</Value></Field>
+<Field Name="LINEITEMQTY1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.LINE_ITEM_QTY}"><FormattedValue>4.00</FormattedValue><Value>4.00</Value></Field>
+<Field Name="LinePrice1" FieldName="{@LinePrice}"><FormattedValue>6.92</FormattedValue><Value>6.92</Value></Field>
+<Field Name="SalesUnitPrice1" FieldName="{@SalesUnitPrice}"><FormattedValue>1.73</FormattedValue><Value>1.73</Value></Field>
+</Section>
+<Section SectionNumber="2">
+<Field Name="PARTDESCRIPTION1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.PART_DESCRIPTION}"><FormattedValue>QUILTEC* 1 KNIT PET 14X16 IN BULK-SAM-BAG</FormattedValue><Value>QUILTEC* 1 KNIT PET 14X16 IN BULK-SAM-BAG</Value></Field>
+</Section>
+<Section SectionNumber="3">
+<Field Name="LOTBATCHNO1" FieldName="{CIV_SHIPMENT_INVOICE_RPT\.LOT_BATCH_NO}"><FormattedValue>912760-0-0-1 (Qty:4,COO:US (UNITED STATES))</FormattedValue><Value>912760-0-0-1 (Qty:4,COO:US (UNITED STATES))</Value></Field>
+<Text Name="Text34"><TextValue>Lot/Batch:
+Part Description</TextValue>
+</Text>
+</Section>
+<Section SectionNumber="5">
+<Subreport Name="Subreport1">
+<ReportHeader>
+</ReportHeader>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="NOTETEXT1" FieldName="{CIV_SHIPMENT_PROFORMA_LINEDOCS\.NOTE_TEXT}"><FormattedValue>Tariff Code(s): HTS 6006.31.0040</FormattedValue><Value>Tariff Code(s): HTS 6006.31.0040</Value></Field>
+</Section>
+</Details>
+<ReportFooter>
+</ReportFooter>
+</Subreport>
+</Section>
+</Details>
+<ReportFooter>
+<Section SectionNumber="0">
+<Text Name="Text82"><TextValue>Sub Total:</TextValue>
+</Text>
+<Field Name="RTotal01" FieldName="{#RTotal0}"><FormattedValue>6.92</FormattedValue><Value>6.92</Value></Field>
+</Section>
+<Section SectionNumber="2">
+<Text Name="Text84"><TextValue>0.00</TextValue>
+</Text>
+<Text Name="Text83"><TextValue>Sales Tax</TextValue>
+</Text>
+</Section>
+<Section SectionNumber="3">
+<Text Name="Text85"><TextValue>Invoice Total:</TextValue>
+</Text>
+<Field Name="RTotal02" FieldName="{#RTotal0}"><FormattedValue>6.92</FormattedValue><Value>6.92</Value></Field>
+<Text Name="Text51"><TextValue>The prices specified on this invoice are in USD unless otherwise noted.The goods contained in this shipment are for sample purposes and have no commercial value. Invoice is for customs clearance only.
+Thank you for your business!</TextValue>
+</Text>
+</Section>
+<Section SectionNumber="4">
+<Subreport Name="Subreport2">
+<ReportHeader>
+</ReportHeader>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="NOTETEXT1" FieldName="{CIV_SHIPMENT_PROFORMA_DOCS\.NOTE_TEXT}"><FormattedValue>For questions about this Sample, please contact Carl Knaack, phone 248-760-9895, email cknaack@contecinc.com</FormattedValue><Value>For questions about this Sample, please contact Carl Knaack, phone 248-760-9895, email cknaack@contecinc.com</Value></Field>
+</Section>
+</Details>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="NOTETEXT1" FieldName="{CIV_SHIPMENT_PROFORMA_DOCS\.NOTE_TEXT}"><FormattedValue>Contec Order# / Customer PO#: S13196 / 2023-18802-P; Shipped Date: 07/06/2023; Carrier Name: UNITED PARCEL SERVICE (UPS); Tracking#: 1ZF6694E6878051229</FormattedValue><Value>Contec Order# / Customer PO#: S13196 / 2023-18802-P; Shipped Date: 07/06/2023; Carrier Name: UNITED PARCEL SERVICE (UPS); Tracking#: 1ZF6694E6878051229</Value></Field>
+</Section>
+</Details>
+<ReportFooter>
+</ReportFooter>
+</Subreport>
+<Text Name="Text87"><TextValue>A Note To Our Customer From Your Sales Representative:</TextValue>
+</Text>
+</Section>
+<Section SectionNumber="5">
+<Subreport Name="Subreport3">
+<ReportHeader>
+</ReportHeader>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="PHRASETEXT1" FieldName="{CIV_SHIPMENT_PROFORMA_PHRASE\.PHRASE_TEXT}"><FormattedValue>
+*****************************************************************************************************
+The products referenced on this document were manufactured in accordance with prescribed procedures and comply with all Contec, Inc. specifications. Certificates  of Conformance, Analysis, Sterility, and MSDS are available for download 24 hours a day on our company website.  Please go to www.contecinc.com, click on &quot;Resources&quot;,  then click on &quot;Request  Certificates&quot; or &quot;MSDS Search&quot;. Enter the required information to request the certificate.  If you require further assistance please contact us via email at CoC@contecinc.com or telephone at +1 864.699.8285 or submit a request via the web site.
+*****************************************************************************************************</FormattedValue><Value>
+*****************************************************************************************************
+The products referenced on this document were manufactured in accordance with prescribed procedures and comply with all Contec, Inc. specifications. Certificates  of Conformance, Analysis, Sterility, and MSDS are available for download 24 hours a day on our company website.  Please go to www.contecinc.com, click on &quot;Resources&quot;,  then click on &quot;Request  Certificates&quot; or &quot;MSDS Search&quot;. Enter the required information to request the certificate.  If you require further assistance please contact us via email at CoC@contecinc.com or telephone at +1 864.699.8285 or submit a request via the web site.
+*****************************************************************************************************</Value></Field>
+</Section>
+</Details>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="PHRASETEXT1" FieldName="{CIV_SHIPMENT_PROFORMA_PHRASE\.PHRASE_TEXT}"><FormattedValue>##########################################################
+NOTE:  ANY DAMAGE OR SHIPMENT DISCREPANCY MUST BE DENOTED ON THE BILL OF LADING AT TIME OF DELIVERY AND MUST BE REPORTED TO CONTEC, INC. WITHIN 24 HOURS OF RECEIPT.  FAILURE TO DO SO WILL RESULT IN SHORTAGE OR DAMAGE RECOVERY CLAIMS NOT BEING ACCEPTED.
+##########################################################</FormattedValue><Value>##########################################################
+NOTE:  ANY DAMAGE OR SHIPMENT DISCREPANCY MUST BE DENOTED ON THE BILL OF LADING AT TIME OF DELIVERY AND MUST BE REPORTED TO CONTEC, INC. WITHIN 24 HOURS OF RECEIPT.  FAILURE TO DO SO WILL RESULT IN SHORTAGE OR DAMAGE RECOVERY CLAIMS NOT BEING ACCEPTED.
+##########################################################</Value></Field>
+</Section>
+</Details>
+<Details Level="1">
+<Section SectionNumber="0">
+<Field Name="PHRASETEXT1" FieldName="{CIV_SHIPMENT_PROFORMA_PHRASE\.PHRASE_TEXT}"><FormattedValue>These items are controlled by the U.S., E.U., &amp; other gov’ts, &amp; authorized for export only to the country of ultimate destination for use by the ultimate consignee or end-user(s) herein identified. They may not be resold, transferred, or otherwise disposed of, to any other country or to any person other than the authorized ultimate consignee or end-user(s), either in their original form or after being incorporated into other items, without first obtaining approval from the U.S., E.U. &amp; other gov’ts, or as otherwise authorized by those gov’t’s law &amp; regulations.</FormattedValue><Value>These items are controlled by the U.S., E.U., &amp; other gov’ts, &amp; authorized for export only to the country of ultimate destination for use by the ultimate consignee or end-user(s) herein identified. They may not be resold, transferred, or otherwise disposed of, to any other country or to any person other than the authorized ultimate consignee or end-user(s), either in their original form or after being incorporated into other items, without first obtaining approval from the U.S., E.U. &amp; other gov’ts, or as otherwise authorized by those gov’t’s law &amp; regulations.</Value></Field>
+</Section>
+</Details>
+<ReportFooter>
+</ReportFooter>
+</Subreport>
+</Section>
+</ReportFooter>
+</CrystalReport>

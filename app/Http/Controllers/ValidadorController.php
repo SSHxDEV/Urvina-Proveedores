@@ -248,7 +248,7 @@ class ValidadorController extends Controller
 
          }
 
-         Alert::error(__('No se encontro'), __('Su factura no es valida para este portal'));
+         Alert::error(__('Archivo no admitido'), __('Verifique que la información sea correcta'));
          return redirect()->back();
 
 

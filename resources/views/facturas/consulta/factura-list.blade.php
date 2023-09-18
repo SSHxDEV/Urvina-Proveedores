@@ -190,7 +190,7 @@
             @if ($factura->estatus!="Revision")
             <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
-            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Editar')}}</b></button></td>
+            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Editar')}}</b></button><small style="color:blue">  &nbsp;&nbsp;{{$factura->OrdenCompra}}</small></td>
             @endif
             <?php
             $parts = explode(':', $factura->errores);

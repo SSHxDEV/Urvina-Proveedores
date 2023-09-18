@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Serie="C" Folio="24244" Fecha="2023-06-15T16:32:40" Sello="jXlXMuIF04jGllSP+OPmUPY87UG787xlF4n8v1d60oVgu/M4KWkSpWk3D3kYfHoCNMS2E8iZnSzXObwWj3LZk7oHjR4ZpkqHUNKgCsb4kdBjc8hwv88Z0K+mstvFHJipyT79tAiGTZCPoPHU7mrjS4p420ClTRhw+NcIiY2HEHQCMMUeQdCRpYqFvsFAGvvpc30a//sNob9uBEuOnL+rh8jCsAd2MPvxRQNYLVCxS77xoInVKhJ6nAFLm6yURQt++yupsq1GVFG27L7+UQbPYkkIdWiz+fev3UqZYd/loXXjOToabxBKpyLWkzf6WDobuQ+S/YVckHgyY8xAoEZtEA==" FormaPago="99" NoCertificado="00001000000504196801" Certificado="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" CondicionesDePago="30 DIAS" SubTotal="15189.10" Moneda="MXN" TipoCambio="1" Total="17619.36" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" LugarExpedicion="52000">
+  <cfdi:Emisor Rfc="USI970814616" Nombre="URVINA SERVICIOS INTERNACIONALES" RegimenFiscal="601" />
+  <cfdi:Receptor Rfc="ESC8911081Q8" Nombre="ELEVADORES SCHINDLER" DomicilioFiscalReceptor="53240" RegimenFiscalReceptor="601" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="46181504" NoIdentificacion="SGC1-016" Cantidad="10.00" ClaveUnidad="PR" Unidad="par" Descripcion="GUANTE DE PIEL OSCARIA TIPO ARGONERO MOD URV016 URVINA" ValorUnitario="64.71" ObjetoImp="02" Importe="647.10">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="647.10" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="103.5360" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="46181507" NoIdentificacion="SEF2-007" Cantidad="14.00" ClaveUnidad="H87" Unidad="pza" Descripcion="CHALECO DE MALLA ANARANJADO C/REFLEJANTE PLASTICO MOD SR-1010CR JYRSA" ValorUnitario="40.50" ObjetoImp="02" Importe="567.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="567.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="90.7200" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="46182300" NoIdentificacion="SEH1-105" Cantidad="5.00" ClaveUnidad="H87" Unidad="pza" Descripcion="ARNES CONTRA CAIDAS TALLA STD MOD 411P-S/L HAWK" ValorUnitario="871.79" ObjetoImp="02" Importe="4358.95">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4358.95" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="697.4320" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="46182300" NoIdentificacion="SEH2-105" Cantidad="5.00" ClaveUnidad="H87" Unidad="pza" Descripcion="CABLE SEGURIDAD AJUSTABLE (135 A 180 MTS) AMORTIGUADOR 601A-STD HAWK" ValorUnitario="948.72" ObjetoImp="02" Importe="4743.60">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4743.60" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="758.9760" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="46182300" NoIdentificacion="SEH9-144" Cantidad="5.00" ClaveUnidad="H87" Unidad="pza" Descripcion="PUNTO FIJO ANILLO ACEROCINTAS POLIESTER 3&amp;quot; 911-6FT HAWK" ValorUnitario="641.03" ObjetoImp="02" Importe="3205.15">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3205.15" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="512.8240" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="53121500" NoIdentificacion="SEZ1-321" Cantidad="5.00" ClaveUnidad="H87" Unidad="pza" Descripcion="MOCHILA PORTA EQUIPO NEGRA MOD MPE HAWK" ValorUnitario="333.46" ObjetoImp="02" Importe="1667.30">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1667.30" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="266.7680" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="2430.26">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="15189.10" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2430.26" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="894FB4D4-0BCC-11EE-AAD1-83536606D985" FechaTimbrado="2023-06-15T17:40:40" SelloCFD="jXlXMuIF04jGllSP+OPmUPY87UG787xlF4n8v1d60oVgu/M4KWkSpWk3D3kYfHoCNMS2E8iZnSzXObwWj3LZk7oHjR4ZpkqHUNKgCsb4kdBjc8hwv88Z0K+mstvFHJipyT79tAiGTZCPoPHU7mrjS4p420ClTRhw+NcIiY2HEHQCMMUeQdCRpYqFvsFAGvvpc30a//sNob9uBEuOnL+rh8jCsAd2MPvxRQNYLVCxS77xoInVKhJ6nAFLm6yURQt++yupsq1GVFG27L7+UQbPYkkIdWiz+fev3UqZYd/loXXjOToabxBKpyLWkzf6WDobuQ+S/YVckHgyY8xAoEZtEA==" NoCertificadoSAT="00001000000700047508" SelloSAT="WxtKpYpe/dndnP6jMHGGWwEwCS1Tbkkg1iq1AQYu9+lbpUwBbz8DKoCSbGeCJr8Aa8m9YCRlQUiDi+/cIkZB0fIbQwoMePCFgRoM/QGlnI3EfAPkcy7GdE8BoFSP6uZdvViaaL/d5uCLoM/B2imIUcJ0kovQMRV8UhumSn+qvCHKCtR3++QH6dahf2SMuIscj/PB6yApFY3Us2GwvlDwoFZ5ePrUUQS+xnrM+8PiOB0TIJwrYpufYO3tJXYKI7lP1yGNZHp7JNpMMsWtrwxR/XIPGSe5gXvbbP0FOi6NaSxoD+kdiNQXvpGvqMYaThytk54I9NQdGx42lQua1gwkxw==" RfcProvCertif="EME000602QR9" /></cfdi:Complemento></cfdi:Comprobante>

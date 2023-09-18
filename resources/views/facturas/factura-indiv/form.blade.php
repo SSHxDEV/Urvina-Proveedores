@@ -15,6 +15,12 @@ use PhpCfdi\SatEstadoCfdi\Soap\SoapClientFactory;
 use PhpCfdi\SatEstadoCfdi\Consumer;
 ?>
 <style>
+    .console-underscore {
+  display:inline-block;
+ position:relative;
+ top:-0.14em;
+ left:10px;
+}
     .drop-area {
       width: 300px;
       height: 200px;
@@ -43,15 +49,16 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
 
     .loading b {
     font-size: 20px;
+
     /* Estilos para el texto "Cargando..." */
     color: #00274c; /* Color azul profundo */
     font-weight: bold;
-    text-shadow: 0 0 8px #00a4ff; /* Sombra de color azul luminoso */
-    background: linear-gradient(90deg, #00a4ff, #00274c); /* Gradiente de color azul luminoso a azul profundo */
+    text-shadow: 0 0 8px #0E7E2D; /* Sombra de color azul luminoso */
+    background: linear-gradient(90deg, #0E7E2D, #00274c); /* Gradiente de color azul luminoso a azul profundo */
     background-clip: text; /* Hace que el gradiente solo aplique al texto */
     -webkit-background-clip: text; /* Compatible con navegadores basados en WebKit */
     color: transparent; /* Hace que el color del texto sea transparente para mostrar el gradiente */
-    }
+}
 
     .loading img {
 
@@ -333,8 +340,8 @@ use PhpCfdi\SatEstadoCfdi\Consumer;
             </form>
             </div>
             <div id="loading" class="loading hidden">
-                <img class="rounded" src="/img/loading.gif" alt="Cargando...">
-                <b style="color:white"><span id="loading-text"></span></b>
+                <img class="rounded" src="/img/loading-logo.gif" alt="Cargando...">
+                <b style="color:white"><div class='console-container'><span id='text'></span><div class='console-underscore' id='console'>&#95;</div></div></b>
             </div>
         </div>
     </div>
@@ -410,11 +417,6 @@ icono.addEventListener('mouseout', function() {
     // Muestra la pantalla de carga
     var loadingElement = document.getElementById('loading');
     loadingElement.classList.remove('hidden');
-
-    // Obtén el elemento del texto "Cargando..."
-    var textElement = document.getElementById('loading-text');
-    var text = {{__("Cargando...")}}; // Texto a mostrar
-    var index = 0; // Índice para seguir la progresión del texto
     document.getElementById('myForm').submit();
 }
 </script>
@@ -551,6 +553,59 @@ icono.addEventListener('mouseout', function() {
         function goBack() {
           window.history.back();
         }
+    </script>
+    <script>
+        // function([string1, string2],target id,[color1,color2])
+ consoleText(['{{__('Espere un momento, por favor.')}}','{{__('Evaluando factura...')}}', '{{__('Consultando con SAT...')}}', '{{__('Verificando existencia de Entrada de Compra...')}}'], 'text',['white','white','white','white']);
+
+function consoleText(words, id, colors) {
+  if (colors === undefined) colors = ['#fff'];
+  var visible = true;
+  var con = document.getElementById('console');
+  var letterCount = 1;
+  var x = 1;
+  var waiting = false;
+  var target = document.getElementById(id)
+  target.setAttribute('style', 'color:' + colors[0])
+  window.setInterval(function() {
+
+    if (letterCount === 0 && waiting === false) {
+      waiting = true;
+      target.innerHTML = words[0].substring(0, letterCount)
+      window.setTimeout(function() {
+        var usedColor = colors.shift();
+        colors.push(usedColor);
+        var usedWord = words.shift();
+        words.push(usedWord);
+        x = 1;
+        target.setAttribute('style', 'color:' + colors[0])
+        letterCount += x;
+        waiting = false;
+      }, 1000)
+    } else if (letterCount === words[0].length + 1 && waiting === false) {
+      waiting = true;
+      window.setTimeout(function() {
+        x = -1;
+        letterCount += x;
+        waiting = false;
+      }, 1000)
+    } else if (waiting === false) {
+      target.innerHTML = words[0].substring(0, letterCount)
+      letterCount += x;
+    }
+  }, 120)
+  window.setInterval(function() {
+    if (visible === true) {
+      con.className = 'console-underscore hidden'
+      visible = false;
+
+    } else {
+      con.className = 'console-underscore'
+
+      visible = true;
+    }
+  }, 400)
+}
     </script>
 
 @stop
