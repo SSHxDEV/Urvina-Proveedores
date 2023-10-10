@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Jenssegers\Date\Date;
+
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CheckBillController extends Controller
@@ -13,12 +14,14 @@ class CheckBillController extends Controller
     }
 
     public function Lista(){
+        
         session_start();
         if(isset($_SESSION['usuario'])){
             if(isset($_SESSION['usuario'])){
                 $data=array();
                 $facturas = DB::select("SELECT * FROM PRVfacturas WHERE ID_usuario = {$_SESSION['usuario']->ID}");
                 foreach ($facturas as $factura) {
+
                     $ModFecha = Date::parse($factura->fecha_modificacion);
                     $IngFecha = Date::parse($factura->fecha_ingreso);
                     $IFecha = $IngFecha->format('l, j F Y H:i:s');
