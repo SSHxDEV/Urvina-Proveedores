@@ -17,7 +17,7 @@ class SupervisionController extends Controller
 {
     public function Lista($language, $receptor){
         session_start();
-        if($receptor = "USI"){
+        if($receptor == "USI"){
             Date::setLocale('es');
             $data=array();
                 $facturas = DB::select("SELECT * from PRVfacturas where receptor='USI970814616'");
@@ -32,7 +32,7 @@ class SupervisionController extends Controller
                 }
             return view('supervision.consulta')->with('data', $data);
         }
-        if($receptor = "COELI"){
+        if($receptor == "COELI"){
             $data=array();
                 $facturas = DB::select("SELECT * from PRVfacturas where receptor='CME980528JB6'");
                 foreach ($facturas as $factura) {
