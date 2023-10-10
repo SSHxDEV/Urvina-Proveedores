@@ -57,6 +57,9 @@ Route::prefix('{language}')->group(function () {
     Route::post('/zip-voc', 'ValidadorController@VerifyUSIOrder')->name('zip-voc');
     Route::post('/add-order', 'CheckBillControlleR@AddBuyOrder')->name('add-order');
 
+    //Consulta de Ordenes ( FINANZAS )
+    Route::get('/facturas-sup/{receptor?}', 'SupervisionController@Lista')->name('facturas-sup');
+
 
 
 

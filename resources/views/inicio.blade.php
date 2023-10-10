@@ -12,6 +12,25 @@
 
 @section('content_header')
 <style>
+    .btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
     #folder-icon:hover {
 
   cursor: pointer; /* Opcionalmente, cambia el cursor al pasar sobre el icono */
@@ -21,6 +40,13 @@
   animation-name: slidein;
 
   animation-direction: alternate;
+}
+
+#opciones1 {
+    display: none;
+}
+#opciones2 {
+    display: none;
 }
 .button {
   transition: transform 0.3s;
@@ -68,11 +94,7 @@
                 max-width:14.5rem;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
 
-            }
             .bandera{
                 width:30px;
             }
@@ -84,10 +106,7 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 10rem;
-                height:23rem;
-            }
+
             .bandera{
                 width:30px;
             }
@@ -99,11 +118,7 @@
                 max-width:9.5rem;
 
             }
-            .card{
-                width: 10rem;
-                height:23rem;
 
-            }
             .bandera{
                 width:45px;
             }
@@ -115,11 +130,7 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
 
-            }
             .bandera{
                 width:45px;
             }
@@ -130,11 +141,7 @@
                 margin-top:10px;
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
 
-            }
             .bandera{
                 width:45px;
             }
@@ -145,11 +152,7 @@
                 margin-top:10px
 
             }
-            .card{
-                width: 15rem;
-                height:21rem;
 
-            }
             .bandera{
                 width:45px;
             }
@@ -180,15 +183,15 @@
 @section('content')
 
 
-<div id="hi" class="jumbotron jumpin">
-    <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']->usuario}}</b></small>!</h1>
-    <p class="lead">{{__("Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y subir sus facturas...")}}</p>
 
-  </div>
-  <div class="">
-            </div>
-            <div class="container-fluid"><center>
-            <div class="row justify-content-md-center" >
+            @if ($_SESSION['usuario']->rol == "proveedor")
+            <div id="hi" class="jumbotron jumpin">
+                <h1 class="display-4">{{__("¡Bienvenido de vuelta")}} <small><b>{{$_SESSION['usuario']->usuario}}</b></small>!</h1>
+                <p class="lead">{{__("Te damos la bienvenida a la actualización del Portal Urvina. Sientase libre de utilizar el portal y subir sus facturas...")}}</p>
+
+              </div>
+            <div  class="container-fluid"><center>
+            <div  class=" row justify-content-md-center"  >
                 <div class="col-md-4 col-sm-12">
                     <a href="{{route('facturas-list', app()->getLocale())}}">
                     <div class="card button" style="height:200px; width:200px">
@@ -231,6 +234,162 @@
             </div>
         </center>
         </div>
+        @endif
+        @if ($_SESSION['usuario']->rol == "finanzas")
+        <div class="container-fluid"><center>
+
+            <div class="row" id="monitor">
+                <hr>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                    <span class="info-box-text">Proveedores Registrados</span>
+                    <span class="info-box-number">{{$Totalp[0]->total}}</span>
+                    </div>
+
+                    </div>
+
+                    </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tasks"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Facturas en Revision</span>
+                <span class="info-box-number">
+                    {{$Totalfr[0]->total}}
+                </span>
+                </div>
+
+                </div>
+
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Facturas Canceladas</span>
+                <span class="info-box-number">{{$Totalfc[0]->total}}</span>
+                </div>
+
+                </div>
+
+                </div>
+
+
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Facturas Aceptadas</span>
+                <span class="info-box-number">{{$Totalfa[0]->total}}</span>
+                </div>
+
+                </div>
+
+                </div>
+
+
+
+                </div>
+                <hr>
+                <div id="opciones" class="row justify-content-md-center"
+
+
+            <div class="col-6" >
+
+                <a id="botonF">
+                <div class="card button" style="height:200px; width:400px">
+                <div class="card-header">
+                    <center>{{__('Consultar Facturas')}}</center>
+                </div>
+                <div class="card-body">
+                    <center><span id="folder-icon" class="far fa-folder fa-5x"></span></center>
+                    {{-- <i class="far fa-folder-open"></i> --}}
+                </div>
+                </div>
+                </a>
+
+
+
+
+        <div class="col-6">
+            <a id="botonP">
+            <div class="card button" style="height:200px; width:400px">
+                <div class="card-header">
+                    <center>{{__('Consultar Proveedores')}}</center>
+                </div>
+                <div class="card-body">
+                    <center><span id="folder-icon" class="far fa-folder fa-5x"></span></center>
+                    {{-- <i class="far fa-folder-open"></i> --}}
+                </div>
+            </div>
+           </a>
+           </div>
+    </div>
+                <div class="row justify-content-center">
+                    <button style="display:none" type="button" id="btngoback" class="btn btn-primary btn-lg btn-circle"><i class="fas fa-undo"></i>
+                    </button>
+                <div class="card buttons" id="opciones1">
+                    <div class="card-body">
+                        <center><h3><b>{{__('Consultar Facturas')}}</b></h3></center>
+                <div class="row justify-content-md-center ">
+
+                    <div class="col-6">
+                        <center>
+                        <a id="boton1" href="facturas-sup/USI" class="btn btn-dark btn-lg" >
+                            <img src="/logo/grupo_urvina_logo.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
+                        </a>
+                        </center>
+                    </div>
+                    <div class="col-6">
+                        <center>
+                        <a id="boton2" href="facturas-sup/COELI" class="btn btn-dark btn-lg " >
+                            <img src="/logo/logo_coeli.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
+                        </a>
+                        </center>
+                    </div>
+
+                </div>
+                    </div>
+                </div>
+            </div>
+                <div class="row justify-content-center">
+                <div class="card buttons" id="opciones2">
+                    <div class="card-body">
+                        <center><h3><b>{{__('Consultar Proveedor')}}</b></h3></center>
+                <div class="row justify-content-md-center ">
+
+                    <div class="col-6">
+                        <center>
+                        <a id="boton3" class="btn btn-dark btn-lg" >
+                            <img src="/logo/grupo_urvina_logo.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
+                        </a>
+                        </center>
+                    </div>
+                    <div class="col-6">
+                        <center>
+                        <a id="boton4" class="btn btn-dark btn-lg " >
+                            <img src="/logo/logo_coeli.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
+                        </a>
+                        </center>
+                    </div>
+
+                </div>
+                    </div>
+                </div>
+            </div>
+                <hr>
+
+        </div>
+
+        </center>
+    </div>
+
+
+        @endif
 
 
 
@@ -329,6 +488,29 @@ icono.addEventListener('mouseout', function() {
         function goBack() {
           window.history.back();
         }
+    </script>
+    <script>
+    document.getElementById("botonP").addEventListener("click", function() {
+    document.getElementById("opciones2").style.display = "block";
+    document.getElementById("btngoback").style.display = "block";
+    document.getElementById("opciones1").style.display = "none";
+    document.getElementById("opciones").style.display = "none";
+    });
+    document.getElementById("botonF").addEventListener("click", function() {
+    document.getElementById("opciones1").style.display = "block";
+    document.getElementById("btngoback").style.display = "block";
+    document.getElementById("opciones2").style.display = "none";
+    document.getElementById("opciones").style.display = "none";
+
+    });
+
+    document.getElementById("btngoback").addEventListener("click", function() {
+    document.getElementById("opciones1").style.display = "none";
+    document.getElementById("btngoback").style.display = "none";
+    document.getElementById("opciones2").style.display = "none";
+    document.getElementById("opciones").style.display = "block";
+
+    });
     </script>
 
 @stop

@@ -11,6 +11,14 @@ class InicioController extends Controller
         if(isset($_SESSION['usuario'])){
             if(isset($_SESSION['usuario'])){
 
+                if($_SESSION['usuario']->rol == "finanzas"){
+                    $Totalp = DB::select("SELECT COUNT(*) AS total FROM PRVusuarios WHERE rol = 'proveedor'");
+                    $Totalfr = DB::select("SELECT COUNT(*) AS total FROM PRVfacturas WHERE estatus = 'Revision'");
+                    $Totalfc = DB::select("SELECT COUNT(*) AS total FROM PRVfacturas WHERE estatus = 'Aceptado'");
+                    $Totalfa = DB::select("SELECT COUNT(*) AS total FROM PRVfacturas WHERE estatus = 'Cancelada'");
+                    
+                    return view('inicio')->with('Totalp', $Totalp)->with('Totalfr', $Totalfr)->with('Totalfc', $Totalfc)->with('Totalfa', $Totalfa);
+                }
             }
         return view('inicio');
     }else {

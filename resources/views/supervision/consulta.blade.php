@@ -160,6 +160,7 @@
 
 @section('content')
 @include('sweetalert::alert')
+
 <div class="container">
         <div class="row">
         <div class="col-12">
@@ -214,10 +215,10 @@
             <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
             @endif
             <td rowspan="1" class="align-top" style="height:20px; width:82px">
-                <a  class="btn-xml" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
+                <a  class="btn-xml" data-emisor="{{$factura->emisor}}" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
                 {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
                     @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
-                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$_SESSION['usuario']->RFC}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
+                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
 
             <td><a class="btn btn-sm btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
@@ -429,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $(".btn-xml").on("click", function() {
                 var fileName = $(this).data("file");
                 var fileRFC = $(this).data("rfc");
+                var fileEmisor = $(this).data("emisor");
                 // Reemplaza "ruta_archivos/" por la ruta real de tus archivos
 
                 var decodedFileURL= decodeURIComponent(fileName);
@@ -436,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(fileRFC);
 
                 // Abre el modal y muestra el archivo dentro de un iframe
-                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="/es/docs-view?emisor={{$_SESSION['usuario']->RFC}}&receptor=' +fileRFC +'&archivo='+ decodedFileURL + '" width="100%" height="500px"></iframe>');
+                 $("#xmlModal .modal-body").html('<iframe type="text/plain" src="/es/docs-view?emisor='+fileEmisor +'&receptor=' +fileRFC +'&archivo='+ decodedFileURL + '" width="100%" height="500px"></iframe>');
                 $("#xmlModal").modal("show");
             });
         });
@@ -456,9 +458,9 @@ icono.addEventListener('mouseout', function() {
 </script>
 <script>
     $(document).ready(function() {
-        
+
         // Verificar si el valor del rol no es igual a "finanzas"
-        if ("{{$_SESSION['usuario']->rol}}" !== "proveedor") {
+        if ("{{$_SESSION['usuario']->rol}}" !== "finanzas") {
         // Redirigir a otra página
         window.location.href = "/sup/inicio"; // Reemplaza "l" con la URL de la página a la que deseas redirigir
         }

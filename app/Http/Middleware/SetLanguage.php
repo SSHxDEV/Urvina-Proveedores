@@ -27,6 +27,9 @@ class SetLanguage
         if($request->language == 'es'){
             $menus = config('menus.es.menu');
         }
+        if($request->language == 'sup'){
+            $menus = config('menus.sup.menu');
+        }
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) use ($menus){
             foreach ($menus as $menu){
                 $event->menu->add($menu);

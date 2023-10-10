@@ -414,6 +414,12 @@
     </script>
     <script>
         $(document).ready(function() {
+            // Verificar si el valor del rol no es igual a "finanzas"
+            if ("{{$_SESSION['usuario']->rol}}" !== "proveedor") {
+            // Redirigir a otra página
+            window.location.href = "/sup/inicio"; // Reemplaza "l" con la URL de la página a la que deseas redirigir
+            }
+
             $(".btn-xml").on("click", function() {
                 var fileName = $(this).data("file");
                 var fileRFC = $(this).data("rfc");
