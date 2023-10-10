@@ -14,7 +14,7 @@ class CheckBillController extends Controller
     }
 
     public function Lista(){
-        
+
         session_start();
         if(isset($_SESSION['usuario'])){
             if(isset($_SESSION['usuario'])){
@@ -115,7 +115,7 @@ class CheckBillController extends Controller
                         // Quita la extensión ".pdf" de la cadena
                         $nombreArchivoSinExtension = str_replace('.pdf', '', $nombreArchivo);
                         move_uploaded_file($_FILES["PDFsello"]["tmp_name"], $targetFile);
-                        DB::table('PRVfacturas')->where('factura',$factura->factura)->update(array('PDFsello'=>$nombreArchivoSinExtension, 'descripcion'=>'Subido Exitosamente',));
+                        DB::table('PRVfacturas')->where('factura',$factura->factura)->update(array('PDFsello'=>$nombreArchivoSinExtension, 'descripcion'=>'Revision de Entrada de Compra',));
                         }
                         Alert::success(__('El archivo se subio correctamente.'), __('Su archivo PDF sera revisado.'));
                         return redirect()->back();
