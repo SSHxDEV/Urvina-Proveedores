@@ -191,7 +191,7 @@
             @if ($factura->estatus!="Revision")
             <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
             @else
-            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Editar')}}</b></button><small style="color:blue">  &nbsp;&nbsp;{{$factura->OrdenCompra}}</small></td>
+            <td  style="height:20px" class="align-top"><button class="btn btn-warning btn-registro" data-id="{{$factura->ID}}" data-fact="{{$factura->factura}}" data-emisor="{{$factura->emisor}}" data-receptor="{{$factura->receptor}}" ><i class="fas fa-clipboard-check"></i> <b>{{__('Editar')}}</b></button><small style="color:blue">  &nbsp;&nbsp;{{$factura->OrdenCompra}}</small></td>
             @endif
             <?php
             $parts = explode(':', $factura->errores);
@@ -218,7 +218,7 @@
                 <a  class="btn-xml" data-emisor="{{$factura->emisor}}" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
                 {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
                     @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
-                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$_SESSION['usuario']->RFC}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
+                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
 
             <td><a class="btn btn-sm btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
@@ -258,7 +258,7 @@
 
             <!-- Campo oculto para almacenar el ID del registro -->
             <input type="hidden" id="registroid" name="registroid" value="">
-            <input type="hidden" id="emisoroc" name="emisoroc" value="{{$_SESSION['usuario']->RFC}}">
+            <input type="hidden" id="emisoroc" name="emisoroc" value="">
             <input type="hidden" id="receptoroc" name="receptoroc" value="">
             <input type="hidden" id="facturaoc" name="facturaoc" value="">
             <!-- Otros campos del formulario -->
@@ -365,10 +365,12 @@ document.addEventListener('DOMContentLoaded', () => {
     boton.addEventListener('click', () => {
       const idRegistro = boton.dataset.id;
       const factRegistro = boton.dataset.fact;
+      const emisorRegistro = boton.dataset.emisor;
       const receptorRegistro = boton.dataset.receptor;
       document.getElementById('registroid').value = idRegistro;
       document.getElementById('facturaoc').value = factRegistro;
-      document.getElementById('receptoroc').value = receptorRegistro; // Rellenar el campo oculto del formulario
+      document.getElementById('emisoroc').value = emisorRegistro; // Rellenar el campo oculto del formulario
+      document.getElementById('receptoroc').value = receptorRegistro;
 
       modal.show(); // Mostrar el modal utilizando Bootstrap
     });
