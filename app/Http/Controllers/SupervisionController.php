@@ -56,7 +56,7 @@ class SupervisionController extends Controller
             $data=array();
                 $proveedores = DB::select("SELECT * from PRVfacturas where receptor='USI970814616'");
                 foreach ($proveedores as $proveedor) {
-                    $Usuario = DB::select("SELECT * from PRVusuarios where ID_usuario=$proveedor->ID");
+                    $Usuario = DB::select("SELECT * from PRVusuarios where ID=$proveedor->ID_usuario");
                     $ModFecha = Date::parse($proveedor->fecha_modificacion);
                     $IngFecha = Date::parse($proveedor->fecha_ingreso);
                     $IFecha = $IngFecha->format('l, j F Y H:i:s');
