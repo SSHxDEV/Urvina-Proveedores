@@ -40,8 +40,12 @@ class LoginController extends Controller
             session_start();
             $_SESSION['usuario'] = $user;
             if($_SESSION['usuario']->rol == "finanzas"){
-                
+
                 return redirect()->route('home', 'sup')->with('usuario', $user);
+            }
+            if($_SESSION['usuario']->rol == "proveedor"){
+
+                return redirect()->route('home', 'es')->with('usuario', $user);
             }
             return redirect()->route('home', app()->getLocale())->with('usuario', $user);
         }
