@@ -57,13 +57,13 @@ return[
             'submenu' => [
                 [
                     'text'  => 'Proveedores Urvina',
-                    'url'   => 'sup/facturas-sup/USI',
+                    'url'   => 'sup/proveedor-sup/USI',
                     'icon'  => 'far fa-folder',
                     'shift' => 'ml-4',
                 ],
                 [
                     'text'  => 'Proveedores COELI',
-                    'url'   => 'sup/facturas-sup/COELI',
+                    'url'   => 'sup/proveedor-sup/COELI',
                     'icon'  => 'far fa-folder',
                     'shift' => 'ml-4',
                 ],
