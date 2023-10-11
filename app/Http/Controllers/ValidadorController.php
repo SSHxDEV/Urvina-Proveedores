@@ -606,6 +606,7 @@ public function VerifyUSIOrder(Request $request){
             if($counterror==0){
                 $estatus="Aceptado";
                 DB::table('PRVfacturas')
+                        ->where('PDFsello', '!=', null)
                         ->where('ID', $factura->ID)
                         ->update(['OrdenCompra'=>$valorCampo,'descripcion'=>'Subido Exitosamente','errores'=>'','estatus'=>$estatus]);
             }

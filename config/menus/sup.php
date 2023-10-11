@@ -30,18 +30,43 @@ return[
             'label_color' => 'success',
         ],
         [
-            'text'        => 'Facturas',
+            'text'        => 'Consultar Facturas',
             'icon'        => 'fas fa-file-invoice',
             'icon_color' => 'green',
             'label_color' => 'success',
             'submenu' => [
                 [
-                    'text'  => 'Consultar Facturas',
-                    'url'   => 'sup/facturas-sup',
+                    'text'  => 'Facturas Urvina',
+                    'url'   => 'sup/facturas-sup/USI',
                     'icon'  => 'far fa-folder',
                     'shift' => 'ml-4',
                 ],
-
+                [
+                    'text'  => 'Facturas COELI',
+                    'url'   => 'sup/facturas-sup/COELI',
+                    'icon'  => 'far fa-folder',
+                    'shift' => 'ml-4',
+                ],
+            ]
+        ],
+        [
+            'text'        => 'Consultar Proveedores',
+            'icon'        => 'fas fa-users',
+            'icon_color' => 'green',
+            'label_color' => 'success',
+            'submenu' => [
+                [
+                    'text'  => 'Proveedores Urvina',
+                    'url'   => 'sup/facturas-sup/USI',
+                    'icon'  => 'far fa-folder',
+                    'shift' => 'ml-4',
+                ],
+                [
+                    'text'  => 'Proveedores COELI',
+                    'url'   => 'sup/facturas-sup/COELI',
+                    'icon'  => 'far fa-folder',
+                    'shift' => 'ml-4',
+                ],
             ]
         ],
 
