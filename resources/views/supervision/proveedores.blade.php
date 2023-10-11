@@ -189,54 +189,7 @@
             @foreach ($data as $factura)
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->factura}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
-            @if ($factura->estatus!="Revision")
-            <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
-            @else
-            <td  style="height:20px" class="align-top">
-                <?php if($factura->PDFsello != NULL){
-                    echo '<button class="btn btn-warning btn-registro" data-id="'.$factura->ID.'" data-fact="'.$factura->factura.'" data-receptor="'.$factura->receptor.'" ><i class="fas fa-clipboard-check"></i> <b>'.__("Editar").'</b></button><small style="color:blue">  &nbsp;&nbsp;'.$factura->OrdenCompra.'</small>';
-                }?>
-            </td>
-            @endif
-            <?php
-            $parts = explode(':', $factura->errores);
-            ?>
-            @if(count($parts) == 2)
-            <td class="align-top single-line-cell"><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
-            @else
-            <td class="align-top single-line-cell">
-            @if ($factura->PDFsello == NULL)
-            <small style="color:red">No se encontro el PDF</small>
-            @endif
-
-            <small style="color:green"></small></td>
-
-            @endif
-
-            <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
-            <td>{{$factura->fechaFactura}}</td>
-            <td>{{$factura->CondicionesDePago}}</td>
-            <td><b>${{number_format($factura->total,2 , '.', ',')}}</b></td>
-            <td>{{$factura->moneda}}</td>
-
-            @if($factura->estatus == "Aceptado")
-            <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->descripcion) }} </b></td>
-            @elseif($factura->estatus == "Rechazado")
-            <td style="height:20px; text-align: center" class="bg-danger align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
-            @else
-            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
-            @endif
-            <td rowspan="1" class="align-top" style="height:20px; width:82px">
-                <a  class="btn-xml" data-emisor="{{$factura->emisor}}" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
-                {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
-                    @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
-                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
-            </td>
-
-            <td><a class="btn btn-sm btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
-
-
-        </tr>
+            
             @endforeach
 
 

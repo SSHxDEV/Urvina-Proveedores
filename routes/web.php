@@ -59,6 +59,7 @@ Route::prefix('{language}')->group(function () {
 
     //Consulta de Ordenes ( FINANZAS )
     Route::get('/facturas-sup/{receptor?}', 'SupervisionController@Lista')->name('facturas-sup');
+    Route::get('/proveedor-sup/{receptor?}', 'SupervisionController@proveedores')->name('proveedor-sup');
 
 
 
