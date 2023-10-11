@@ -67,6 +67,7 @@ class ValidadorController extends Controller
         $sello='';
         $moneda='';
         $NombreFactura='';
+        $CondicionesDePago='';
 
         //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
         foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){
@@ -167,7 +168,7 @@ class ValidadorController extends Controller
 
                     if(count($costos) == 0){
                         $errorinfo = 'Error : No se encuentra la entrada de compra';
-                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo, 'CondicionesDePago'=> $CondicionesDePago);
                         DB::table('PRVfacturas')->insert($data);
                         Alert::error(__($errorinfo), __('Asegúrese de que la entrada sea correcta o intente nuevamente en otro momento'));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
@@ -176,7 +177,7 @@ class ValidadorController extends Controller
                     // Imprimir comprobacion
                     if (!empty($excluded_costo)) {
                         $errorinfo = 'Los valores unitarios no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_costo;
-                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total,'OrdenCompra'=> $BuyOrder, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo, 'CondicionesDePago'=> $CondicionesDePago );
                         DB::table('PRVfacturas')->insert($data);
                         Alert::error(__('Las valores unitarios no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_costo));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
@@ -201,7 +202,7 @@ class ValidadorController extends Controller
                     // Imprimir comprobacion
                     if (!empty($excluded_importe)) {
                         $errorinfo = 'Los importes no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_importe;
-                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid,'OrdenCompra'=> $BuyOrder, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid,'OrdenCompra'=> $BuyOrder, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo, 'CondicionesDePago'=> $CondicionesDePago );
                         DB::table('PRVfacturas')->insert($data);
                         Alert::error(__('Los importes no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_importe));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
@@ -226,12 +227,12 @@ class ValidadorController extends Controller
                     // Imprimir comprobacion
                     if (!empty($excluded_cantidad)) {
                         $errorinfo = 'Las cantidades no coinciden en Entrada de Compra | Datos incorrectos: '.$excluded_cantidad;
-                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid,'OrdenCompra'=> $BuyOrder, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo );
+                        $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid,'OrdenCompra'=> $BuyOrder, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Revision de Entrada de Compra', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'errores'=>$errorinfo, 'CondicionesDePago'=> $CondicionesDePago );
                         DB::table('PRVfacturas')->insert($data);
                         Alert::error(__('Las cantidades no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }
-                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'estatus'=>'Aceptado' );
+                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'estatus'=>'Aceptado', 'CondicionesDePago'=> $CondicionesDePago );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }else{
@@ -314,6 +315,7 @@ public function ZIP(Request $request){
 
                         //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA
                         foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){
+                            $CondicionesDePago = (string)$cfdiComprobante['CondicionesDePago'];
                             $total= (string)$cfdiComprobante['Total'];
                             $moneda= (string)$cfdiComprobante['Moneda'];
                             $serie= (string)$cfdiComprobante['Serie'];
@@ -387,7 +389,7 @@ public function ZIP(Request $request){
 
                             rename($filePath, $TFilePath);
                             $pdfname=$NombreFactura.".pdf";
-                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue PDF sellado', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada );
+                           $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Agregue PDF sellado', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> '','receptor'=>$receptor, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'CondicionesDePago'=> $CondicionesDePago );
                             DB::table('PRVfacturas')->insert($data);
 
                            }else{
