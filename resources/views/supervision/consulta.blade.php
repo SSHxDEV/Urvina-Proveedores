@@ -176,6 +176,7 @@
                 <th class="align-top single-line-cell" style="width:100%">{{__('Error')}}</th>
                 <th class="align-top" style="width:100%">{{__('Subido')}}</th>
                 <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
+                <th  class="align-top single-line-cell" style="">{{__('Condicion de Pago')}}</th>
                 <th  class="align-top" style="">{{__('Importe')}}</th>
                 <th  class="align-top" style="">{{__('Moneda')}}</th>
                 <th  class="align-top" style="">{{__('Estatus')}}</th>
@@ -214,6 +215,7 @@
 
             <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
             <td>{{$factura->fechaFactura}}</td>
+            <td>{{$factura->CondicionesDePago}}</td>
             <td><b>${{number_format($factura->total,2 , '.', ',')}}</b></td>
             <td>{{$factura->moneda}}</td>
 
