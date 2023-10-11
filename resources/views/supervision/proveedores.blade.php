@@ -4,6 +4,20 @@
 
 @section('content_header')
 <style>
+        .profile-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  opacity: .8;
+  text-align: center;
+}
 
     #folder-icon:hover {
 
@@ -170,26 +184,27 @@
     <table id="facturas-list" class="display table table-striped table-bordered compact">
         <thead class="">
             <tr class="bg-success">
-                <th class="align-top" style="width:100%">{{__('Factura')}}</th>
-                <th class="align-top" style="width:100%">{{__('UUID')}}</th>
-                <th class="align-top single-line-cell" style="width:100%">{{__('Entrada de Compra')}}</th>
-                <th class="align-top single-line-cell" style="width:100%">{{__('Error')}}</th>
-                <th class="align-top" style="width:100%">{{__('Subido')}}</th>
-                <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
-                <th  class="align-top single-line-cell" style="">{{__('Condicion de Pago')}}</th>
-                <th  class="align-top" style="">{{__('Importe')}}</th>
-                <th  class="align-top" style="">{{__('Moneda')}}</th>
-                <th  class="align-top" style="">{{__('Estatus')}}</th>
-                <th class="align-top" style="width:82px">{{__('Adjuntos')}}</th>
-                <th  class="align-top" style="">{{__('Opciones')}}</th>
+                <th class="align-top" style="width:100%">{{__('Imagen')}}</th>
+                <th class="align-top" style="width:100%">{{__('Proveedor')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('RFC')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('Fecha Ingreso')}}</th>
+                <th class="align-top" style="width:100%">{{__('Fecha Modificación')}}</th>
+                <th class="align-top" style="width:100%">{{__('Opciones')}}</th>
             </tr>
         </thead>
         <tbody>
 
             @foreach ($data as $factura)
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->factura}}</td>
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
-            
+            @foreach ($factura->Usuario as $Usuario)
+
+            @endforeach
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><img src="{{$Usuario->imagen}}" style="max-width:50px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image"></td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->usuario}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->RFC}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->FechaI}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->FechaM}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a href="#" class="btn btn-secondary"> Ver Mas </a></td>
+
             @endforeach
 
 
@@ -464,7 +479,7 @@ icono.addEventListener('mouseout', function() {
         );
 
         // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 8
-        var columnsToFilter = [0, 1, 2, 3, 4 ,5 ,6, 7, 8, 9];
+        var columnsToFilter = [ 1, 2, 3, 4 ];
 
         // Creamos una fila en el head de la tabla y lo clonamos para cada columna
         $('#facturas-list thead tr').clone(true).appendTo('#facturas-list thead');
