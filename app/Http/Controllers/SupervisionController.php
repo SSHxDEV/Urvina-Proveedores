@@ -177,7 +177,7 @@ class SupervisionController extends Controller
 
                 $qfactura = DB::select("SELECT TOP 1 * FROM PRVfacturas WHERE  ID = {$request->factura}");
                 $factura = $qfactura[0];
-                $targetDir = 'E:\PRV/'.$factura->receptor.'/'.$_SESSION['usuario']->RFC.'/';
+                $targetDir = 'E:\PRV/'.$factura->receptor.'/'.$factura->emisor.'/';
                 $targetFile = '';
                 $publicFile = '';
                 $uploadOk = 1;
