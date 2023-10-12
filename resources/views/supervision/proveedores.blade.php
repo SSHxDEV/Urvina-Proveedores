@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', __('Consulta de Facturas'))
+@section('title', __('Consulta de Proveedores'))
 
 @section('content_header')
 <style>
@@ -153,7 +153,14 @@
 
 <div class="container">
     <div class="row">
-        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Consulta de Facturas')}}</h4></div>
+        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Consulta de Proveedores')}} <?php
+            if($receptor=='USI'){
+                echo '| Grupo Urvina';
+            }
+            if($receptor=='COELI'){
+             echo '| COELI';
+            }
+            ?></h4></div>
         <div class="col-md-3 col-3 ml-auto">
             <a href="{{route(Route::currentRouteName(),'en')}}">
                 <img src="/icons/en.svg" class="bandera" alt="EN">
@@ -183,7 +190,7 @@
                     <div class="table-responsive">
     <table id="facturas-list" class="display table table-striped table-bordered compact">
         <thead class="">
-            <tr class="bg-success">
+            <tr class="bg-primary">
                 <th class="align-top" style="width:100%">{{__('Imagen')}}</th>
                 <th class="align-top" style="width:100%">{{__('Proveedor')}}</th>
                 <th class="align-top single-line-cell" style="width:100%">{{__('RFC')}}</th>
@@ -203,7 +210,7 @@
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->RFC}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->FechaI}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->FechaM}}</td>
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a href="#" class="btn btn-secondary"> Ver Mas </a></td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a href="/sup/user-bill-list/{{$Usuario->ID}}" class="btn btn-secondary"> <i class="fas fa-file-invoice"></i> Facturas </a></td>
 
             @endforeach
 

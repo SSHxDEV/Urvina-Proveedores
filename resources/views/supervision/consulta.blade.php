@@ -139,7 +139,16 @@
 
 <div class="container">
     <div class="row">
-        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Consulta de Facturas')}}</h4></div>
+        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Consulta de Facturas')}} <?php
+            if(isset($receptor)){
+            if($receptor=='USI'){
+                echo '| Grupo Urvina';
+            }
+            if($receptor=='COELI'){
+             echo '| COELI';
+            }
+            }
+            ?></h4></div>
         <div class="col-md-3 col-3 ml-auto">
             <a href="{{route(Route::currentRouteName(),'en')}}">
                 <img src="/icons/en.svg" class="bandera" alt="EN">
@@ -220,11 +229,11 @@
             <td>{{$factura->moneda}}</td>
 
             @if($factura->estatus == "Aceptado")
-            <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->descripcion) }} </b></td>
+            <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->estatus) }} </b></td>
             @elseif($factura->estatus == "Rechazado")
-            <td style="height:20px; text-align: center" class="bg-danger align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
+            <td style="height:20px; text-align: center" class="bg-danger align-top single-line-cell"><b> {{__($factura->estatus)}} </b></td>
             @else
-            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->descripcion)}} </b></td>
+            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->estatus)}} </b></td>
             @endif
             <td rowspan="1" class="align-top" style="height:20px; width:82px">
                 <a  class="btn-xml" data-emisor="{{$factura->emisor}}" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
@@ -233,7 +242,13 @@
                 @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
 
-            <td><a class="btn btn-sm btn-dark"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">{{__('Ver más')}}</b></a></td>
+            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell">
+                <a class="btn btn-sm btn-dark"  href="/sup/sup-factura-show/{{$factura->ID}}"><b style="color:white">{{__('Ver más')}}</b></a>
+                @if($factura->PDFsello != "")
+                <a class="btn btn-sm btn-primary"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">Cambiar estatus</b></a>
+                @endif
+                <a class="btn btn-sm btn-danger"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><i style="color:white"class="fas fa-trash"></i></a>
+            </td>
 
 
         </tr>
