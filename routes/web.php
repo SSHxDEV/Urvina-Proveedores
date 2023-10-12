@@ -63,6 +63,8 @@ Route::prefix('{language}')->group(function () {
     Route::get('/user-bill-list/{IdUser?}', 'SupervisionController@ShowUserListBill')->name('Billprov-sup');
     Route::get('/sup-factura-show/{factura?}', 'SupervisionController@SupShowFactura')->name('sup-factura-show');
     Route::post('/sup-upload-pdf', 'SupervisionController@UploadFaltante')->name('sup-upload-pdf');
+    Route::post('/eliminar-factura/{id}', 'SupervisionController@DeleteFactura')->name('eliminar-factura');
+
 
 
 

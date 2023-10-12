@@ -247,7 +247,14 @@
                 @if($factura->PDFsello != "")
                 <a class="btn btn-sm btn-primary"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">Cambiar estatus</b></a>
                 @endif
-                <a class="btn btn-sm btn-danger"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><i style="color:white"class="fas fa-trash"></i></a>
+                @if($factura->estatus != "Aceptado")
+                <a href="#" data-confirm="¿Estás seguro de que deseas eliminar esta factura?" class="btn btn-sm btn-danger eliminar-factura"><i style="color:white"class="fas fa-trash"></i></a>
+
+                <form action="/sup/eliminar-factura/{{$factura->ID}}" method="POST" id="eliminar-factura-form" style="display: none;">
+                    @csrf
+                </form>
+                @endif
+
             </td>
 
 
@@ -635,6 +642,22 @@ icono.addEventListener('mouseout', function() {
         function goBack() {
           window.history.back();
         }
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        document.querySelectorAll('.eliminar-factura').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // Evitar que el enlace se ejecute directamente
+
+                var confirmMessage = this.getAttribute('data-confirm');
+                var shouldDelete = confirm(confirmMessage);
+
+                if (shouldDelete) {
+                    // Si se confirma, envía el formulario de eliminación
+                    document.getElementById('eliminar-factura-form').submit();
+                }
+            });
+        });
     </script>
 
 

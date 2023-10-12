@@ -235,5 +235,15 @@ class SupervisionController extends Controller
         }
 
 
+
+
+    }
+
+    public function DeleteFactura($language, $IdFactura){
+        session_start();
+        if($_SESSION['usuario']->rol == 'finanzas'){
+         $factura = DB::delete("DELETE FROM PRVfacturas WHERE ID = $IdFactura");
+        }
+        return redirect()->back();
     }
 }
