@@ -256,10 +256,10 @@ class SupervisionController extends Controller
             $receptor=$request->receptor;
             $emisor=$request->emisor;
             $folderName=$request->factura;
-            $rutaArchivoXML = public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml');
-            $rutaArchivoPDF = public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf');
+            $rutaArchivoXML = public_path('E:\PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml');
+            $rutaArchivoPDF = public_path('E:\PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf');
 
-            dd($rutaArchivoXML);
+            
 
         // Eliminar los archivos y la carpeta relacionados a la factura
         if (File::exists($rutaArchivoPDF)) {
