@@ -256,8 +256,8 @@ class SupervisionController extends Controller
             $receptor=$request->receptor;
             $emisor=$request->emisor;
             $folderName=$request->factura;
-            $rutaArchivoXML = public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf');
-            $rutaArchivoPDF = public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml');
+            $rutaArchivoXML = public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml');
+            $rutaArchivoPDF = public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf');
 
             dd($rutaArchivoXML);
 
