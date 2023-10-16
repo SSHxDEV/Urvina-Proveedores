@@ -257,10 +257,11 @@ class SupervisionController extends Controller
             $emisor=$request->emisor;
             $folderName=$request->factura;
 
-            dd($receptor);
+
 
         // Eliminar los archivos y la carpeta relacionados a la factura
         if (File::exists(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf'))) {
+            dd($receptor);
             File::delete(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf'));
         }
         if (File::exists(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'))) {
