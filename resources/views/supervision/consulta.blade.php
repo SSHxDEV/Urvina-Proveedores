@@ -564,6 +564,11 @@ icono.addEventListener('mouseout', function() {
             });
         });
 
+    });
+</script>
+<script>
+
+$(document).ready(function() {
         // Verificar si el valor del rol no es igual a "finanzas"
         if ("{{$_SESSION['usuario']->rol}}" !== "finanzas") {
         // Redirigir a otra página
