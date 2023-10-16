@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use PhpCfdi\SatEstadoCfdi\Soap\SoapConsumerClient;
 use PhpCfdi\SatEstadoCfdi\Soap\SoapClientFactory;
 use PhpCfdi\SatEstadoCfdi\Consumer;
@@ -21,11 +22,15 @@ class SupervisionController extends Controller
             Date::setLocale('es');
             $data=array();
                 $facturas = DB::select("SELECT * from PRVfacturas where receptor='USI970814616'");
+
                 foreach ($facturas as $factura) {
+
                     $ModFecha = Date::parse($factura->fecha_modificacion);
                     $IngFecha = Date::parse($factura->fecha_ingreso);
                     $IFecha = $IngFecha->format('l, j F Y H:i:s');
                     $MFecha = $ModFecha->format('l, j F Y H:i:s');
+                    $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
+                    $factura->usuario = $usuario[0]->usuario;
                     $factura->IFecha = $IFecha;
                     $factura->MFecha = $MFecha;
                     array_push($data, $factura);
@@ -40,6 +45,8 @@ class SupervisionController extends Controller
                     $IngFecha = Date::parse($factura->fecha_ingreso);
                     $IFecha = $IngFecha->format('l, j F Y H:i:s');
                     $MFecha = $ModFecha->format('l, j F Y H:i:s');
+                    $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
+                    $factura->usuario = $usuario[0]->usuario;
                     $factura->IFecha = $IFecha;
                     $factura->MFecha = $MFecha;
                     array_push($data, $factura);
@@ -130,6 +137,8 @@ class SupervisionController extends Controller
                     $IngFecha = Date::parse($factura->fecha_ingreso);
                     $IFecha = $IngFecha->format('l, j F Y H:i:s');
                     $MFecha = $ModFecha->format('l, j F Y H:i:s');
+                    $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
+                    $factura->usuario = $usuario[0]->usuario;
                     $factura->IFecha = $IFecha;
                     $factura->MFecha = $MFecha;
                     array_push($data, $factura);
@@ -158,6 +167,8 @@ class SupervisionController extends Controller
                     $formatFF= $FechaFactura->format('l, j F Y');
                     $IFecha = $IngFecha->format('l, j F Y H:i:s');
                     $MFecha = $ModFecha->format('l, j F Y H:i:s');
+                    $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
+                    $factura->usuario = $usuario[0]->usuario;
                     $factura->IFecha = $IFecha;
                     $factura->MFecha = $MFecha;
                     $factura->Vencimiento = $formatFF;
@@ -239,9 +250,18 @@ class SupervisionController extends Controller
 
     }
 
-    public function DeleteFactura($language, $IdFactura){
+    public function DeleteFactura($language, $IdFactura, Request $request){
         session_start();
         if($_SESSION['usuario']->rol == 'finanzas'){
+            $receptor=$request->receptor;
+            $emisor=$request->emisor;
+            $folderName=$request->factura;
+
+        // Eliminar los archivos y la carpeta relacionados a la factura
+        if (File::exists(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName))) {
+            File::deleteDirectory(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName));
+        }
+
          $factura = DB::delete("DELETE FROM PRVfacturas WHERE ID = $IdFactura");
         }
         return redirect()->back();

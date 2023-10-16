@@ -179,57 +179,34 @@
     <table id="facturas-list" class="display table table-striped table-bordered compact">
         <thead class="">
             <tr class="bg-success">
+                <th class="align-top" style="width:100%">{{__('Empresa')}}</th>
                 <th class="align-top" style="width:100%">{{__('Factura')}}</th>
-                <th class="align-top" style="width:100%">{{__('UUID')}}</th>
+                <th  class="align-top" style="">{{__('Importe')}}</th>
+                <th  class="align-top" style="max-width:50px"><small>{{__('Moneda')}}</small></th>
+                <th  class="align-top" style="max-width:90px">{{__('Estatus')}}</th>
+                <th class="align-top" style="max-width:82px">{{__('Adjuntos')}}</th>
+                <th  class="align-top single-line-cell" style="width:100%">{{__('Cambio de Estatus')}}</th>
                 <th class="align-top single-line-cell" style="width:100%">{{__('Entrada de Compra')}}</th>
+                <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
+                <th class="align-top" style="width:100%">{{__('UUID')}}</th>
                 <th class="align-top single-line-cell" style="width:100%">{{__('Error')}}</th>
                 <th class="align-top" style="width:100%">{{__('Subido')}}</th>
-                <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
                 <th  class="align-top single-line-cell" style="">{{__('Condicion de Pago')}}</th>
-                <th  class="align-top" style="">{{__('Importe')}}</th>
-                <th  class="align-top" style="">{{__('Moneda')}}</th>
-                <th  class="align-top" style="">{{__('Estatus')}}</th>
-                <th class="align-top" style="width:82px">{{__('Adjuntos')}}</th>
                 <th  class="align-top single-line-cell" style="width:100%">{{__('Opciones')}}</th>
-                <th  class="align-top single-line-cell" style="width:100%">{{__('Cambio de Estatus')}}</th>
-
             </tr>
         </thead>
         <tbody>
 
             @foreach ($data as $factura)
+            {{-- Usuario --}}
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->usuario}}</td>
+            {{-- Factura --}}
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->factura}}</td>
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
-            @if ($factura->estatus!="Revision")
-            <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
-            @else
-            <td  style="height:20px" class="align-top">
-                <?php if($factura->PDFsello != NULL){
-                    echo '<button class="btn btn-warning btn-registro" data-id="'.$factura->ID.'" data-fact="'.$factura->factura.'" data-receptor="'.$factura->receptor.'" ><i class="fas fa-clipboard-check"></i> <b>'.__("Editar").'</b></button><small style="color:blue">  &nbsp;&nbsp;'.$factura->OrdenCompra.'</small>';
-                }?>
-            </td>
-            @endif
-            <?php
-            $parts = explode(':', $factura->errores);
-            ?>
-            @if(count($parts) == 2)
-            <td class="align-top single-line-cell"><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
-            @else
-            <td class="align-top single-line-cell">
-            @if ($factura->PDFsello == NULL)
-            <small style="color:red">No se encontro el PDF</small>
-            @endif
-
-            <small style="color:green"></small></td>
-
-            @endif
-
-            <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
-            <td>{{$factura->fechaFactura}}</td>
-            <td>{{$factura->CondicionesDePago}}</td>
+            {{-- Total --}}
             <td><b>${{number_format($factura->total,2 , '.', ',')}}</b></td>
-            <td>{{$factura->moneda}}</td>
-
+            {{-- Moneda --}}
+            <td style="max-width:50px">{{$factura->moneda}}</td>
+            {{-- Estatus --}}
             @if($factura->estatus == "Aceptado")
             <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->estatus) }} </b></td>
             @elseif($factura->estatus == "Rechazado")
@@ -237,26 +214,14 @@
             @else
             <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->estatus)}} </b></td>
             @endif
+            {{-- Adjuntos --}}
             <td rowspan="1" class="align-top" style="height:20px; width:82px">
                 <a  class="btn-xml" data-emisor="{{$factura->emisor}}" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
                 {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
                     @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
                 @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
-
-            <td style="min-width:130px; text-align: center">
-
-
-                <a class="btn btn-sm btn-dark"  href="/sup/sup-factura-show/{{$factura->ID}}"><b style="color:white">{{__('Ver más')}}</b></a>
-                @if($factura->estatus != "Aceptado")
-                <a href="#" data-confirm="¿Estás seguro de que deseas eliminar esta factura?" class="btn btn-sm btn-danger eliminar-factura"><i style="color:white"class="fas fa-trash"></i></a>
-
-                <form action="/sup/eliminar-factura/{{$factura->ID}}" method="POST" id="eliminar-factura-form" style="display: none;">
-                    @csrf
-                </form>
-                @endif
-
-            </td>
+            {{-- Cambio Estatus --}}
             <td>
                 @if($factura->PDFsello != "")
                 <form id="estatusForm" action="{{ route('actualizarEstatus', app()->getLocale()) }}" method="POST">
@@ -276,10 +241,59 @@
                     </select>
                     <input type="hidden" id="idHidden" name="id" value="{{$factura->ID}}">
                 </form>
-
-
                 @endif
             </td>
+            {{-- Entrada de Compra --}}
+            @if ($factura->estatus!="Revision")
+            <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
+            @else
+            <td  style="height:20px" class="align-top">
+            </td>
+            @endif
+            {{-- Fecha de Factura --}}
+            <td>{{$factura->fechaFactura}}</td>
+            {{-- UUID --}}
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
+
+            {{-- Errores --}}
+            <?php
+            $parts = explode(':', $factura->errores);
+            ?>
+            @if(count($parts) == 2)
+            <td class="align-top single-line-cell"><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
+            @else
+            <td class="align-top single-line-cell">
+            @if ($factura->PDFsello == NULL)
+            <small style="color:red">No se encontro el PDF</small>
+            @endif
+
+            <small style="color:green"></small></td>
+
+            @endif
+
+            {{-- Subido --}}
+            <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
+
+            {{-- Condiciones de pago --}}
+            <td>{{$factura->CondicionesDePago}}</td>
+            {{-- Opciones --}}
+            <td style="min-width:130px; text-align: center">
+
+
+                <a class="btn btn-sm btn-dark"  href="/sup/sup-factura-show/{{$factura->ID}}"><b style="color:white">{{__('Ver más')}}</b></a>
+                @if($factura->estatus == "Aceptado")
+                <a href="#" data-confirm="¿Estás seguro de que deseas eliminar esta factura?" class="btn btn-sm btn-danger eliminar-factura"><i style="color:white"class="fas fa-trash"></i></a>
+
+                <form action="/sup/eliminar-factura/{{$factura->ID}}" method="POST" id="eliminar-factura-form" style="display: none;">
+                    <input type="hidden" name="factura" value="{{$factura->factura}}">
+                    <input type="hidden" name="emisor" value="{{$factura->emisor}}">
+                    <input type="hidden" name="receptor" value="{{$factura->receptor}}">
+                    @csrf
+                </form>
+                @endif
+
+            </td>
+
 
 
         </tr>
@@ -588,7 +602,7 @@ icono.addEventListener('mouseout', function() {
         );
 
         // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 8
-        var columnsToFilter = [0, 1, 2, 3, 4 ,5 ,6, 7, 8, 9];
+        var columnsToFilter = [0, 1, 3, 4 ,6, 7, 8, 9, 10, 11 ];
 
         // Creamos una fila en el head de la tabla y lo clonamos para cada columna
         $('#facturas-list thead tr').clone(true).appendTo('#facturas-list thead');
@@ -598,7 +612,7 @@ icono.addEventListener('mouseout', function() {
 
             // Verificamos si el índice de la columna está en el arreglo columnsToFilter
             if (columnsToFilter.includes(i)) {
-                $(this).html('<input type="text" placeholder="{{__('Buscar')}}...' + title + '" />');
+                $(this).html('<input style="width:75px" type="text" placeholder="{{__('Buscar')}}..." />');
 
                 $('input', this).on('keyup change', function () {
                     if (table.column(i).search() !== this.value) {
