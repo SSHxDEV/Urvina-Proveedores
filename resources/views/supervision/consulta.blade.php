@@ -281,7 +281,7 @@
 
 
                 <a class="btn btn-sm btn-dark"  href="/sup/sup-factura-show/{{$factura->ID}}"><b style="color:white">{{__('Ver más')}}</b></a>
-                @if($factura->estatus == "Aceptado")
+                @if($factura->estatus != "Aceptado")
                 <a href="#" data-confirm="¿Estás seguro de que deseas eliminar esta factura?" class="btn btn-sm btn-danger eliminar-factura"><i style="color:white"class="fas fa-trash"></i></a>
 
                 <form action="/sup/eliminar-factura/{{$factura->ID}}" method="POST" id="eliminar-factura-form" style="display: none;">
