@@ -258,11 +258,11 @@ class SupervisionController extends Controller
             $folderName=$request->factura;
 
         // Eliminar los archivos y la carpeta relacionados a la factura
-        if (File::exists(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf'))) {
-            File::delete(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf'));
+        if (File::exists(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf'))) {
+            File::delete(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf'));
         }
-        if (File::exists(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'))) {
-            File::delete(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'));
+        if (File::exists(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'))) {
+            File::delete(public_path('PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'));
             $factura = DB::delete("DELETE FROM PRVfacturas WHERE ID = $IdFactura");
         }
 
