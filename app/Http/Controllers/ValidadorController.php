@@ -232,7 +232,7 @@ class ValidadorController extends Controller
                         Alert::error(__('Las cantidades no coinciden en Entrada de Compra'), __('Datos incorrectos: '.$excluded_cantidad));
                         return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }
-                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'estatus'=>'Aceptado', 'CondicionesDePago'=> $CondicionesDePago );
+                    $data = array('ID_usuario'=>$_SESSION['usuario']->ID,'factura'=>$NombreFactura,'estado' =>(string)$response->document(), 'total' => $total, 'uuid'=> $uuid, 'emisor'=>$emisor, 'sello'=> $udsello,'descripcion' => 'Subido Exitosamente', 'fecha_ingreso' => $now, 'fecha_modificacion'=> $now, 'PDF'=> '' , 'PDFsello'=> $NombreFactura,'receptor'=>$receptor,'OrdenCompra'=>$BuyOrder, 'moneda'=> $moneda, 'fechaFactura'=> $fechaFormateada, 'estatus'=>'Revision', 'CondicionesDePago'=> $CondicionesDePago );
                     DB::table('PRVfacturas')->insert($data);
                     return view('facturas.factura-indiv.confirmacion')->with('response',$response)->with('uuid',$uuid)->with('emisor',$emisor)->with('receptor',$receptor)->with('total',$total);
                     }else{
@@ -606,7 +606,7 @@ public function VerifyUSIOrder(Request $request){
             }
 
             if($counterror==0){
-                $estatus="Aceptado";
+                $estatus="Revision";
                 DB::table('PRVfacturas')
                         ->where('PDFsello', '!=', null)
                         ->where('ID', $factura->ID)

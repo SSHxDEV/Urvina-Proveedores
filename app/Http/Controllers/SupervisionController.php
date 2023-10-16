@@ -246,4 +246,15 @@ class SupervisionController extends Controller
         }
         return redirect()->back();
     }
+
+    public function actualizarEstatus(Request $request)
+    {
+
+
+        // Aquí debes escribir la lógica para actualizar el campo Cambio de Estatus en tu modelo
+
+        // Por ejemplo, suponiendo que tienes un modelo llamado 'TuModelo':
+        DB::table('PRVfacturas')->where('ID', $request->id)->update(['estatus'=>$request->estatus,'descripcion'=>'Aceptado y aprobado','errores'=>NULL]);
+        return response()->json('Estatus actualizado');
+    }
 }

@@ -364,14 +364,14 @@
 
                     <div class="col-6">
                         <center>
-                        <a href="facturas-sup/USI" id="boton3" class="btn btn-dark btn-lg" >
+                        <a href="proveedor-sup/USI" id="boton3" class="btn btn-dark btn-lg" >
                             <img src="/logo/grupo_urvina_logo.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
                         </a>
                         </center>
                     </div>
                     <div class="col-6">
                         <center>
-                        <a href="facturas-sup/COELI" id="boton4" class="btn btn-dark btn-lg " >
+                        <a href="proveedor-sup/COELI" id="boton4" class="btn btn-dark btn-lg " >
                             <img src="/logo/logo_coeli.png" class="rounded btnM" alt="" style="padding:10px;background-color:white">
                         </a>
                         </center>

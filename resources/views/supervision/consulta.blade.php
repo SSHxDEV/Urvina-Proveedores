@@ -190,7 +190,9 @@
                 <th  class="align-top" style="">{{__('Moneda')}}</th>
                 <th  class="align-top" style="">{{__('Estatus')}}</th>
                 <th class="align-top" style="width:82px">{{__('Adjuntos')}}</th>
-                <th  class="align-top" style="">{{__('Opciones')}}</th>
+                <th  class="align-top single-line-cell" style="width:100%">{{__('Opciones')}}</th>
+                <th  class="align-top single-line-cell" style="width:100%">{{__('Cambio de Estatus')}}</th>
+
             </tr>
         </thead>
         <tbody>
@@ -242,11 +244,10 @@
                 @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
             </td>
 
-            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell">
+            <td style="min-width:130px; text-align: center">
+
+
                 <a class="btn btn-sm btn-dark"  href="/sup/sup-factura-show/{{$factura->ID}}"><b style="color:white">{{__('Ver más')}}</b></a>
-                @if($factura->PDFsello != "")
-                <a class="btn btn-sm btn-primary"  href="{{route('factura-show', [app()->getLocale(), $factura->ID])}}"><b style="color:white">Cambiar estatus</b></a>
-                @endif
                 @if($factura->estatus != "Aceptado")
                 <a href="#" data-confirm="¿Estás seguro de que deseas eliminar esta factura?" class="btn btn-sm btn-danger eliminar-factura"><i style="color:white"class="fas fa-trash"></i></a>
 
@@ -255,6 +256,29 @@
                 </form>
                 @endif
 
+            </td>
+            <td>
+                @if($factura->PDFsello != "")
+                <form id="estatusForm" action="{{ route('actualizarEstatus', app()->getLocale()) }}" method="POST">
+                    @csrf
+                    <select style="width:140px;" class="form-control form-control-sm " id="estatusSelect" name="estatus">
+                        <option value="" selected>Cambiar estatus</option>
+                        @if($factura->estatus == 'Aceptado')
+                            <option value="Aceptado">Aceptado</option>
+                        @endif
+                        @if($factura->estatus == 'Revision')
+                            <option value="Rechazado">Rechazado</option>
+                            <option value="Aceptado">Aceptado</option>
+                        @endif
+                        @if($factura->estatus == 'Rechazado')
+                            <option value="Revision">Revision</option>
+                        @endif
+                    </select>
+                    <input type="hidden" id="idHidden" name="id" value="{{$factura->ID}}">
+                </form>
+
+
+                @endif
             </td>
 
 
@@ -448,6 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 </script>
 
+
 <script>
     $(document).ready(function() {
         $(".btn-file").on("click", function() {
@@ -494,6 +519,36 @@ icono.addEventListener('mouseout', function() {
 </script>
 <script>
     $(document).ready(function() {
+        var estatusSelect = document.getElementById('estatusSelect');
+        var idHidden = document.getElementById('idHidden').value;
+
+        $('#estatusSelect').on('change', function () {
+            var selectedEstatus = $(this).val();
+            var Idfactura = idHidden;
+            console.log(selectedEstatus);
+            console.log(idHidden);
+            // Obtenemos el token CSRF
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            // Envía una solicitud AJAX a tu controlador Laravel
+            $.ajax({
+                url: $('#estatusForm').attr('action'),
+                method: 'POST',
+                data:{
+                    id: idHidden,
+                    estatus: selectedEstatus,
+                },
+                headers: {
+                'X-CSRF-TOKEN': csrfToken
+                },
+                success: function (data) {
+                    // Maneja la respuesta del servidor si es necesario
+                    console.log('Estatus actualizado con éxito');
+                }
+            }).done(function(res){
+                alert(res);
+            });
+        });
 
         // Verificar si el valor del rol no es igual a "finanzas"
         if ("{{$_SESSION['usuario']->rol}}" !== "finanzas") {

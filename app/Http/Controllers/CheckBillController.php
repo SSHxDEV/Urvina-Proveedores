@@ -268,7 +268,7 @@ class CheckBillController extends Controller
 
 
         // Actualizar el campo OrdenCompra en la base de datos con el valor enviado desde el formulario
-        $estatus="Aceptado";
+        $estatus="Revision";
         DB::table('PRVfacturas')
         ->where('ID', $request->registroid)
         ->update(['OrdenCompra' => $request->OrdenCompra, 'descripcion' => 'Subido Exitosamente', 'errores'=>'', 'estatus'=>$estatus]);
@@ -385,7 +385,7 @@ class CheckBillController extends Controller
             if($counterror==0){
                 DB::table('PRVfacturas')
                         ->where('ID', $factura->ID)
-                        ->update(['estatus'=>'Aceptado','descripcion'=>'Subido Exitosamente','errores'=>'']);
+                        ->update(['estatus'=>'Revision','descripcion'=>'Subido Exitosamente','errores'=>'']);
             }
 
 
