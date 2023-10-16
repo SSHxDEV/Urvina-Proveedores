@@ -263,9 +263,10 @@ class SupervisionController extends Controller
         }
         if (File::exists(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'))) {
             File::delete(public_path('PRVfacturas'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml'));
+            $factura = DB::delete("DELETE FROM PRVfacturas WHERE ID = $IdFactura");
         }
 
-         $factura = DB::delete("DELETE FROM PRVfacturas WHERE ID = $IdFactura");
+
         }
         return redirect()->back();
     }
