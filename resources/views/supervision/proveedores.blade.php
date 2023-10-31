@@ -160,14 +160,12 @@
             if($receptor=='COELI'){
              echo '| COELI';
             }
+            if($receptor=='TODOS'){
+             echo '| COELI';
+            }
             ?></h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            <a href="{{route(Route::currentRouteName(),'en')}}">
-                <img src="/icons/en.svg" class="bandera" alt="EN">
-              </a>
-              <a href="{{route(Route::currentRouteName(), 'es' )}}">
-                <img src="/icons/es.svg" class="bandera"  alt="ES">
-              </a>
+            
 
           </div>
 
@@ -449,7 +447,7 @@ icono.addEventListener('mouseout', function() {
     $(document).ready(function() {
 
         // Verificar si el valor del rol no es igual a "finanzas"
-        if ("{{$_SESSION['usuario']->rol}}" !== "finanzas") {
+        if ("{{$_SESSION['usuario']->rol}}" == "proveedor" ) {
         // Redirigir a otra página
         window.location.href = "/sup/inicio"; // Reemplaza "l" con la URL de la página a la que deseas redirigir
         }

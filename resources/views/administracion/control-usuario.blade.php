@@ -1,9 +1,23 @@
 @extends('adminlte::page')
 
-@section('title', __('Consulta de Facturas'))
+@section('title', __('Control Usuarios'))
 
 @section('content_header')
 <style>
+        .profile-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  opacity: .8;
+  text-align: center;
+}
 
     #folder-icon:hover {
 
@@ -139,18 +153,11 @@
 
 <div class="container">
     <div class="row">
-        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Consulta de Facturas')}} <?php
-            if(isset($receptor)){
-            if($receptor=='USI'){
-                echo '| Grupo Urvina';
-            }
-            if($receptor=='COELI'){
-             echo '| COELI';
-            }
-            }
-            ?></h4></div>
+        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Usuarios Administrativos')}}
+            </h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            
+            <a href="add-user" class="btn btn-default"> Agregar Usuario &nbsp;&nbsp; | &nbsp;&nbsp;  <i class="fas fa-user-plus"></i></a>
+
           </div>
 
 
@@ -172,124 +179,33 @@
                     <div class="table-responsive">
     <table id="facturas-list" class="display table table-striped table-bordered compact">
         <thead class="">
-            <tr class="bg-success">
-                <th class="align-top" style="width:100%">{{__('Empresa')}}</th>
-                <th class="align-top" style="width:100%">{{__('Factura')}}</th>
-                <th  class="align-top" style="">{{__('Importe')}}</th>
-                <th  class="align-top" style="max-width:50px"><small>{{__('Moneda')}}</small></th>
-                <th  class="align-top" style="max-width:90px">{{__('Estatus')}}</th>
-                <th class="align-top" style="max-width:82px">{{__('Adjuntos')}}</th>
-                <th  class="align-top single-line-cell" style="width:100%">{{__('Cambio de Estatus')}}</th>
-                <th class="align-top single-line-cell" style="width:100%">{{__('Entrada de Compra')}}</th>
-                <th  class="align-top single-line-cell" style="">{{__('Fecha factura')}}</th>
-                <th class="align-top" style="width:100%">{{__('UUID')}}</th>
-                <th class="align-top single-line-cell" style="width:100%">{{__('Error')}}</th>
-                <th class="align-top" style="width:100%">{{__('Subido')}}</th>
-                <th  class="align-top single-line-cell" style="">{{__('Condicion de Pago')}}</th>
-                <th  class="align-top single-line-cell" style="width:100%">{{__('Opciones')}}</th>
+            <tr class="bg-primary">
+                <th class="align-top" style="width:100%">{{__('Imagen')}}</th>
+                <th class="align-top" style="width:100%">{{__('Usuario')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('Rol')}}</th>
+                <th class="align-top single-line-cell" style="width:100%">{{__('Fecha Ingreso')}}</th>
+                <th class="align-top" style="width:100%">{{__('Fecha Modificación')}}</th>
+                <th class="align-top" style="width:100%">{{__('Opciones')}}</th>
             </tr>
         </thead>
         <tbody>
 
-            @foreach ($data as $factura)
-            {{-- Usuario --}}
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->usuario}}</td>
-            {{-- Factura --}}
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->factura}}</td>
-            {{-- Total --}}
-            <td><b>${{number_format($factura->total,2 , '.', ',')}}</b></td>
-            {{-- Moneda --}}
-            <td style="max-width:50px">{{$factura->moneda}}</td>
-            {{-- Estatus --}}
-            @if($factura->estatus == "Aceptado")
-            <td style="height:20px; text-align: center" class="bg-success align-top single-line-cell"><b> {{__($factura->estatus) }} </b></td>
-            @elseif($factura->estatus == "Rechazado")
-            <td style="height:20px; text-align: center" class="bg-danger align-top single-line-cell"><b> {{__($factura->estatus)}} </b></td>
-            @else
-            <td style="height:20px; text-align: center" class="bg-warning align-top single-line-cell"><b> {{__($factura->estatus)}} </b></td>
-            @endif
-            {{-- Adjuntos --}}
-            <td rowspan="1" class="align-top" style="height:20px; width:82px">
-                <a  class="btn-xml" data-emisor="{{$factura->emisor}}" data-rfc="{{$factura->receptor}}" data-file="{{$factura->factura}}" download><img class="grow"src="/icons/xml.png" alt="" width="40px"></a>
-                {{-- UTILIZAR CODIGO EN CASO DE USAR UN PDF APARTE DEL SELLADO
-                    @if ($factura->PDF != "")<a class="btn-file" data-file="{{$factura->PDF}}.pdf" href="#pdf"><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif --}}
-                @if ($factura->PDFsello != "")<a class="btn-file" onclick="cargarPDF('{{$factura->receptor}}/{{$factura->emisor}}/{{$factura->PDFsello}}.pdf')"  href="#pdf" ><img class="grow" src="/icons/pdf.png" width="40px" alt=""></a> @endif
-            </td>
-            {{-- Cambio Estatus --}}
-            <td>
-                @if($factura->PDFsello != "")
-                <form id="estatusForm" action="{{ route('actualizarEstatus', app()->getLocale()) }}" method="POST">
-                    @csrf
-                    <select style="width:140px;" class="form-control form-control-sm " id="estatusSelect" name="estatus">
-                        <option value="" selected>Cambiar estatus</option>
-                        @if($factura->estatus == 'Aceptado')
-                            <option value="Aceptado">Aceptado</option>
-                        @endif
-                        @if($factura->estatus == 'Revision')
-                            <option value="Rechazado">Rechazado</option>
-                            <option value="Aceptado">Aceptado</option>
-                        @endif
-                        @if($factura->estatus == 'Rechazado')
-                            <option value="Revision">Revision</option>
-                        @endif
-                    </select>
-                    <input type="hidden" id="idHidden" name="id" value="{{$factura->ID}}">
-                </form>
+            @foreach ($data as $Usuario)
+            <tr>
+
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><img src="{{$Usuario->imagen}}" style="max-width:50px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image"></td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->usuario}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">
+                @if ($Usuario->rol == "finanzas")
+                Supervisor
+                @endif
+                @if ($Usuario->rol == "administrador")
+                Administrador
                 @endif
             </td>
-            {{-- Entrada de Compra --}}
-            @if ($factura->estatus!="Revision")
-            <td style="height:20px" class="align-top">{{$factura->OrdenCompra}}</td>
-            @else
-            <td  style="height:20px" class="align-top">
-            </td>
-            @endif
-            {{-- Fecha de Factura --}}
-            <td>{{$factura->fechaFactura}}</td>
-            {{-- UUID --}}
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->uuid}}</td>
-
-            {{-- Errores --}}
-            <?php
-            $parts = explode(':', $factura->errores);
-            ?>
-            @if(count($parts) == 2)
-            <td class="align-top single-line-cell"><small style="color:red">{{__($parts[0])}}:{{$parts[1]}}</small></td>
-            @else
-            <td class="align-top single-line-cell">
-            @if ($factura->PDFsello == NULL)
-            <small style="color:red">No se encontro el PDF</small>
-            @endif
-
-            <small style="color:green"></small></td>
-
-            @endif
-
-            {{-- Subido --}}
-            <td style="height:20px" class="align-top single-line-cell">{{$factura->IFecha }}</td>
-
-            {{-- Condiciones de pago --}}
-            <td>{{$factura->CondicionesDePago}}</td>
-            {{-- Opciones --}}
-            <td style="min-width:130px; text-align: center">
-
-
-                <a class="btn btn-sm btn-dark"  href="/sup/sup-factura-show/{{$factura->ID}}"><b style="color:white">{{__('Ver más')}}</b></a>
-                @if($factura->estatus != "Aceptado")
-                <a href="#" data-confirm="¿Estás seguro de que deseas eliminar esta factura?" class="btn btn-sm btn-danger eliminar-factura"><i style="color:white"class="fas fa-trash"></i></a>
-
-                <form action="/sup/eliminar-factura/{{$factura->ID}}" method="POST" id="eliminar-factura-form" style="display: none;">
-                    <input type="hidden" name="factura" value="{{$factura->factura}}">
-                    <input type="hidden" name="emisor" value="{{$factura->emisor}}">
-                    <input type="hidden" name="receptor" value="{{$factura->receptor}}">
-                    @csrf
-                </form>
-                @endif
-
-            </td>
-
-
-
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->IFecha}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->MFecha}}</td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"> <a href="edit-user/{{$Usuario->ID}}" class="btn btn-warning"> <i class="fas fa-edit"></i></a> <a href="/delete-user/{{$Usuario->ID}}" class="btn btn-danger"> <i class="fas fa-trash"></i></a></td>
         </tr>
             @endforeach
 
@@ -480,7 +396,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 </script>
 
-
 <script>
     $(document).ready(function() {
         $(".btn-file").on("click", function() {
@@ -527,44 +442,9 @@ icono.addEventListener('mouseout', function() {
 </script>
 <script>
     $(document).ready(function() {
-        var estatusSelect = document.getElementById('estatusSelect');
-        var idHidden = document.getElementById('idHidden').value;
 
-        $('#estatusSelect').on('change', function () {
-            var selectedEstatus = $(this).val();
-            var Idfactura = idHidden;
-            console.log(selectedEstatus);
-            console.log(idHidden);
-            // Obtenemos el token CSRF
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            // Envía una solicitud AJAX a tu controlador Laravel
-            $.ajax({
-                url: $('#estatusForm').attr('action'),
-                method: 'POST',
-                data:{
-                    id: idHidden,
-                    estatus: selectedEstatus,
-                },
-                headers: {
-                'X-CSRF-TOKEN': csrfToken
-                },
-                success: function (data) {
-                    // Maneja la respuesta del servidor si es necesario
-                    console.log('Estatus actualizado con éxito');
-                }
-            }).done(function(res){
-                alert(res);
-            });
-        });
-
-    });
-</script>
-<script>
-
-$(document).ready(function() {
         // Verificar si el valor del rol no es igual a "finanzas"
-        if ("{{$_SESSION['usuario']->rol}}" == "proveedor") {
+        if ("{{$_SESSION['usuario']->rol}}" !== "administrador" ) {
         // Redirigir a otra página
         window.location.href = "/sup/inicio"; // Reemplaza "l" con la URL de la página a la que deseas redirigir
         }
@@ -601,7 +481,7 @@ $(document).ready(function() {
         );
 
         // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 8
-        var columnsToFilter = [0, 1, 3, 4 ,6, 7, 8, 9, 10, 11 ];
+        var columnsToFilter = [ 1, 2, 3, 4 ];
 
         // Creamos una fila en el head de la tabla y lo clonamos para cada columna
         $('#facturas-list thead tr').clone(true).appendTo('#facturas-list thead');
@@ -611,7 +491,7 @@ $(document).ready(function() {
 
             // Verificamos si el índice de la columna está en el arreglo columnsToFilter
             if (columnsToFilter.includes(i)) {
-                $(this).html('<input style="width:75px" type="text" placeholder="{{__('Buscar')}}..." />');
+                $(this).html('<input type="text" placeholder="{{__('Buscar')}}...' + title + '" />');
 
                 $('input', this).on('keyup change', function () {
                     if (table.column(i).search() !== this.value) {
@@ -710,22 +590,6 @@ $(document).ready(function() {
         function goBack() {
           window.history.back();
         }
-    </script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-        document.querySelectorAll('.eliminar-factura').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); // Evitar que el enlace se ejecute directamente
-
-                var confirmMessage = this.getAttribute('data-confirm');
-                var shouldDelete = confirm(confirmMessage);
-
-                if (shouldDelete) {
-                    // Si se confirma, envía el formulario de eliminación
-                    document.getElementById('eliminar-factura-form').submit();
-                }
-            });
-        });
     </script>
 
 

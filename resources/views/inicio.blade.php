@@ -163,12 +163,14 @@
     <div class="row">
         <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Inicio')}}</h4></div>
         <div class="col-md-3 col-3 ml-auto">
+            @if ($_SESSION['usuario']->rol == "proveedor" )
             <a href="{{route(Route::currentRouteName(),'en')}}">
                 <img src="/icons/en.svg" class="bandera" alt="EN">
               </a>
               <a href="{{route(Route::currentRouteName(), 'es' )}}">
                 <img src="/icons/es.svg" class="bandera"  alt="ES">
               </a>
+            @endif
 
           </div>
 
@@ -235,7 +237,7 @@
         </center>
         </div>
         @endif
-        @if ($_SESSION['usuario']->rol == "finanzas")
+        @if ($_SESSION['usuario']->rol == "finanzas" || $_SESSION['usuario']->rol == "administrador")
         <div class="container-fluid"><center>
 
             <div class="row" id="monitor">

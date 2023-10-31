@@ -91,6 +91,7 @@ class SupervisionController extends Controller
             return view('supervision.proveedores')->with('data', $data)->with('receptor',$receptor);
         }
         if($receptor == "COELI"){
+            Date::setLocale('es');
                 $data=array();
                 $proveedores = DB::select("SELECT * from PRVfacturas where receptor='CME980528JB6'");
                 $usuariosAgregados = array();
@@ -123,6 +124,28 @@ class SupervisionController extends Controller
 
             return view('supervision.proveedores')->with('data', $data)->with('receptor',$receptor);
         }
+        if($receptor == "TODOS"){
+            Date::setLocale('es');
+            $data=array();
+            $proveedores = DB::select("SELECT * from PRVusuarios WHERE rol = 'proveedor'");
+
+
+            foreach ($proveedores as $proveedor) {
+
+
+                $ModFecha = Date::parse($proveedor->fecha_modificacion);
+                $IngFecha = Date::parse($proveedor->fecha_ingreso);
+                $FechaI = $IngFecha->format('l, j F Y H:i:s');
+                $FechaM = $ModFecha->format('l, j F Y H:i:s');
+                $proveedor->FechaI = $FechaI;
+                $proveedor->FechaM = $FechaM;
+                array_push($data, $proveedor);
+
+
+            }
+
+        return view('supervision.proveedoresTodo')->with('data', $data)->with('receptor',$receptor);
+    }
         return redirect()->route('home', app()->getLocale());
 
     }
@@ -258,7 +281,7 @@ class SupervisionController extends Controller
             $folderName=$request->factura;
             $rutaArchivoXML = 'E:\PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.xml';
             $rutaArchivoPDF = 'E:\PRV'.'/'.$receptor.'/'.$emisor.'/'. $folderName.'.pdf';
-            
+
 
 
         // Eliminar los archivos y la carpeta relacionados a la factura

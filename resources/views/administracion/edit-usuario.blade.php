@@ -1,9 +1,17 @@
 @extends('adminlte::page')
 
-@section('title', __('Perfil'))
+@section('title', __('Editar Usuario'))
 
 @section('content_header')
+
+
 <style>
+    .invalid {
+        border: 1px solid red;
+    }
+    .valid {
+        border: 1px solid green;
+    }
     .profile-image-container {
   position: relative;
   display: inline-block;
@@ -140,9 +148,9 @@
 
 <div class="container">
     <div class="row">
-        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Perfil')}}</h4></div>
+        <div class=" col-md-9 col-9"><h4><a href="#" onclick="goBack()" class="border rounded" >&nbsp;<i class="fas fa-arrow-left"></i>&nbsp;</a>&nbsp;&nbsp;&nbsp;{{__('Editar Usuario')}}</h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            
+
 
           </div>
 
@@ -163,23 +171,31 @@
             <div class="card-body">
                 <h4>{{__('Información General')}}</h4>
             <br>
-            <form action="{{route('updateinfouser', app()->getLocale())}}" method="post" enctype="multipart/form-data">
+            <form id="formulario1">
+                <!-- Campos del formulario 1 -->
+                {{ csrf_field() }}
+
                 @csrf
                 <div class="form-group text-center">
                   <div class="profile-image-container">
-                    <img src="{{$_SESSION['usuario']->imagen}}" style="max-width:150px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image">
+                    <img src="{{$usuario[0]->imagen}}" style="max-width:150px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image">
                     <div class="profile-image-overlay">
                       <label for="input-profile-image" style="color:black;opacity:1;" class="btn ">{{__('Cambiar imagen')}}</label>
                       <input type="file"  id="input-profile-image" style="display: none;">
-                      <input type="hidden" name="id" value="{{$_SESSION['usuario']->ID}}" >
+                      <input type="hidden" name="id" value="{{$usuario[0]->ID}}" >
                     </div>
                   </div>
                 </div>
                 <!-- Resto del formulario aquí -->
                 <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Nombre')}}</label>
-                    <input type="text" name="nombre" value="{{$_SESSION['usuario']->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required disabled>
+                    <input type="text" name="usuario" value="{{$usuario[0]->usuario}}" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Nombre de la empresa')}}" pattern="[A-Za-zÁ-ÿ\s]+" required>
                   </div>
+                  <br>
+  <center>
+    <button type="submit" class="btn btn-success">Actualizar</button>
+  </center>
+  </form>
                 {{-- <div class="form-group">
                     <label for="exampleFormControlInput1">{{__('Correo Electrónico')}}</label>
                     <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{__('nombre')}} @ {{__('ejemplo')}} .com" required>
@@ -190,14 +206,49 @@
                   </div> --}}
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <form id="formulario2">
+                    <!-- Campos del formulario 2 -->
+                    {{ csrf_field() }}
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Rol de Usuario</label>
+  <select class="custom-select my-1 mr-sm-2" name="rol" id="inlineFormCustomSelectPref">
+    @if($usuario[0]->rol == 'finanzas')
+    <option selected>Supervisior</option>
+    <option value="administrador">Administrador</option>
+
+    @endif
+    @if($usuario[0]->rol == 'administrador')
+    <option selected>Administrador</option>
+    <option value="finanzas">Supervisor</option>
+    @endif
+    @if($usuario[0]->rol == 'proveedor')
+    <option selected>Proveedor</option>
+    @endif
+
+
+  </select>
+  <input type="hidden" name="id" value="{{$usuario[0]->ID}}" >
+  <br>
+  <center>
+    <button type="submit" class="btn btn-success">Actualizar Rol</button>
+  </center>
+  </form>
+
+
+            </div>
+        </div>
         </div>
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h4>{{__('Datos de facturación')}}</h4><br>
+                    <form id="formulario3">
+                        <!-- Campos del formulario 3 -->
+                        {{ csrf_field() }}
                     <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('RFC (Número de Identificación Fiscal)')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="{{$_SESSION['usuario']->RFC}}" id="exampleFormControlInput1"  placeholder="{{__('Inserte el RFC Emisor')}}" required disabled>
+                        <input type="text" name="rfc" class="form-control" value="{{$usuario[0]->RFC}}" id="exampleFormControlInput1"  placeholder="{{__('Inserte el RFC Emisor')}}" required >
                       </div>
                       {{-- <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Dirección')}}</label>
@@ -207,24 +258,28 @@
                         <label for="exampleFormControlInput1">{{__('Codigo Postal')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[0-9]{5}" placeholder="{{__('Código Postal')}}" required>
                       </div> --}}
-                      <center><button type="submit" class="btn btn-primary disabled">{{__('Guardar')}}</button></center>
+                      <center><button type="submit" class="btn btn-primary ">{{__('Guardar')}}</button></center>
+                    </form>
                 </div>
             </div>
-        </form>
+
             <div class="card">
                 <div class="card-body">
                     <h4>{{__('Cambio de contraseña')}}</h4><br>
+                    <form id="formulario4">
+                        <!-- Campos del formulario 4 -->
+                        {{ csrf_field() }}
                     <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Contraseña Actual')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte la contraseña actual')}}" required disabled>
+                        <input type="text"  name="actualclave" class="form-control" value="{{$usuario[0]->clave}}" id="contrasenaActual" placeholder="{{__('Inserte la contraseña actual')}}"  required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$">
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Contraseña Nueva')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Inserte la nueva contraseña')}}" required disabled>
+                        <input type="text" name="newclave" class="form-control" value="" id="contrasenaNueva"  placeholder="{{__('Inserte la nueva contraseña')}}" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$">
                       </div>
                       <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Confirmar Contraseña')}}</label>
-                        <input type="text" name="rfc" class="form-control" value="" id="exampleFormControlInput1" pattern="[A-Za-z]{4}[0-9]{6}[A-Za-z0-9]{3}" placeholder="{{__('Confirme su contraseña')}}" required disabled>
+                        <input type="text" name="clave" class="form-control" value="" id="confirmarContrasena" placeholder="{{__('Confirme su contraseña')}}" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$">
                       </div>
                       {{-- <div class="form-group">
                         <label for="exampleFormControlInput1">{{__('Dirección')}}</label>
@@ -234,7 +289,8 @@
                         <label for="exampleFormControlInput1">{{__('Codigo Postal')}}</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" pattern="[0-9]{5}" placeholder="{{__('Código Postal')}}" required>
                       </div> --}}
-                      <center><button type="submit" class="btn btn-primary disabled">{{__('Cambiar Contraseña')}}</button></center>
+                      <center><button id="submitButton" style="display:none;" type="submit" class="btn btn-primary ">{{__('Cambiar Contraseña')}}</button></center>
+                    </form>
                 </div>
             </div>
             </div>
@@ -285,6 +341,104 @@ icono.addEventListener('mouseout', function() {
   icono.classList.add('fa-folder'); // Agrega la clase original para restaurar el icono inicial
 });
 
+</script>
+<script>
+    document.getElementById("cambioContrasenaForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var contrasenaActual = document.getElementById("contrasenaActual").value;
+        var contrasenaNueva = document.getElementById("contrasenaNueva").value;
+        var confirmarContrasena = document.getElementById("confirmarContrasena").value;
+        var submitButton = document.getElementById("submitButton");
+
+        if (contrasenaNueva !== confirmarContrasena) {
+            alert("La contraseña nueva y la confirmación de contraseña no coinciden.");
+            return;
+        }
+
+        // Aquí puedes agregar código para enviar los datos al servidor para cambiar la contraseña.
+
+        // Limpia los campos después de enviar el formulario.
+        document.getElementById("cambioContrasenaForm").reset();
+    });
+</script>
+<script>
+    document.getElementById("confirmarContrasena").addEventListener("input", function () {
+            var contrasenaNueva = document.getElementById("contrasenaNueva").value;
+            var confirmarContrasena = this.value;
+            var submitButton = document.getElementById("submitButton");
+
+            if (contrasenaNueva === confirmarContrasena) {
+                this.classList.remove("invalid");
+                this.classList.add("valid");
+                submitButton.style.display = "block";
+            } else {
+                this.classList.remove("valid");
+                this.classList.add("invalid");
+                submitButton.style.display = "none";
+            }
+        });
+</script>
+<script>
+    $(document).ready(function() {
+    $('#formulario1').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/admin/editar/form1',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Maneja la respuesta JSON
+            }
+        }).done(function(res){
+                alert(res);
+            });
+    });
+
+    $('#formulario2').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/admin/editar/form2',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Maneja la respuesta JSON
+            }
+        }).done(function(res){
+                alert(res);
+            });
+    });
+
+    $('#formulario3').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/admin/editar/form3',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Maneja la respuesta JSON
+            }
+        }).done(function(res){
+                alert(res);
+            });
+    });
+
+    $('#formulario4').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/admin/editar/form4',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Maneja la respuesta JSON
+            }
+        }).done(function(res){
+                alert(res);
+            });
+    });
+
+    // Repite el proceso para los otros formularios (formulario2, formulario3, formulario4)
+});
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {

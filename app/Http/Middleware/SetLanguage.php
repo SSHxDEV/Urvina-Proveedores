@@ -30,6 +30,9 @@ class SetLanguage
         if($request->language == 'sup'){
             $menus = config('menus.sup.menu');
         }
+        if($request->language == 'admin'){
+            $menus = config('menus.admin.menu');
+        }
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) use ($menus){
             foreach ($menus as $menu){
                 $event->menu->add($menu);

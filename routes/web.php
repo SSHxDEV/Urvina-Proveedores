@@ -66,9 +66,16 @@ Route::prefix('{language}')->group(function () {
     Route::post('/actualizar-estatus', 'SupervisionController@actualizarEstatus')->name('actualizarEstatus');
     Route::post('/eliminar-factura/{id}', 'SupervisionController@DeleteFactura')->name('eliminar-factura');
 
-
-
-
+    //Administracion
+    Route::get('/control-usuario', 'AdminController@ControlUsuario')->name('control-usuario');
+    Route::get('/add-user', 'AdminController@AddUser')->name('add-user');
+    Route::post('/add-usuario', 'AdminController@AddUsuario')->name('add-usuario');
+    Route::get('/edit-user/{IdUser?}', 'AdminController@EditUser')->name('edit-user');
+    Route::get('/delete-user/{IdUser?}', 'AdminController@DeleteUser')->name('delete-user');
+    Route::post('/editar/form1', 'AdminController@guardar1');
+    Route::post('/editar/form2', 'AdminController@guardar2');
+    Route::post('/editar/form3', 'AdminController@guardar3');
+    Route::post('/editar/form4', 'AdminController@guardar4');
 
 
 //Pruebas

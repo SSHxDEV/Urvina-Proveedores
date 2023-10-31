@@ -11,7 +11,7 @@ class InicioController extends Controller
         if(isset($_SESSION['usuario'])){
             if(isset($_SESSION['usuario'])){
 
-                if($_SESSION['usuario']->rol == "finanzas"){
+                if($_SESSION['usuario']->rol == "finanzas" || $_SESSION['usuario']->rol == "administrador"){
                     $Totalp = DB::select("SELECT COUNT(*) AS total FROM PRVusuarios WHERE rol = 'proveedor'");
                     $Totalfr = DB::select("SELECT COUNT(*) AS total FROM PRVfacturas WHERE estatus = 'Revision'");
                     $Totalfa = DB::select("SELECT COUNT(*) AS total FROM PRVfacturas WHERE estatus = 'Aceptado'");

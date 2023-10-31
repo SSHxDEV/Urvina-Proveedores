@@ -47,6 +47,10 @@ class LoginController extends Controller
 
                 return redirect()->route('home', 'es')->with('usuario', $user);
             }
+            if($_SESSION['usuario']->rol == "administrador"){
+
+                return redirect()->route('home', 'admin')->with('usuario', $user);
+            }
             return redirect()->route('home', app()->getLocale())->with('usuario', $user);
         }
     }
