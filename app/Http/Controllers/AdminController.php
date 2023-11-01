@@ -35,7 +35,7 @@ class AdminController extends Controller
                 }
             return view('administracion.control-usuario')->with('data', $data);
         }
-        return redirect()->route('home', app()->getLocale());
+        return redirect()->route('salir', app()->getLocale());
     }
 
     public function AddUser($language,Request $request){
@@ -46,7 +46,7 @@ class AdminController extends Controller
         return view('administracion.add-usuario');
         }
 
-        return redirect()->route('home', app()->getLocale());
+        return redirect()->route('salir', app()->getLocale());
 
     }
 
@@ -68,7 +68,7 @@ class AdminController extends Controller
         return redirect()->route('home', app()->getLocale());
         }
 
-        return redirect()->route('home', app()->getLocale());
+        return redirect()->route('salir', app()->getLocale());
 
     }
 
@@ -84,7 +84,7 @@ class AdminController extends Controller
         return view('administracion.edit-usuario')->with('usuario',$usuario)->with('IFecha ',$IFecha)->with('MFecha ',$MFecha);
         }
 
-        return redirect()->route('home', app()->getLocale());
+        return redirect()->route('salir', app()->getLocale());
 
     }
 
@@ -119,15 +119,16 @@ class AdminController extends Controller
         return response()->json('Contraseña Actualizada');
     }
 
-    public function DeleteUser($language){
+    public function DeleteUser($language, $IdUser){
         session_start();
         $rol = $_SESSION['usuario']->rol;
         if($rol == "administrador"){
-            //CODE
-        return view('administracion.delete-usuario');
+        $usuario = DB::delete("DELETE FROM PRVusuarios WHERE ID = $IdUser");
+        Alert::success(__('Borrado correctamente.'), __('Se ha borrado al Usuario.'));
+        return redirect()->route('home', app()->getLocale());
         }
 
-        return redirect()->route('home', app()->getLocale());
+        return redirect()->route('salir', app()->getLocale());
 
     }
 

@@ -38,6 +38,8 @@ Route::prefix('{language}')->group(function () {
     Route::get('/perfil', 'UserController@UpdateUser')->name('updateuser');
     Route::post('/update-perfil', 'UserController@UpdateInfoUser')->name('updateinfouser');
 
+    //////////////////////////////////////// PROVEEDORES /////////////////////////////////////////
+
     //Subir Factura
     Route::get('/factura-form', 'ValidadorController@Form')->name('factura-form');
     Route::post('/upload-bill', 'ValidadorController@Individual')->name('upload-bill');
@@ -57,10 +59,12 @@ Route::prefix('{language}')->group(function () {
     Route::post('/zip-voc', 'ValidadorController@VerifyUSIOrder')->name('zip-voc');
     Route::post('/add-order', 'CheckBillControlleR@AddBuyOrder')->name('add-order');
 
+    /////////////////////////////////////// ADMINISTRACION ////////////////////////////////////////////////////////
+
     //Consulta de Ordenes ( FINANZAS )
     Route::get('/facturas-sup/{receptor?}', 'SupervisionController@Lista')->name('facturas-sup');
     Route::get('/proveedor-sup/{receptor?}', 'SupervisionController@proveedores')->name('proveedor-sup');
-    Route::get('/user-bill-list/{IdUser?}', 'SupervisionController@ShowUserListBill')->name('Billprov-sup');
+    Route::get('/user-bill-list/{IdUser?}/{receptor?}', 'SupervisionController@ShowUserListBill')->name('Billprov-sup');
     Route::get('/sup-factura-show/{factura?}', 'SupervisionController@SupShowFactura')->name('sup-factura-show');
     Route::post('/sup-upload-pdf', 'SupervisionController@UploadFaltante')->name('sup-upload-pdf');
     Route::post('/actualizar-estatus', 'SupervisionController@actualizarEstatus')->name('actualizarEstatus');
@@ -71,11 +75,29 @@ Route::prefix('{language}')->group(function () {
     Route::get('/add-user', 'AdminController@AddUser')->name('add-user');
     Route::post('/add-usuario', 'AdminController@AddUsuario')->name('add-usuario');
     Route::get('/edit-user/{IdUser?}', 'AdminController@EditUser')->name('edit-user');
-    Route::get('/delete-user/{IdUser?}', 'AdminController@DeleteUser')->name('delete-user');
+    Route::post('/delete-user/{IdUser?}', 'AdminController@DeleteUser')->name('delete-user');
     Route::post('/editar/form1', 'AdminController@guardar1');
     Route::post('/editar/form2', 'AdminController@guardar2');
     Route::post('/editar/form3', 'AdminController@guardar3');
     Route::post('/editar/form4', 'AdminController@guardar4');
+
+    //////////////////////////////////// COLABORADORES ///////////////////////////////////////////////
+
+    //Subir Factura
+    Route::get('/col-factura-form', 'ColaboradorController@Form')->name('col-factura-form');
+    Route::post('/col-upload-bill', 'ColaboradorController@Individual')->name('col-upload-bill');
+    Route::get('/col-conf-factindiv', 'ColaboradorController@Form')->name('col-conf-findiv');
+
+    //Subir ZIP
+    Route::get('/col-factura-zip', 'ColaboradorController@FormZip')->name('col-factura-zip');
+    Route::post('/col-upload-zip', 'ColaboradorController@ZIP')->name('col-upload-zip');
+
+    //Consultar facturas
+    Route::get('/col-facturas-list', 'ColaboradorController@Lista')->name('col-facturas-list');
+    Route::get('/col-factura-show/{factura?}', 'ColaboradorController@ShowFactura')->name('col-factura-show');
+    Route::get('/col-docs-view', 'ColaboradorController@DocsView')->name('col-docs-view');
+    Route::post('/col-upload-pdf', 'ColaboradorController@UploadFaltante')->name('col-upload-pdf');
+
 
 
 //Pruebas

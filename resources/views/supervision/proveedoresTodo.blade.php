@@ -207,7 +207,11 @@
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->RFC}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->FechaI}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->FechaM}}</td>
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a href="/sup/user-bill-list/{{$Usuario->ID}}" class="btn btn-secondary"> <i class="fas fa-file-invoice"></i> Facturas </a></td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a @if($_SESSION['usuario']->rol == "administrador")
+                href="/admin/user-bill-list/{{$Usuario->ID}}/TODOS"
+                @else
+                href="/sup/user-bill-list/{{$Usuario->ID}}/TODOS"
+                @endif class="btn btn-secondary"> <i class="fas fa-file-invoice"></i> Facturas </a></td>
         </tr>
             @endforeach
 

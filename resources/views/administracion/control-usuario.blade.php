@@ -205,7 +205,12 @@
             </td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->IFecha}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->MFecha}}</td>
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px"> <a href="edit-user/{{$Usuario->ID}}" class="btn btn-warning"> <i class="fas fa-edit"></i></a> <a href="/delete-user/{{$Usuario->ID}}" class="btn btn-danger"> <i class="fas fa-trash"></i></a></td>
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"> <a href="edit-user/{{$Usuario->ID}}" class="btn btn-warning"> <i class="fas fa-edit"></i></a> <a href="#" data-confirm="¿Estás seguro de que deseas eliminar este usuario?" class="btn  btn-danger eliminar-usuario"> <i class="fas fa-trash"></i></a>
+
+                <form action="delete-user/{{$Usuario->ID}}" method="POST" id="eliminar-usuario-form" style="display: none;">
+                    <input type="hidden" name="rol" value="{{$Usuario->rol}}">
+                    @csrf
+                </form></td>
         </tr>
             @endforeach
 
@@ -509,6 +514,21 @@ icono.addEventListener('mouseout', function() {
 
 
 
+    });
+</script>
+<script>
+    document.querySelectorAll('.eliminar-usuario').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Evitar que el enlace se ejecute directamente
+
+            var confirmMessage = this.getAttribute('data-confirm');
+            var shouldDelete = confirm(confirmMessage);
+
+            if (shouldDelete) {
+                // Si se confirma, envía el formulario de eliminación
+                document.getElementById('eliminar-usuario-form').submit();
+            }
+        });
     });
 </script>
 <script>

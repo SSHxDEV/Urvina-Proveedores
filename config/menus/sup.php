@@ -55,7 +55,7 @@ return[
             'icon_color' => 'green',
             'label_color' => 'success',
             'submenu' => [
-                
+
                 [
                     'text'  => 'Proveedores Urvina',
                     'url'   => 'sup/proveedor-sup/USI',
@@ -65,6 +65,26 @@ return[
                 [
                     'text'  => 'Proveedores COELI',
                     'url'   => 'sup/proveedor-sup/COELI',
+                    'icon'  => 'far fa-folder',
+                    'shift' => 'ml-4',
+                ],
+            ]
+        ],
+        [
+            'text'        => 'Consultar Colaboradores',
+            'icon'        => 'fas fa-user-tie',
+            'icon_color' => 'green',
+            'label_color' => 'success',
+            'submenu' => [
+                [
+                    'text'  => 'Usuarios Urvina',
+                    'url'   => '/sup/colaborador-sup/USI',
+                    'icon'  => 'far fa-folder',
+                    'shift' => 'ml-4',
+                ],
+                [
+                    'text'  => 'Usuarios COELI',
+                    'url'   => '/sup/colaborador-sup/COELI',
                     'icon'  => 'far fa-folder',
                     'shift' => 'ml-4',
                 ],

@@ -33,6 +33,9 @@ class SetLanguage
         if($request->language == 'admin'){
             $menus = config('menus.admin.menu');
         }
+        if($request->language == 'col'){
+            $menus = config('menus.col.menu');
+        }
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) use ($menus){
             foreach ($menus as $menu){
                 $event->menu->add($menu);

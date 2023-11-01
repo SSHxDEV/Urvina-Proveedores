@@ -11,6 +11,7 @@
 @section('title', __('Inicio'))
 
 @section('content_header')
+@include('sweetalert::alert')
 <style>
     .btn-circle.btn-xl {
     width: 70px;
@@ -389,6 +390,110 @@
 
         </center>
     </div>
+
+
+        @endif
+        @if ($_SESSION['usuario']->rol == "colaborador")
+        <div class="container-fluid"><center>
+
+            <div class="row" id="monitor">
+                <hr>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                    <span class="info-box-text">Facturas</span>
+                    <span class="info-box-number">{{$Totalp[0]->total}}</span>
+                    </div>
+
+                    </div>
+
+                    </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tasks"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Facturas en Revision</span>
+                <span class="info-box-number">
+                    {{$Totalfr[0]->total}}
+                </span>
+                </div>
+
+                </div>
+
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Facturas Canceladas</span>
+                <span class="info-box-number">{{$Totalfc[0]->total}}</span>
+                </div>
+
+                </div>
+
+                </div>
+
+
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Facturas Aceptadas</span>
+                <span class="info-box-number">{{$Totalfa[0]->total}}</span>
+                </div>
+
+                </div>
+
+                </div>
+
+
+
+                </div>
+                <hr>
+                <div  class=" row justify-content-md-center"  >
+                    <div class="col-md-4 col-sm-12">
+                        <a href="{{route('col-facturas-list', app()->getLocale())}}">
+                        <div class="card button" style="height:200px; width:200px">
+                            <div class="card-header">
+                                <center>{{__('Consultar Facturas')}}</center>
+                            </div>
+                            <div class="card-body">
+                                <center><span id="folder-icon" class="far fa-folder fa-5x"></span></center>
+                                {{-- <i class="far fa-folder-open"></i> --}}
+                            </div>
+                        </div>
+                       </a>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <a href="{{route('col-factura-form', app()->getLocale())}}">
+                        <div class="card button" style="height:200px; width:200px">
+                            <div class="card-header">
+                                <center>{{__('Subir Factura')}}</center>
+                            </div>
+                            <div class="card-body">
+                                <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-file fa-5x"></i></center>
+                            </div>
+                        </div>
+                       </a>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <a href="{{route('col-factura-zip', app()->getLocale())}}">
+                        <div class="card button" style="height:200px; width:200px">
+                            <div class="card-header">
+                                <center>{{__('Subir .ZIP')}}</center>
+                            </div>
+                            <div class="card-body">
+                                <center><i class="fas fa-upload fa-2x"></i>&nbsp;&nbsp;<i class="far fa-file-archive fa-5x"></i></center>
+                            </div>
+                        </div>
+                       </a>
+                    </div>
+
+
+                </div>
 
 
         @endif

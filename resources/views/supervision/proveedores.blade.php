@@ -165,7 +165,7 @@
             }
             ?></h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            
+
 
           </div>
 
@@ -201,15 +201,21 @@
 
             @foreach ($data as $factura)
             @foreach ($factura->Usuario as $Usuario)
-
-            @endforeach
+            <tr>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px"><img src="{{$Usuario->imagen}}" style="max-width:50px" alt="Imagen de perfil" class="profile-image rounded-circle" id="profile-image"></td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->usuario}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$Usuario->RFC}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->FechaI}}</td>
             <td rowspan="1" class="align-top single-line-cell" style="height:20px">{{$factura->FechaM}}</td>
-            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a href="/sup/user-bill-list/{{$Usuario->ID}}" class="btn btn-secondary"> <i class="fas fa-file-invoice"></i> Facturas </a></td>
-
+            <td rowspan="1" class="align-top single-line-cell" style="height:20px"><a
+                @if($_SESSION['usuario']->rol == "administrador")
+                href="/admin/user-bill-list/{{$Usuario->ID}}/{{$factura->receptor}}"
+                @else
+                href="/sup/user-bill-list/{{$Usuario->ID}}/{{$factura->receptor}}"
+                @endif
+                class="btn btn-secondary"> <i class="fas fa-file-invoice"></i> Facturas </a></td>
+            </tr>
+            @endforeach
             @endforeach
 
 

@@ -150,7 +150,7 @@
             }
             ?></h4></div>
         <div class="col-md-3 col-3 ml-auto">
-            
+
           </div>
 
 
@@ -220,7 +220,7 @@
                 @if($factura->PDFsello != "")
                 <form id="estatusForm" action="{{ route('actualizarEstatus', app()->getLocale()) }}" method="POST">
                     @csrf
-                    <select style="width:140px;" class="form-control form-control-sm " id="estatusSelect" name="estatus">
+                    <select style="width:140px;" class="form-control form-control-sm estatusSelect"  name="estatus">
                         <option value="" selected>Cambiar estatus</option>
                         @if($factura->estatus == 'Aceptado')
                             <option value="Aceptado">Aceptado</option>
@@ -233,7 +233,7 @@
                             <option value="Revision">Revision</option>
                         @endif
                     </select>
-                    <input type="hidden" id="idHidden" name="id" value="{{$factura->ID}}">
+                    <input type="hidden" class="idHidden" name="id" value="{{$factura->ID}}">
                 </form>
                 @endif
             </td>
@@ -527,38 +527,36 @@ icono.addEventListener('mouseout', function() {
 </script>
 <script>
     $(document).ready(function() {
-        var estatusSelect = document.getElementById('estatusSelect');
-        var idHidden = document.getElementById('idHidden').value;
+    $('.estatusSelect').on('change', function () {
+        var selectedEstatus = $(this).val();
+        var idHidden = $(this).closest('tr').find('.idHidden').val(); // Obtén el valor del elemento con la clase 'idHidden' más cercano
+        console.log(selectedEstatus);
+        console.log(idHidden);
 
-        $('#estatusSelect').on('change', function () {
-            var selectedEstatus = $(this).val();
-            var Idfactura = idHidden;
-            console.log(selectedEstatus);
-            console.log(idHidden);
-            // Obtenemos el token CSRF
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        // Obtenemos el token CSRF
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // Envía una solicitud AJAX a tu controlador Laravel
-            $.ajax({
-                url: $('#estatusForm').attr('action'),
-                method: 'POST',
-                data:{
-                    id: idHidden,
-                    estatus: selectedEstatus,
-                },
-                headers: {
+        // Envía una solicitud AJAX a tu controlador Laravel
+        $.ajax({
+            url: $('#estatusForm').attr('action'),
+            method: 'POST',
+            data: {
+                id: idHidden,
+                estatus: selectedEstatus,
+            },
+            headers: {
                 'X-CSRF-TOKEN': csrfToken
-                },
-                success: function (data) {
-                    // Maneja la respuesta del servidor si es necesario
-                    console.log('Estatus actualizado con éxito');
-                }
-            }).done(function(res){
-                alert(res);
-            });
+            },
+            success: function (data) {
+                // Maneja la respuesta del servidor si es necesario
+                console.log('Estatus actualizado con éxito');
+            }
+        }).done(function(res){
+            alert(res);
         });
-
     });
+});
+
 </script>
 <script>
 
@@ -601,7 +599,7 @@ $(document).ready(function() {
         );
 
         // Supongamos que las columnas a las que deseas aplicar los filtros son la 1 y la 8
-        var columnsToFilter = [0, 1, 3, 4 ,6, 7, 8, 9, 10, 11 ];
+        var columnsToFilter = [0, 1,2, 3, 4 ,6, 7, 8, 9, 10, 11 ];
 
         // Creamos una fila en el head de la tabla y lo clonamos para cada columna
         $('#facturas-list thead tr').clone(true).appendTo('#facturas-list thead');

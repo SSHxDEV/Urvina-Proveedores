@@ -24,6 +24,7 @@ class SupervisionController extends Controller
                 $facturas = DB::select("SELECT * from PRVfacturas where receptor='USI970814616'");
 
                 foreach ($facturas as $factura) {
+                    
 
                     $ModFecha = Date::parse($factura->fecha_modificacion);
                     $IngFecha = Date::parse($factura->fecha_ingreso);
@@ -150,23 +151,42 @@ class SupervisionController extends Controller
 
     }
 
-    public function ShowUserListBill($language, $IdUser){
+    public function ShowUserListBill($language, $IdUser, $receptor){
         session_start();
         Date::setLocale('es');
             $data=array();
-                $facturas = DB::select("SELECT * from PRVfacturas where ID_usuario=$IdUser");
-                foreach ($facturas as $factura) {
-                    $ModFecha = Date::parse($factura->fecha_modificacion);
-                    $IngFecha = Date::parse($factura->fecha_ingreso);
-                    $IFecha = $IngFecha->format('l, j F Y H:i:s');
-                    $MFecha = $ModFecha->format('l, j F Y H:i:s');
-                    $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
-                    $factura->usuario = $usuario[0]->usuario;
-                    $factura->IFecha = $IFecha;
-                    $factura->MFecha = $MFecha;
-                    array_push($data, $factura);
+                if($receptor == 'TODOS'){
+                    $facturas = DB::select("SELECT * from PRVfacturas where ID_usuario=$IdUser");
+                    foreach ($facturas as $factura) {
+                        $ModFecha = Date::parse($factura->fecha_modificacion);
+                        $IngFecha = Date::parse($factura->fecha_ingreso);
+                        $IFecha = $IngFecha->format('l, j F Y H:i:s');
+                        $MFecha = $ModFecha->format('l, j F Y H:i:s');
+                        $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
+                        $factura->usuario = $usuario[0]->usuario;
+                        $factura->IFecha = $IFecha;
+                        $factura->MFecha = $MFecha;
+                        array_push($data, $factura);
+                    }
+                return view('supervision.consulta')->with('data', $data);
+                }else{
+                    $facturas = DB::select("SELECT * from PRVfacturas where ID_usuario=$IdUser AND receptor='$receptor'");
+                    foreach ($facturas as $factura) {
+                        $ModFecha = Date::parse($factura->fecha_modificacion);
+                        $IngFecha = Date::parse($factura->fecha_ingreso);
+                        $IFecha = $IngFecha->format('l, j F Y H:i:s');
+                        $MFecha = $ModFecha->format('l, j F Y H:i:s');
+                        $usuario = DB::select("SELECT TOP 1 *  from PRVusuarios where ID=$factura->ID_usuario");
+                        $factura->usuario = $usuario[0]->usuario;
+                        $factura->IFecha = $IFecha;
+                        $factura->MFecha = $MFecha;
+                        array_push($data, $factura);
+                    }
+                return view('supervision.consulta')->with('data', $data);
+
                 }
-            return view('supervision.consulta')->with('data', $data);
+
+
     }
 
     public function SupShowFactura($language, $IdFactura){

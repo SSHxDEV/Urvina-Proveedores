@@ -186,7 +186,8 @@
                   <select class="custom-select my-1 mr-sm-2" name="rol" id="inlineFormCustomSelectPref" required>
                     <option >Seleccione un Rol</option>
                     <option value="proveedor">Proveedor</option>
-                    <option value="supervisor">Supervisior</option>
+                    <option value="colaborador">Colaborador</option>
+                    <option value="finanzas">Supervisor</option>
                     <option value="administrador">Administrador</option>
                   </select>
                 </div>
